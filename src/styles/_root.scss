@@ -1,0 +1,70 @@
+@import "color";
+@import "sizes";
+@import "common";
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+:root {
+    // ===================================COLORS=======================================
+    // Grays
+    --gray-50: #{$gray-50};
+    --gray-100: #{$gray-100};
+    --gray-200: #{$gray-200};
+    --gray-300: #{$gray-300};
+    --gray-400: #{$gray-400};
+    --gray-500: #{$gray-500};
+    --gray-600: #{$gray-600};
+    --gray-700: #{$gray-700};
+    --gray-800: #{$gray-800};
+    --gray-900: #{$gray-900};
+    --gray-950: #{$gray-950};
+
+    // Solids
+    --white: #{$white};
+    --black: #{$black};
+    --hover-green: #{$hover-green};
+
+    --primary-green: #{$primary-green};
+
+    // Accent Colors
+    --success-primary: #{$success-primary};
+    --success-secondary: #{$success-secondary};
+
+    --danger-primary: #{$danger-primary};
+    --danger-secondary: #{$danger-secondary};
+
+    // ===================================SIZES=======================================
+    // Font Size
+    --text-xxs: #{$text-xxs};
+    --text-xs: #{$text-xs};
+    --text-sm: #{$text-sm};
+    --text-base: #{$text-base};
+    --text-xl: #{$text-xl};
+    --text-2xl: #{$text-2xl};
+    --text-3xl: #{$text-3xl};
+    --text-4xl: #{$text-4xl};
+
+    // Min Width
+    --min-width-sm: #{$min-width-sm};
+    --min-width-md: #{$min-width-md};
+    --min-width-lg: #{$min-width-lg};
+    --min-width-xl: #{$min-width-xl};
+    --min-width-2xl: #{$min-width-2xl};
+
+    --shadow-sm: box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
