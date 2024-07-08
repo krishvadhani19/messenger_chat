@@ -1,0 +1,21 @@
+.auth-form-container {
+    width: 100vw;
+    min-height: calc(100vh - 8rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+
+    .auth-form-children {
+        width: 35%;
+        height: 100%;
+        padding: 3rem;
+        background-color: var(--gray-50);
+        margin: 0 auto;
+        border-radius: 0.5rem;
+        border: 1px solid var(--gray-300);
+        box-shadow:
+            0 10px 15px -3px rgb(0 0 0 / 0.1),
+            0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+}

@@ -1,6 +1,30 @@
-export type IconPropsType = {
+import TickIcon from "./TickIcon";
+import StarFilledIcon from "./StarFilledIcon";
+import RightArrowIcon from "./RightArrowIcon";
+import ImageIcon from "./ImageIcon";
+import LoaderIcon from "./LoaderIcon";
+import CrossIcon from "./CrossIcon";
+import CaretSortIcon from "./CaretSortIcon";
+import EyeOpen from "./EyeOpen";
+import EyeClose from "./EyeClose";
+import InfoCircleIcon from "./InfoCircleIcon";
+
+export interface IconPropsType {
   color?: string;
   size?: number;
   className?: string;
   onClick?: () => void;
+}
+
+export {
+  TickIcon,
+  StarFilledIcon,
+  RightArrowIcon,
+  ImageIcon,
+  LoaderIcon,
+  CrossIcon,
+  CaretSortIcon,
+  EyeOpen,
+  EyeClose,
+  InfoCircleIcon,
 };
