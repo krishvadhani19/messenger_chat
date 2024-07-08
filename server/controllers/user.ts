@@ -11,7 +11,7 @@ export const initialProfile = async () => {
 
   const profile = await db.profile.findUnique({
     where: {
-      userId: "",
+      id: "",
     },
   });
 
@@ -21,7 +21,7 @@ export const initialProfile = async () => {
 
   const newProfile = await db.profile.create({
     data: {
-      userId: "",
+      id: "",
       name: "",
       imageUrl: "",
       email: "",
@@ -29,4 +29,14 @@ export const initialProfile = async () => {
   });
 
   return newProfile;
+};
+
+export const getUserByEmail = async (email: string) => {
+  const user = await db.profile.findFirst({
+    where: {
+      email,
+    },
+  });
+
+  return user;
 };
