@@ -9,13 +9,13 @@
     background: var(--white);
     min-width: 100px;
     min-height: 100px;
+    padding: 1rem;
 
     .modal-cross-icon {
         position: absolute;
         right: 0.5rem;
         top: 0.5rem;
         padding: 0.125rem;
-        border: 1px solid var(--gray-500);
         border-radius: 0.5rem;
         cursor: pointer;
     }

@@ -61,7 +61,7 @@ const RegisterPage = () => {
 
   return (
     <div className="register-form-container">
-      <div className="register-form-header">register</div>
+      <div className="register-form-header">Register</div>
 
       <div className="flex-space-between gap-2">
         <InputField

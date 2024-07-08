@@ -12,7 +12,7 @@ import {
   useState,
 } from "react";
 import "./InputField.scss";
-import { EyeClose, EyeOpen } from "@/components/UI/Icons";
+import { EyeClose, EyeOpen } from "@/components/ui/Icons";
 
 interface InputPropsType {
   inputValue?: string;

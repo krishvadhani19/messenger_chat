@@ -19,11 +19,9 @@
         padding: 0.5rem;
         font-size: 0.875rem;
         border-radius: 0.5rem;
-        border: 1px solid var(--gray-300);
+        border: 1px solid var(--gray-200);
         width: 100%;
-        box-shadow:
-            0 1px 3px 0 rgb(0 0 0 / 0.1),
-            0 1px 2px -1px rgb(0 0 0 / 0.1);
+        background-color: var(--gray-200);
 
         &:focus {
             outline: none;
@@ -34,7 +32,8 @@
             width: 100%;
             outline: none;
             border: none;
-            background-color: var(--gray-50);
+            background-color: var(--gray-200);
+            color: var(--gray-600);
         }
     }
 
