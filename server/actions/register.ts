@@ -22,7 +22,6 @@ export const register = async (formData: z.infer<typeof RegisterSchema>) => {
 
   await createUser(name, email, password);
 
-  console.log({ email });
   await generateVerificationToken(email);
 
   //   await sendVerificationToken({

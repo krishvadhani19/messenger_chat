@@ -1,6 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
+import bcrypt from "bcryptjs";
 
 export const initialProfile = async () => {
   const currentUser = undefined;
@@ -46,11 +47,19 @@ export const createUser = async (
   email: string,
   password: string
 ) => {
-  const newUser = await db.profile.create({
-    data: {
-      name,
-      email,
-      password,
-    },
-  });
+  try {
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    const newUser = await db.profile.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+      },
+    });
+
+    return newUser;
+  } catch (error) {
+    return null;
+  }
 };

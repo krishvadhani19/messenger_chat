@@ -42,3 +42,15 @@ export const generateVerificationToken = async (email: string) => {
     throw error;
   }
 };
+
+export const getVerificationTokenUsingEmail = async (email: string) => {
+  try {
+    const verificationToken = await db.verificationToken.findFirst({
+      where: { email },
+    });
+
+    return verificationToken;
+  } catch (error) {
+    return null;
+  }
+};
