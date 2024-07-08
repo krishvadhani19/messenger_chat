@@ -1,7 +1,8 @@
 import Modal from "@/components/ui/Modal/Modal";
-import React from "react";
+import React, { memo, useCallback } from "react";
 import "./CreateServerModal.scss";
 import InputField from "@/components/ui/Input/InputField";
+import Button from "@/components/ui/Button/Button";
 
 type CreateServerModalPropsType = {
   isServerModalOpen: boolean;
@@ -12,6 +13,8 @@ const CreateServerModal = ({
   isServerModalOpen,
   closeServerModal,
 }: CreateServerModalPropsType) => {
+  const createServer = useCallback(() => {}, []);
+
   return (
     <Modal isOpen={isServerModalOpen} onClose={closeServerModal}>
       <div className="create-server-modal-container">
@@ -25,11 +28,14 @@ const CreateServerModal = ({
         <InputField
           label="SERVER NAME"
           type="text"
+          placeholder="Enter server name"
           errorMessage="Server name is required"
         />
+
+        <Button text="Create" onClick={createServer} isFullWidth={false} />
       </div>
     </Modal>
   );
 };
 
-export default CreateServerModal;
+export default memo(CreateServerModal);

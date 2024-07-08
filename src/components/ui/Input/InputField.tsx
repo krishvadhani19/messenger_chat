@@ -144,7 +144,7 @@ const InputField = ({
         )}
       </div>
 
-      {errorMessage && <div className="validation-error"></div>}
+      {errorMessage && <div className="validation-error">{errorMessage}</div>}
     </div>
   );
 };
