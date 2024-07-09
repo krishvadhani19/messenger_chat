@@ -17,7 +17,7 @@ const CreateServerModal = ({
 
   return (
     <Modal isOpen={isServerModalOpen} onClose={closeServerModal}>
-      <div className="create-server-modal-container">
+      <form className="create-server-modal-container" onSubmit={createServer}>
         <div className="create-server-modal-title">Customize your server</div>
 
         <div className="create-server-modal-sub-title">
@@ -32,8 +32,8 @@ const CreateServerModal = ({
           errorMessage="Server name is required"
         />
 
-        <Button text="Create" onClick={createServer} isFullWidth={false} />
-      </div>
+        <Button text="Create" buttonType="submit" isFullWidth={false} />
+      </form>
     </Modal>
   );
 };

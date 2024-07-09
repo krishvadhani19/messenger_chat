@@ -3,75 +3,112 @@
 import InputField from "@/components/ui/Input/InputField";
 import "./page.scss";
 import Button from "@/components/ui/Button/Button";
-import { useCallback, useState } from "react";
+import { FormEvent, useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import { LoginSchema } from "@/server/schemas/LoginSchema";
 import { z } from "zod";
 import { login } from "@/server/actions/login";
 import toast from "react-hot-toast";
 
+type LoginSchemaFormType = z.infer<typeof LoginSchema>;
+
 const LoginPage = () => {
   const router = useRouter();
-  const [formData, setFormData] = useState<z.infer<typeof LoginSchema>>({
+  const [formData, setFormData] = useState<LoginSchemaFormType>({
     email: "",
     password: "",
   });
+  const [formErrors, setFormErrors] = useState<Partial<LoginSchemaFormType>>({});
+  const [showErrors, setShowErrors] = useState<boolean>(false);
 
   const resetFormData = useCallback(() => {
     setFormData({ email: "", password: "" });
   }, []);
 
-  const handleSubmitButtonClick = useCallback(async () => {
-    const status = await login(formData);
-
-    if (status?.error) {
-      toast.error(status?.error);
-      resetFormData();
-
-      return;
-    }
-
-    if (status?.success) {
-      toast.success(status?.success);
-    }
-
-    resetFormData();
-  }, [formData, resetFormData]);
-
   const redirectToSignUpPage = useCallback(() => {
     router.push("/auth/register");
   }, [router]);
+
+  const validateForm = useCallback(() => {
+    try {
+      LoginSchema.parse(formData);
+      setShowErrors(false);
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const errors: Partial<LoginSchemaFormType> = {};
+
+        // Creating errors 
+        error.errors.forEach((err) => {
+          if (err.path[0]) {
+            errors[err.path[0] as keyof LoginSchemaFormType] = err.message;
+          }
+        });
+
+        setFormErrors(errors);
+      }
+
+      return false;
+    }
+  }, [formData]);
+
+  const handleSubmitButtonClick = useCallback(async (e: FormEvent) => {
+    e.preventDefault();
+    setShowErrors(true);
+
+    if (validateForm()) {
+      const status = await login(formData);
+
+      if (status?.error) {
+        toast.error(status?.error);
+      }
+
+      if (status?.success) {
+        toast.success(status?.success);
+        router.push("/home")
+      }
+
+      resetFormData();
+    }
+  }, [formData, resetFormData, router, validateForm]);
 
   return (
     <div className="login-form-container">
       <div className="login-form-header">Login</div>
 
-      <InputField
-        label="Email"
-        inputValue={formData?.email}
-        type="email"
-        placeholder="Enter your email"
-        isRequired
-        autoComplete="email"
-        onChange={(val: string) => {
-          setFormData((prev) => ({ ...prev, email: val }));
-        }}
-        onBlur={() => {}}
-      />
+      <form onSubmit={handleSubmitButtonClick} className="flex-center direction-column gap-2">
+        <InputField
+          isRequired
+          type="email"
+          label="Email"
+          inputValue={formData?.email}
+          placeholder="Enter your email"
+          showError={showErrors}
+          errorMessage={formErrors?.email}
+          autoComplete="email"
+          onChange={(val: string) => {
+            setFormData((prev) => ({ ...prev, email: val }));
+          }}
+        />
 
-      <InputField
-        label="Password"
-        inputValue={formData?.password}
-        type="password"
-        placeholder="Enter your password"
-        isRequired
-        onChange={(val: string) => {
-          setFormData((prev) => ({ ...prev, password: val }));
-        }}
-        onBlur={() => {}}
-      />
+        <InputField
+          isRequired
+          type="password"
+          label="Password"
+          inputValue={formData?.password}
 
-      <Button text="Continue" onClick={handleSubmitButtonClick} width="50%" />
+          showError={showErrors}
+          errorMessage={formErrors?.password}
+
+          placeholder="Enter your password"
+          onChange={(val: string) => {
+            setFormData((prev) => ({ ...prev, password: val }));
+          }}
+        />
+
+        <Button text="Continue" buttonType="submit" width="50%" />
+      </form>
+
 
       <div className="login-form-signup-redirection">
         Don&apos;t have an account?{" "}

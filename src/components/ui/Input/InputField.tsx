@@ -14,22 +14,23 @@ import {
 import "./InputField.scss";
 import { EyeClose, EyeOpen } from "@/components/ui/Icons";
 
-interface InputPropsType {
+type InputPropsType = {
   inputValue?: string;
   label?: string;
   type?: "text" | "password" | "email" | "number";
   inputMode?:
-    | "text"
-    | "email"
-    | "numeric"
-    | "search"
-    | "tel"
-    | "url"
-    | "none"
-    | "decimal"
-    | undefined;
+  | "text"
+  | "email"
+  | "numeric"
+  | "search"
+  | "tel"
+  | "url"
+  | "none"
+  | "decimal"
+  | undefined;
   autoComplete?: string;
   disabled?: boolean;
+  showError?: boolean;
   errorMessage?: string;
   placeholder?: string;
   isRequired?: boolean;
@@ -46,6 +47,7 @@ const InputField = ({
   type = "text",
   autoComplete,
   icon,
+  showError = false,
   errorMessage = "",
   placeholder,
   isRequired = false,
@@ -110,7 +112,8 @@ const InputField = ({
     return type;
   }, [showPassword, type]);
 
-  console.log({ render: inputValue });
+  console.log({ errorMessage, showError })
+
 
   return (
     <div className="input-field-container">
@@ -144,7 +147,7 @@ const InputField = ({
         )}
       </div>
 
-      {errorMessage && <div className="validation-error">{errorMessage}</div>}
+      {showError && errorMessage && <div className="validation-error">{errorMessage}</div>}
     </div>
   );
 };

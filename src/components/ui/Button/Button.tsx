@@ -6,11 +6,12 @@ import classNames from "classnames";
 
 type ButtonPropsType = {
   text: string;
-  onClick: (value: string) => void;
+  onClick?: (value: string) => void;
   isFullWidth?: boolean;
   disabled?: boolean;
   icon?: React.ReactNode;
   type?: "primary" | "secondary";
+  buttonType?: "submit";
   width?: string;
   customStyle?: { [key: string]: string };
 };
@@ -22,6 +23,7 @@ const Button = ({
   disabled = false,
   icon,
   type = "primary",
+  buttonType,
   width,
   customStyle,
 }: ButtonPropsType) => {
@@ -33,7 +35,7 @@ const Button = ({
   );
 
   return (
-    <div
+    <button
       className={classNames("button-container", {
         primary: type === "primary",
         secondary: type === "secondary",
@@ -41,12 +43,13 @@ const Button = ({
         isFullWidth,
       })}
       onClick={handleClick}
+      type={buttonType}
       style={{ width: `${width}`, ...customStyle }}
     >
       {text}
 
       {icon && <span>{icon}</span>}
-    </div>
+    </button>
   );
 };
 
