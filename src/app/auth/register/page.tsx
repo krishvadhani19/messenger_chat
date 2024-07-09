@@ -9,9 +9,8 @@ import { z } from "zod";
 import "./page.scss";
 import toast from "react-hot-toast";
 import { register } from "@/server/actions/register";
-import { formSchema } from "@/server/schemas/x";
 
-type RegisterSchemaFormType = z.infer<typeof formSchema>;
+type RegisterSchemaFormType = z.infer<typeof RegisterSchema>;
 
 const RegisterPage = () => {
   const router = useRouter();

@@ -29,6 +29,7 @@ const HomePage = () => {
 
         <Button text="Create Server" onClick={handleCreateServer} />
       </div>
+
       <CreateServerModal
         isServerModalOpen={isServerModalOpen}
         closeServerModal={closeServerModal}
