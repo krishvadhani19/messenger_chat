@@ -29,6 +29,11 @@ const LoginPage = () => {
     router.push("/auth/register");
   }, [router]);
 
+  const handleFormDataChange = useCallback((val: string, field: keyof LoginSchemaFormType) => {
+    setFormData((prev) => { return { ...prev, [field]: val } });
+    setShowErrors(false);
+  }, [])
+
   const validateForm = useCallback(() => {
     try {
       LoginSchema.parse(formData);
@@ -87,7 +92,7 @@ const LoginPage = () => {
           errorMessage={formErrors?.email}
           autoComplete="email"
           onChange={(val: string) => {
-            setFormData((prev) => ({ ...prev, email: val }));
+            handleFormDataChange(val, 'email');
           }}
         />
 
@@ -102,7 +107,7 @@ const LoginPage = () => {
 
           placeholder="Enter your password"
           onChange={(val: string) => {
-            setFormData((prev) => ({ ...prev, password: val }));
+            handleFormDataChange(val, 'password');
           }}
         />
 
