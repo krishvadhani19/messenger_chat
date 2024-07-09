@@ -12,6 +12,14 @@
         justify-content: center;
     }
 
+    .login-form-input-fields {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+    }
+
     .login-form-signup-redirection {
         color: var(--gray-400);
         font-size: 0.75rem;

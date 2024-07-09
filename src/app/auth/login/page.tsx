@@ -19,7 +19,6 @@ const LoginPage = () => {
     password: "",
   });
   const [formErrors, setFormErrors] = useState<Partial<LoginSchemaFormType>>({});
-  const [showErrors, setShowErrors] = useState<boolean>(false);
 
   const resetFormData = useCallback(() => {
     setFormData({ email: "", password: "" });
@@ -31,19 +30,17 @@ const LoginPage = () => {
 
   const handleFormDataChange = useCallback((val: string, field: keyof LoginSchemaFormType) => {
     setFormData((prev) => { return { ...prev, [field]: val } });
-    setShowErrors(false);
-  }, [])
+  }, []);
 
   const validateForm = useCallback(() => {
     try {
       LoginSchema.parse(formData);
-      setShowErrors(false);
       return true;
     } catch (error) {
       if (error instanceof z.ZodError) {
         const errors: Partial<LoginSchemaFormType> = {};
 
-        // Creating errors 
+        // Adding all the errors to formError state 
         error.errors.forEach((err) => {
           if (err.path[0]) {
             errors[err.path[0] as keyof LoginSchemaFormType] = err.message;
@@ -59,7 +56,6 @@ const LoginPage = () => {
 
   const handleSubmitButtonClick = useCallback(async (e: FormEvent) => {
     e.preventDefault();
-    setShowErrors(true);
 
     if (validateForm()) {
       const status = await login(formData);
@@ -81,14 +77,13 @@ const LoginPage = () => {
     <div className="login-form-container">
       <div className="login-form-header">Login</div>
 
-      <form onSubmit={handleSubmitButtonClick} className="flex-center direction-column gap-2">
+      <form className="login-form-input-fields" onSubmit={handleSubmitButtonClick}>
         <InputField
           isRequired
           type="email"
           label="Email"
           inputValue={formData?.email}
           placeholder="Enter your email"
-          showError={showErrors}
           errorMessage={formErrors?.email}
           autoComplete="email"
           onChange={(val: string) => {
@@ -101,10 +96,7 @@ const LoginPage = () => {
           type="password"
           label="Password"
           inputValue={formData?.password}
-
-          showError={showErrors}
           errorMessage={formErrors?.password}
-
           placeholder="Enter your password"
           onChange={(val: string) => {
             handleFormDataChange(val, 'password');

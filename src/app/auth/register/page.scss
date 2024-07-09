@@ -12,6 +12,14 @@
         justify-content: center;
     }
 
+    .register-form-input-fields {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+    }
+
     .register-form-register-redirection {
         color: var(--gray-400);
         font-size: 0.75rem;

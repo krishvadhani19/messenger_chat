@@ -4,6 +4,7 @@
     flex-direction: column;
     justify-content: center;
     gap: 0.25rem;
+    position: relative;
 
     .label-container {
         color: var(--gray-600);
@@ -40,6 +41,8 @@
     }
 
     .validation-error {
+        position: absolute;
+        bottom: -18px;
         color: var(--danger-primary);
         font-size: 0.75rem;
     }
