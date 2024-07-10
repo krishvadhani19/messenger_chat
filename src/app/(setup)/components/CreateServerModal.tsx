@@ -1,14 +1,7 @@
 "use client";
 
 import Modal from "@/components/ui/Modal/Modal";
-import React, {
-  FormEvent,
-  memo,
-  useCallback,
-  useEffect,
-  useId,
-  useState,
-} from "react";
+import React, { FormEvent, memo, useCallback, useState } from "react";
 import "./CreateServerModal.scss";
 import InputField from "@/components/ui/Input/InputField";
 import Button from "@/components/ui/Button/Button";
@@ -25,23 +18,37 @@ type CreateServerModalPropsType = {
 
 type CreateServerModalSchemaType = z.infer<typeof CreateServerModalSchema>;
 
+const initialFormData: CreateServerModalSchemaType = {
+  serverName: "",
+  image: {
+    url: "",
+    file: undefined,
+  },
+};
+
 const CreateServerModal = ({
   isServerModalOpen,
   closeServerModal,
 }: CreateServerModalPropsType) => {
-  const [formData, setFormData] = useState<CreateServerModalSchemaType>({
-    serverName: "",
-    image: {
-      url: "",
-      file: undefined,
-    },
-  });
+  const [formData, setFormData] =
+    useState<CreateServerModalSchemaType>(initialFormData);
 
   const { startUpload } = useUploadThing("serverName");
 
   const [formErrors, setFormErrors] = useState<
     Partial<CreateServerModalSchemaType>
   >({});
+
+  const resetForm = useCallback(() => {
+    setFormData(initialFormData);
+    setFormErrors({});
+  }, []);
+
+  const handleClose = useCallback(() => {
+    URL.revokeObjectURL(formData?.image?.url);
+    resetForm();
+    closeServerModal();
+  }, [closeServerModal, formData?.image?.url, resetForm]);
 
   const validateForm = useCallback(() => {
     try {
@@ -90,14 +97,14 @@ const CreateServerModal = ({
 
       if (validateForm()) {
         startUpload([formData?.image?.file as File]);
-        closeServerModal();
+        handleClose();
       }
     },
-    [closeServerModal, validateForm, formData, startUpload]
+    [handleClose, validateForm, formData, startUpload]
   );
 
   return (
-    <Modal isOpen={isServerModalOpen} onClose={closeServerModal}>
+    <Modal isOpen={isServerModalOpen} onClose={handleClose}>
       <form className="create-server-modal-container" onSubmit={createServer}>
         <div className="create-server-modal-title">Customize your server</div>
 
