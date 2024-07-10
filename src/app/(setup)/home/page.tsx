@@ -8,12 +8,8 @@ import CreateServerModal from "../components/CreateServerModal";
 const HomePage = () => {
   const [isServerModalOpen, setIsServerModalOpen] = useState<boolean>(false);
 
-  const closeServerModal = useCallback(() => {
-    setIsServerModalOpen(false);
-  }, []);
-
-  const handleCreateServer = useCallback(() => {
-    setIsServerModalOpen(true);
+  const handleServerModalChange = useCallback(() => {
+    setIsServerModalOpen((prev) => !prev);
   }, []);
 
   return (
@@ -26,12 +22,12 @@ const HomePage = () => {
           }}
         />
 
-        <Button text="Create Server" onClick={handleCreateServer} />
+        <Button text="Create Server" onClick={handleServerModalChange} />
       </div>
 
       <CreateServerModal
         isServerModalOpen={isServerModalOpen}
-        closeServerModal={closeServerModal}
+        closeServerModal={handleServerModalChange}
       />
     </div>
   );

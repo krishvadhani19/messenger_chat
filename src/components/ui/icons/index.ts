@@ -8,6 +8,7 @@ import CaretSortIcon from "./CaretSortIcon";
 import EyeOpen from "./EyeOpen";
 import EyeClose from "./EyeClose";
 import InfoCircleIcon from "./InfoCircleIcon";
+import UploadIcon from "./UploadIcon";
 
 export interface IconPropsType {
   color?: string;
@@ -27,4 +28,5 @@ export {
   EyeOpen,
   EyeClose,
   InfoCircleIcon,
+  UploadIcon,
 };

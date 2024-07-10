@@ -1,13 +1,22 @@
 "use client";
 
 import Modal from "@/components/ui/Modal/Modal";
-import React, { FormEvent, memo, useCallback, useState } from "react";
+import React, {
+  FormEvent,
+  memo,
+  useCallback,
+  useEffect,
+  useId,
+  useState,
+} from "react";
 import "./CreateServerModal.scss";
 import InputField from "@/components/ui/Input/InputField";
 import Button from "@/components/ui/Button/Button";
 import { z } from "zod";
 import { CreateServerModalSchema } from "@/server/schemas/CreateServerModalSchema";
 import FileUploader from "@/components/ui/FileUploader/FileUploader";
+import toast from "react-hot-toast";
+import { useUploadThing } from "@/hooks/useUploadThing";
 
 type CreateServerModalPropsType = {
   isServerModalOpen: boolean;
@@ -22,7 +31,14 @@ const CreateServerModal = ({
 }: CreateServerModalPropsType) => {
   const [formData, setFormData] = useState<CreateServerModalSchemaType>({
     serverName: "",
+    image: {
+      url: "",
+      file: undefined,
+    },
   });
+
+  const { startUpload } = useUploadThing("serverName");
+
   const [formErrors, setFormErrors] = useState<
     Partial<CreateServerModalSchemaType>
   >({});
@@ -34,10 +50,14 @@ const CreateServerModal = ({
     } catch (formErr) {
       if (formErr instanceof z.ZodError) {
         const errors: Partial<CreateServerModalSchemaType> = {};
+
         formErr.errors.forEach((err) => {
-          if (err.path[0]) {
-            errors[err.path[0] as keyof CreateServerModalSchemaType] =
-              err.message;
+          const path = err.path.join(".");
+
+          if (path === "serverName") {
+            errors[path] = err.message;
+          } else {
+            toast.error(err.message);
           }
         });
         setFormErrors(errors);
@@ -55,17 +75,25 @@ const CreateServerModal = ({
     []
   );
 
-  const handleFileUploader = useCallback((url: string) => {}, []);
+  const handleFileUploader = useCallback((inputFile: File) => {
+    const imageUrl = URL.createObjectURL(inputFile);
+
+    setFormData((prev) => ({
+      ...prev,
+      image: { url: imageUrl, file: inputFile },
+    }));
+  }, []);
 
   const createServer = useCallback(
     (e: FormEvent) => {
       e.preventDefault();
 
       if (validateForm()) {
+        startUpload([formData?.image?.file as File]);
         closeServerModal();
       }
     },
-    [closeServerModal, validateForm]
+    [closeServerModal, validateForm, formData, startUpload]
   );
 
   return (
@@ -78,11 +106,12 @@ const CreateServerModal = ({
           always change it later.
         </div>
 
-        <FileUploader
-          value=""
-          endpoint="serverName"
-          onChange={handleFileUploader}
-        />
+        {formData?.image.url ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={formData?.image.url} alt="" width={200} height={200} />
+        ) : (
+          <FileUploader maxFiles={1} fileUploadCallback={handleFileUploader} />
+        )}
 
         <InputField
           isRequired

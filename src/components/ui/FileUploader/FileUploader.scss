@@ -1,0 +1,31 @@
+.file-uploader-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 1px dashed var(--gray-300);
+    width: 100%;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    gap: 1rem;
+
+    .file-uploader-description {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        .file-uploader-heading {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--primary-blue);
+        }
+
+        .file-uploader-size-limit {
+            font-weight: 400;
+            color: var(--gray-400);
+            font-size: 0.75rem;
+        }
+    }
+}
