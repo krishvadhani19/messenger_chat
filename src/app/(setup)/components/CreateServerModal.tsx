@@ -7,6 +7,7 @@ import InputField from "@/components/ui/Input/InputField";
 import Button from "@/components/ui/Button/Button";
 import { z } from "zod";
 import { CreateServerModalSchema } from "@/server/schemas/CreateServerModalSchema";
+import FileUploader from "@/components/ui/FileUploader/FileUploader";
 
 type CreateServerModalPropsType = {
   isServerModalOpen: boolean;
@@ -19,8 +20,12 @@ const CreateServerModal = ({
   isServerModalOpen,
   closeServerModal,
 }: CreateServerModalPropsType) => {
-  const [formData, setFormData] = useState<CreateServerModalSchemaType>({ serverName: "" });
-  const [formErrors, setFormErrors] = useState<Partial<CreateServerModalSchemaType>>({});
+  const [formData, setFormData] = useState<CreateServerModalSchemaType>({
+    serverName: "",
+  });
+  const [formErrors, setFormErrors] = useState<
+    Partial<CreateServerModalSchemaType>
+  >({});
 
   const validateForm = useCallback(() => {
     try {
@@ -31,7 +36,8 @@ const CreateServerModal = ({
         const errors: Partial<CreateServerModalSchemaType> = {};
         formErr.errors.forEach((err) => {
           if (err.path[0]) {
-            errors[err.path[0] as keyof CreateServerModalSchemaType] = err.message;
+            errors[err.path[0] as keyof CreateServerModalSchemaType] =
+              err.message;
           }
         });
         setFormErrors(errors);
@@ -40,18 +46,27 @@ const CreateServerModal = ({
     }
   }, [formData]);
 
-  const handleFormChange = useCallback((val: string, field: keyof CreateServerModalSchemaType) => {
-    setFormData((prev) => { return { ...prev, [field]: val } })
-  }, []);
+  const handleFormChange = useCallback(
+    (val: string, field: keyof CreateServerModalSchemaType) => {
+      setFormData((prev) => {
+        return { ...prev, [field]: val };
+      });
+    },
+    []
+  );
 
-  const createServer = useCallback((e: FormEvent) => {
-    e.preventDefault();
+  const handleFileUploader = useCallback((url: string) => {}, []);
 
-    if (validateForm()) {
-      closeServerModal();
-    }
+  const createServer = useCallback(
+    (e: FormEvent) => {
+      e.preventDefault();
 
-  }, [closeServerModal, validateForm]);
+      if (validateForm()) {
+        closeServerModal();
+      }
+    },
+    [closeServerModal, validateForm]
+  );
 
   return (
     <Modal isOpen={isServerModalOpen} onClose={closeServerModal}>
@@ -63,6 +78,12 @@ const CreateServerModal = ({
           always change it later.
         </div>
 
+        <FileUploader
+          value=""
+          endpoint="serverName"
+          onChange={handleFileUploader}
+        />
+
         <InputField
           isRequired
           type="text"
@@ -70,7 +91,7 @@ const CreateServerModal = ({
           inputValue={formData?.serverName}
           errorMessage={formErrors.serverName}
           placeholder="Enter server name"
-          onChange={(val: string) => handleFormChange(val, 'serverName')}
+          onChange={(val: string) => handleFormChange(val, "serverName")}
         />
 
         <Button text="Create" buttonType="submit" isFullWidth={false} />

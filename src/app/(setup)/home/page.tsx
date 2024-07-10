@@ -1,7 +1,6 @@
 "use client";
 
 import Button from "@/components/ui/Button/Button";
-import Modal from "@/components/ui/Modal/Modal";
 import { logout } from "@/server/actions/logout";
 import React, { useCallback, useState } from "react";
 import CreateServerModal from "../components/CreateServerModal";

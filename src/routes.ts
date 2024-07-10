@@ -1,7 +1,7 @@
 /**
  * Public Routes
  */
-export const publicRoutes: string[] = ["/"];
+export const publicRoutes: string[] = ["/", "/api/uploadthing"];
 
 /**
  * An array of routes used for authentciation
