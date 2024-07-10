@@ -11,12 +11,12 @@ import {
   useState,
 } from "react";
 
-interface PopoverPropsType {
+type PopoverPropsType = {
   children: (handleClose: () => void) => ReactNode;
   anchorRef: RefObject<HTMLElement>;
   anchorOrigin?: PopoverOrigin;
   transformOrigin?: PopoverOrigin;
-}
+};
 
 const Popover = ({
   children,

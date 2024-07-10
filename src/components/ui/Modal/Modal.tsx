@@ -5,12 +5,12 @@ import { CrossIcon } from "../Icons";
 import "./Modal.scss";
 import { memo } from "react";
 
-interface ModalComponentPropsType {
+type ModalComponentPropsType = {
   isOpen: boolean;
   onClose: () => void;
   children: JSX.Element;
   closeIcon?: boolean;
-}
+};
 
 const Modal = ({
   isOpen,

@@ -1,10 +1,10 @@
 import { memo } from "react";
 import "./ProgressBar.scss";
 
-interface ProgressBarPropsType {
+type ProgressBarPropsType = {
   progressPercentage: number;
   hideLabel?: boolean;
-}
+};
 
 const ProgressBar = ({
   progressPercentage,

@@ -18,4 +18,19 @@
         font-weight: 500;
         color: var(--gray-400);
     }
+
+    .create-server-modal-image-container {
+        position: relative;
+
+        .image-cross-icon {
+            cursor: pointer;
+            position: absolute;
+            right: -5px;
+            top: -5px;
+            padding: 0.125rem;
+            border-radius: 50%;
+            background-color: var(--danger-primary);
+            color: var(--gray-100);
+        }
+    }
 }

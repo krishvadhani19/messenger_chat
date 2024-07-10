@@ -10,6 +10,8 @@ import { CreateServerModalSchema } from "@/server/schemas/CreateServerModalSchem
 import FileUploader from "@/components/ui/FileUploader/FileUploader";
 import toast from "react-hot-toast";
 import { useUploadThing } from "@/hooks/useUploadThing";
+import CustomImage from "@/components/ui/CustomImage/CustomImage";
+import { CrossIcon } from "@/components/ui/Icons";
 
 type CreateServerModalPropsType = {
   isServerModalOpen: boolean;
@@ -82,6 +84,17 @@ const CreateServerModal = ({
     []
   );
 
+  const removeImage = useCallback(() => {
+    URL.revokeObjectURL(formData?.image?.url);
+    setFormData((prev) => ({
+      ...prev,
+      image: {
+        url: "",
+        file: undefined,
+      },
+    }));
+  }, [formData?.image?.url]);
+
   const handleFileUploader = useCallback((inputFile: File) => {
     const imageUrl = URL.createObjectURL(inputFile);
 
@@ -114,8 +127,20 @@ const CreateServerModal = ({
         </div>
 
         {formData?.image.url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={formData?.image.url} alt="" width={200} height={200} />
+          <div className="create-server-modal-image-container">
+            <CustomImage
+              url={formData?.image?.url}
+              alt=""
+              width={200}
+              height={130}
+            />
+
+            <CrossIcon
+              className="image-cross-icon"
+              size={16}
+              onClick={removeImage}
+            />
+          </div>
         ) : (
           <FileUploader maxFiles={1} fileUploadCallback={handleFileUploader} />
         )}

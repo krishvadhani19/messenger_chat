@@ -9,11 +9,11 @@ export type dropdownItemType = {
   label: string;
 };
 
-interface DropdownItemPropsType {
+type DropdownItemPropsType = {
   selectedItem: dropdownItemType;
   allItems: dropdownItemType[];
   handleItemClick: (item: any) => void;
-}
+};
 
 const Dropdown = ({
   selectedItem,
