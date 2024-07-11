@@ -29,3 +29,21 @@ export const createNewServer = async (
     return { serverCreation: null };
   }
 };
+
+export const getAllServers = async (profileId: string) => {
+  try {
+    const servers = await db.server.findMany({
+      where: {
+        members: {
+          some: {
+            profileId,
+          },
+        },
+      },
+    });
+
+    return servers;
+  } catch (error) {
+    return null;
+  }
+};
