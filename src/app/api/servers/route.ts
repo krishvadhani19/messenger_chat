@@ -34,7 +34,7 @@ export async function POST(req: Request) {
       imageUrl
     );
 
-    return newServer;
+    return NextResponse.json(newServer);
   } catch (error) {
     return new NextResponse("Internal Error", { status: 500 });
   }

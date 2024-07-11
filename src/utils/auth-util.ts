@@ -33,7 +33,6 @@ export const APIRequest = async (params: APIRequestSchemaType) => {
 
     return response?.data;
   } catch (error) {
-    console.log({ error });
-    toast.error("Something went wrong!!!!");
+    toast.error("Something went wrong!");
   }
 };

@@ -13,6 +13,8 @@ import { useUploadThing } from "@/hooks/useUploadThing";
 import CustomImage from "@/components/ui/CustomImage/CustomImage";
 import { CrossIcon } from "@/components/ui/Icons";
 import { APIRequest } from "@/utils/auth-util";
+import { useRouter } from "next/navigation";
+import { Server } from "@prisma/client";
 
 type CreateServerModalPropsType = {
   isServerModalOpen: boolean;
@@ -33,9 +35,28 @@ const CreateServerModal = ({
   isServerModalOpen,
   closeServerModal,
 }: CreateServerModalPropsType) => {
+  const router = useRouter();
+
   const [formData, setFormData] =
     useState<CreateServerModalSchemaType>(initialFormData);
-  const { startUpload } = useUploadThing("serverName");
+
+  const { startUpload } = useUploadThing("serverName", {
+    onClientUploadComplete: async ([data]) => {
+      const newServer: Server = await APIRequest({
+        method: "POST",
+        url: "/api/servers",
+        data: {
+          name: formData?.serverName,
+          imageUrl: data?.url,
+        },
+      });
+
+      if (newServer) {
+        router.push(`/servers/${newServer.inviteCode}`);
+      }
+    },
+  });
+
   const [formErrors, setFormErrors] = useState<
     Partial<CreateServerModalSchemaType>
   >({});
@@ -110,15 +131,9 @@ const CreateServerModal = ({
 
         if (validateForm()) {
           startUpload([formData?.image?.file as File]);
+
+          // Making API call post cloud upload in its callback
           handleClose();
-
-          const data = await APIRequest({
-            method: "POST",
-            url: "/api/servers",
-            data: formData,
-          });
-
-          console.log({ data });
         }
       } catch (error) {
         toast.error("");

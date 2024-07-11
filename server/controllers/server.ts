@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { getCurrentUserId } from "../actions/getCurrentUserId";
+import { MemberRole } from "@prisma/client";
 
 export const createNewServer = async (
   profileId: string,
@@ -19,13 +19,13 @@ export const createNewServer = async (
           create: [{ name: "general", profileId }],
         },
         members: {
-          create: [{ profileId }],
+          create: [{ profileId, role: MemberRole.ADMIN }],
         },
       },
     });
 
     return newServer;
   } catch (error) {
-    return null;
+    return { serverCreation: null };
   }
 };
