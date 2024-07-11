@@ -1,5 +1,4 @@
 import React from "react";
-import { CrossIcon } from "../Icons";
 import "./CustomImage.scss";
 
 type ImagePropsType = {
@@ -9,14 +8,9 @@ type ImagePropsType = {
   height: number;
 };
 
-const CustomImage = ({
-  url,
-  alt,
-  width,
-  height,
-}: ImagePropsType) => {
+const CustomImage = ({ url, alt, width, height }: ImagePropsType) => {
   return (
-    <div className="image-container">
+    <div className="image-container" style={{ width, height }}>
       {
         // eslint-disable-next-line @next/next/no-img-element
         <img src={url} alt={alt} width={width} height={height} />

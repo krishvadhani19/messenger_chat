@@ -131,8 +131,8 @@ const CreateServerModal = ({
             <CustomImage
               url={formData?.image?.url}
               alt=""
-              width={200}
-              height={130}
+              width={70}
+              height={70}
             />
 
             <CrossIcon
