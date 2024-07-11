@@ -2,35 +2,7 @@
 
 import { db } from "@/lib/db";
 import bcrypt from "bcryptjs";
-
-export const initialProfile = async () => {
-  const currentUser = undefined;
-
-  if (!currentUser) {
-    // redirect to login
-  }
-
-  const profile = await db.profile.findUnique({
-    where: {
-      id: "",
-    },
-  });
-
-  if (profile) {
-    return profile;
-  }
-
-  const newProfile = await db.profile.create({
-    data: {
-      id: "",
-      name: "",
-      imageUrl: "",
-      email: "",
-    },
-  });
-
-  return newProfile;
-};
+import { getCurrentUser } from "../actions/getCurrentUserId";
 
 export const getUserByEmail = async (email: string) => {
   const user = await db.profile.findFirst({
@@ -59,6 +31,20 @@ export const createUser = async (
     });
 
     return newUser;
+  } catch (error) {
+    return null;
+  }
+};
+
+export const getCurrentUserProfile = async (currentUserId: string) => {
+  try {
+    const profile = await db.profile.findUnique({
+      where: {
+        id: currentUserId,
+      },
+    });
+
+    return profile;
   } catch (error) {
     return null;
   }

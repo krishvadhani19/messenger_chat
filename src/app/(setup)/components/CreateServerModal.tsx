@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import { useUploadThing } from "@/hooks/useUploadThing";
 import CustomImage from "@/components/ui/CustomImage/CustomImage";
 import { CrossIcon } from "@/components/ui/Icons";
+import { APIRequest } from "@/utils/auth-util";
 
 type CreateServerModalPropsType = {
   isServerModalOpen: boolean;
@@ -34,9 +35,7 @@ const CreateServerModal = ({
 }: CreateServerModalPropsType) => {
   const [formData, setFormData] =
     useState<CreateServerModalSchemaType>(initialFormData);
-
   const { startUpload } = useUploadThing("serverName");
-
   const [formErrors, setFormErrors] = useState<
     Partial<CreateServerModalSchemaType>
   >({});
@@ -105,12 +104,24 @@ const CreateServerModal = ({
   }, []);
 
   const createServer = useCallback(
-    (e: FormEvent) => {
-      e.preventDefault();
+    async (e: FormEvent) => {
+      try {
+        e.preventDefault();
 
-      if (validateForm()) {
-        startUpload([formData?.image?.file as File]);
-        handleClose();
+        if (validateForm()) {
+          startUpload([formData?.image?.file as File]);
+          handleClose();
+
+          const data = await APIRequest({
+            method: "POST",
+            url: "/api/servers",
+            data: formData,
+          });
+
+          console.log({ data });
+        }
+      } catch (error) {
+        toast.error("");
       }
     },
     [handleClose, validateForm, formData, startUpload]

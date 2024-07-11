@@ -1,14 +1,15 @@
-import { getCurrentUser } from "@/server/actions/getCurrentUser";
+import { getCurrentUserId } from "@/server/actions/getCurrentUserId";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 
 const f = createUploadthing();
 
 const handleAuth = async () => {
-  const user = await getCurrentUser();
-  if (!user) throw new UploadThingError("Unauthorized");
+  const currentUserId = await getCurrentUserId();
 
-  return { userId: user?.id };
+  if (!currentUserId) throw new UploadThingError("Unauthorized");
+
+  return { userId: currentUserId };
 };
 
 export const ourFileRouter = {
