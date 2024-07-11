@@ -1,6 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
+import { getCurrentUserId } from "../actions/getCurrentUserId";
 
 export const createNewServer = async (
   profileId: string,

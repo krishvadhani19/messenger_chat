@@ -2,7 +2,6 @@
 
 import { db } from "@/lib/db";
 import bcrypt from "bcryptjs";
-import { getCurrentUser } from "../actions/getCurrentUserId";
 
 export const getUserByEmail = async (email: string) => {
   const user = await db.profile.findFirst({
