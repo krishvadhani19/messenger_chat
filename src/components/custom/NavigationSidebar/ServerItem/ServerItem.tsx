@@ -5,6 +5,7 @@ import "./ServerItem.scss";
 import Tooltip from "@/components/ui/Tooltip/Tooltip";
 import { Server } from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
+import classNames from "classnames";
 
 type ServerItemPropsType = {
   serverItem: Server;
@@ -20,7 +21,12 @@ const ServerItem = ({ serverItem }: ServerItemPropsType) => {
 
   return (
     <Tooltip title={serverItem.name}>
-      <div className="server-item-container" onClick={handelServerItemClick}>
+      <div
+        className={classNames("server-item-container", {
+          isSelected: serverId === serverItem.inviteCode,
+        })}
+        onClick={handelServerItemClick}
+      >
         {
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -31,9 +37,7 @@ const ServerItem = ({ serverItem }: ServerItemPropsType) => {
           />
         }
 
-        {serverId === serverItem.inviteCode && (
-          <div className="server-item-container-border" />
-        )}
+        <div className="server-item-container-border" />
       </div>
     </Tooltip>
   );

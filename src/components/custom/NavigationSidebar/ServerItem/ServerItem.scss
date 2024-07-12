@@ -6,14 +6,32 @@
     position: relative;
     border-radius: 0.75rem;
 
+    &:hover {
+        .server-item-container-border {
+            top: 20%;
+            bottom: 20%;
+            height: 60%;
+        }
+    }
+
+    &.isSelected {
+        .server-item-container-border {
+            top: 0;
+            bottom: 0;
+            height: 100%;
+        }
+    }
+
     .server-item-container-border {
         position: absolute;
         left: -1rem;
-        top: 0;
+        bottom: 50%;
+        top: 50%;
         width: 4px;
-        height: 44px;
+        height: 6px;
         background-color: white;
         border-radius: 0.25rem;
+        transition: all 0.2s ease-in-out;
     }
 
     img {
