@@ -3,7 +3,7 @@
 import Button from "@/components/ui/Button/Button";
 import { logout } from "@/server/actions/logout";
 import React, { useCallback, useState } from "react";
-import CreateServerModal from "../components/CreateServerModal";
+import CreateServerModal from "@/components/custom/CreateServerModal/CreateServerModal";
 
 const HomePage = () => {
   const [isServerModalOpen, setIsServerModalOpen] = useState<boolean>(false);
