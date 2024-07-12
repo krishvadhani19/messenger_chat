@@ -4,15 +4,19 @@ import React, { memo, useCallback } from "react";
 import "./ServerItem.scss";
 import Tooltip from "@/components/ui/Tooltip/Tooltip";
 import { Server } from "@prisma/client";
+import { useParams, useRouter } from "next/navigation";
 
 type ServerItemPropsType = {
   serverItem: Server;
 };
 
 const ServerItem = ({ serverItem }: ServerItemPropsType) => {
+  const { serverId } = useParams();
+  const router = useRouter();
+
   const handelServerItemClick = useCallback(() => {
-    console.log("click");
-  }, []);
+    router.push(`/servers/${serverItem.inviteCode}`);
+  }, [router, serverItem]);
 
   return (
     <Tooltip title={serverItem.name}>
@@ -27,7 +31,9 @@ const ServerItem = ({ serverItem }: ServerItemPropsType) => {
           />
         }
 
-        <div className="server-item-container-border"></div>
+        {serverId === serverItem.inviteCode && (
+          <div className="server-item-container-border" />
+        )}
       </div>
     </Tooltip>
   );

@@ -10,9 +10,10 @@
     cursor: pointer;
     background-color: var(--neutral-700);
     color: var(--primary-green);
+    transition: all 0.2s ease-in-out;
 
     &:hover {
-        border-radius: 1rem;
+        border-radius: 0.75rem;
         background-color: var(--primary-green);
         color: var(--neutral-700);
     }

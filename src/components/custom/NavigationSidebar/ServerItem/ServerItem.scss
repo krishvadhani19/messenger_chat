@@ -1,11 +1,10 @@
 .server-item-container {
     width: 44px;
     height: 44px;
-    // overflow: hidden;
-    background-color: var(--neutral-900);
+    background-color: var(--neutral-700);
     cursor: pointer;
     position: relative;
-    border-radius: 1rem;
+    border-radius: 0.75rem;
 
     .server-item-container-border {
         position: absolute;
