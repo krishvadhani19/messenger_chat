@@ -1,0 +1,24 @@
+.server-item-container {
+    width: 44px;
+    height: 44px;
+    // overflow: hidden;
+    background-color: var(--neutral-900);
+    cursor: pointer;
+    position: relative;
+    border-radius: 1rem;
+
+    .server-item-container-border {
+        position: absolute;
+        left: -1rem;
+        top: 0;
+        width: 4px;
+        height: 44px;
+        background-color: white;
+        border-radius: 0.25rem;
+    }
+
+    img {
+        object-fit: contain;
+        border-radius: 1rem;
+    }
+}

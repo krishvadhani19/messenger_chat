@@ -6,6 +6,7 @@ import { getAllServers } from "@/server/controllers/server";
 import AddServerButton from "./AddServerButton/AddServerButton";
 import { memo } from "react";
 import ServerContainer from "./ServerContainer/ServerContainer";
+import { Server } from "@prisma/client";
 
 const NavigationSidebar = async () => {
   const currentUserId = await getCurrentUserId();
@@ -23,7 +24,7 @@ const NavigationSidebar = async () => {
 
       <div className="navigation-sidebar-separator" />
 
-      <ServerContainer />
+      <ServerContainer servers={servers} />
     </div>
   );
 };
