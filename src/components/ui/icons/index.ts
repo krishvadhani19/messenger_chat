@@ -9,6 +9,7 @@ import EyeOpen from "./EyeOpen";
 import EyeClose from "./EyeClose";
 import InfoCircleIcon from "./InfoCircleIcon";
 import UploadIcon from "./UploadIcon";
+import PlusIcon from "./PlusIcon";
 
 export interface IconPropsType {
   color?: string;
@@ -29,4 +30,5 @@ export {
   EyeClose,
   InfoCircleIcon,
   UploadIcon,
+  PlusIcon,
 };

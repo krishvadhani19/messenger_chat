@@ -1,0 +1,19 @@
+.add-server-btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow:
+        0 1px 3px 0 rgb(0 0 0 / 0.1),
+        0 1px 2px -1px rgb(0 0 0 / 0.1);
+    padding: 0.75rem;
+    cursor: pointer;
+    background-color: var(--neutral-700);
+    color: var(--primary-green);
+
+    &:hover {
+        border-radius: 1rem;
+        background-color: var(--primary-green);
+        color: var(--neutral-700);
+    }
+}
