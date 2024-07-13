@@ -29,7 +29,7 @@ const ServerIdLayout = async ({
 
   return (
     <div className="server-id-layout-container">
-      <ServerSidebar currentServer={server} />
+      <ServerSidebar currentServer={server} userProfile={profile} />
 
       <main>{children}</main>
     </div>

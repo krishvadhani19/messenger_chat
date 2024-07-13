@@ -38,7 +38,7 @@ const Popover = ({
   }, []);
 
   useEffect(() => {
-    if (anchorRef && anchorRef?.current) {
+    if (anchorRef?.current) {
       anchorRef.current.onclick = () => {
         setAnchorEl(anchorRef?.current);
       };

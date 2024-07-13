@@ -1,6 +1,11 @@
 import { IconPropsType } from ".";
 
-const CrossIcon = ({ color, size = 22, className, onClick }: IconPropsType) => {
+const AddUserIcon = ({
+  color,
+  size = 22,
+  className,
+  onClick,
+}: IconPropsType) => {
   return (
     <span className={`flex-center ${className}`} onClick={onClick}>
       <svg
@@ -10,15 +15,17 @@ const CrossIcon = ({ color, size = 22, className, onClick }: IconPropsType) => {
         viewBox="0 0 24 24"
         fill="none"
         stroke={color || "currentColor"}
-        stroke-width="2"
+        stroke-width="2.5"
         stroke-linecap="round"
         stroke-linejoin="round"
       >
-        <path d="M5 12h14" />
-        <path d="M12 5v14" />
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <line x1="19" x2="19" y1="8" y2="14" />
+        <line x1="22" x2="16" y1="11" y2="11" />
       </svg>
     </span>
   );
 };
 
-export default CrossIcon;
+export default AddUserIcon;

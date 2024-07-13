@@ -10,6 +10,9 @@ import EyeClose from "./EyeClose";
 import InfoCircleIcon from "./InfoCircleIcon";
 import UploadIcon from "./UploadIcon";
 import PlusIcon from "./PlusIcon";
+import ChevronDownIcon from "./ChevronDownIcon";
+import AddUserIcon from "./AddUserIcon";
+import SettingsIcon from "./SettingsIcon";
 
 export interface IconPropsType {
   color?: string;
@@ -31,4 +34,7 @@ export {
   InfoCircleIcon,
   UploadIcon,
   PlusIcon,
+  ChevronDownIcon,
+  AddUserIcon,
+  SettingsIcon,
 };

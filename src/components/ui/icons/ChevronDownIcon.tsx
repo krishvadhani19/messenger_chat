@@ -1,6 +1,11 @@
 import { IconPropsType } from ".";
 
-const CrossIcon = ({ color, size = 22, className, onClick }: IconPropsType) => {
+const ChevronDownIcon = ({
+  color,
+  size = 22,
+  className,
+  onClick,
+}: IconPropsType) => {
   return (
     <span className={`flex-center ${className}`} onClick={onClick}>
       <svg
@@ -14,11 +19,10 @@ const CrossIcon = ({ color, size = 22, className, onClick }: IconPropsType) => {
         stroke-linecap="round"
         stroke-linejoin="round"
       >
-        <path d="M5 12h14" />
-        <path d="M12 5v14" />
+        <path d="m6 9 6 6 6-6" />
       </svg>
     </span>
   );
 };
 
-export default CrossIcon;
+export default ChevronDownIcon;

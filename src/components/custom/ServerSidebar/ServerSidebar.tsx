@@ -1,30 +1,49 @@
-import { Chanel, Member, Server } from "@prisma/client";
+import { Chanel, Member, Profile, Server } from "@prisma/client";
 import { memo, useMemo } from "react";
+import "./ServerSidebar.scss";
+import { FULL_SERVER_TYPE } from "@/types/types";
+import ServerHeader from "./ServerHeader/ServerHeader";
 
 type ServerSidebarPropsType = {
-  currentServer: Server & { channels: Chanel[]; members: Member[] };
+  currentServer: FULL_SERVER_TYPE;
+  userProfile: Profile;
 };
 
-const ServerSidebar = ({ currentServer }: ServerSidebarPropsType) => {
+const ServerSidebar = ({
+  currentServer,
+  userProfile,
+}: ServerSidebarPropsType) => {
   const textChannels = useMemo(() => {
-    return currentServer?.channels.filter((chanelItem) => {
-      return chanelItem.chanelType === "TEXT";
-    });
+    return currentServer?.channels.filter(
+      (chanelItem) => chanelItem.chanelType === "TEXT"
+    );
   }, [currentServer]);
 
   const audioChannels = useMemo(() => {
-    return currentServer?.channels.filter((chanelItem) => {
-      return chanelItem.chanelType === "AUDIO";
-    });
+    return currentServer?.channels.filter(
+      (chanelItem) => chanelItem.chanelType === "VIDEO"
+    );
   }, [currentServer]);
 
   const videoChannels = useMemo(() => {
-    return currentServer?.channels.filter((chanelItem) => {
-      return chanelItem.chanelType === "VIDEO";
-    });
+    return currentServer?.channels.filter(
+      (chanelItem) => chanelItem.chanelType === "VIDEO"
+    );
   }, [currentServer]);
 
-  return <div className="server-sidebar-container">ServerSidebar</div>;
+  let isAdmin, isModerator;
+
+  const serverMembers = useMemo(() => {
+    return currentServer?.members.filter(
+      (memberItem) => memberItem.id !== userProfile.id
+    );
+  }, [currentServer, userProfile]);
+
+  return (
+    <div className="server-sidebar-container">
+      <ServerHeader currentServer={currentServer} />
+    </div>
+  );
 };
 
 export default memo(ServerSidebar);
