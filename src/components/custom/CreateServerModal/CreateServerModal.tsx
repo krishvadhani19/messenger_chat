@@ -52,7 +52,7 @@ const CreateServerModal = ({
       });
 
       if (newServer) {
-        router.push(`/servers/${newServer.inviteCode}`);
+        router.push(`/servers/${newServer.id}`);
       }
     },
   });
@@ -130,7 +130,9 @@ const CreateServerModal = ({
         e.preventDefault();
 
         if (validateForm()) {
-          startUpload([formData?.image?.file as File]);
+          await startUpload([formData?.image?.file as File]);
+
+          router.refresh();
 
           // Making API call post cloud upload in its callback
           handleClose();
@@ -139,7 +141,7 @@ const CreateServerModal = ({
         toast.error("");
       }
     },
-    [handleClose, validateForm, formData, startUpload]
+    [validateForm, startUpload, formData?.image?.file, router, handleClose]
   );
 
   return (

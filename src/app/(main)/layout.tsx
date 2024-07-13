@@ -6,7 +6,7 @@ const MainLayout = async ({ children }: { children: React.ReactNode }) => {
     <div className="main-layout-container">
       <NavigationSidebar />
 
-      <main>{children}</main>
+      {children}
     </div>
   );
 };

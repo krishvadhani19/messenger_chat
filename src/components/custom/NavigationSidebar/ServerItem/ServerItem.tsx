@@ -16,14 +16,14 @@ const ServerItem = ({ serverItem }: ServerItemPropsType) => {
   const router = useRouter();
 
   const handelServerItemClick = useCallback(() => {
-    router.push(`/servers/${serverItem.inviteCode}`);
+    router.push(`/servers/${serverItem.id}`);
   }, [router, serverItem]);
 
   return (
     <Tooltip title={serverItem.name}>
       <div
         className={classNames("server-item-container", {
-          isSelected: serverId === serverItem.inviteCode,
+          isSelected: serverId === serverItem.id,
         })}
         onClick={handelServerItemClick}
       >

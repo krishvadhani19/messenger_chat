@@ -4,9 +4,16 @@
     background-color: var(--neutral-700);
     cursor: pointer;
     position: relative;
-    border-radius: 0.75rem;
+    border-radius: 50%;
+    transition: all 0.2s ease-in-out;
 
     &:hover {
+        border-radius: 0.75rem;
+
+        img {
+            border-radius: 0.75rem;
+        }
+
         .server-item-container-border {
             top: 20%;
             bottom: 20%;
