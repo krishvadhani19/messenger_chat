@@ -2,7 +2,7 @@
 
 import { FULL_SERVER_TYPE } from "@/types/types";
 import "./ServerHeader.scss";
-import { memo, useCallback, useRef } from "react";
+import { memo, useCallback, useRef, useState } from "react";
 import {
   AddUserIcon,
   ChevronDownIcon,
@@ -15,22 +15,43 @@ import MultipleUsersIcon from "@/components/ui/Icons/MultipleUsersIcon";
 import { MemberRole } from "@prisma/client";
 import classNames from "classnames";
 import LogoutIcon from "@/components/ui/Icons/LogoutIcon";
+import InvitePeopleModal from "./InvitePeopleModal/InvitePeopleModal";
 
 type ServerHeaderPropsType = {
   currentServer: FULL_SERVER_TYPE;
   currentUserRole: MemberRole;
 };
 
+const CURRENT_MODAL_CATEGORIES = {
+  INVITE_PEOPLE: "INVITE_PEOPLE",
+  SERVER_SETTINGS: "SERVER_SETTINGS",
+  MANAGE_MEMBERS: "MANAGE_MEMBERS",
+  CREATE_CHANEL: "CREATE_CHANEL",
+  DELETE_SERVER: "DELETE_SERVER",
+  LEAVE_SERVER: "LEAVE_SERVER",
+} as const;
+
+type CURRENT_MODAL_TYPES =
+  (typeof CURRENT_MODAL_CATEGORIES)[keyof typeof CURRENT_MODAL_CATEGORIES];
+
 const ServerHeader = ({
   currentServer,
   currentUserRole,
 }: ServerHeaderPropsType) => {
   const serverHeaderRef = useRef<HTMLDivElement>(null);
-
-  const handleDropdownClick = useCallback(() => {}, []);
+  const [currentModal, setCurrentModal] = useState<CURRENT_MODAL_TYPES | null>(
+    null
+  );
 
   const isAdmin = currentUserRole === MemberRole.ADMIN;
   const isModerator = isAdmin || currentUserRole === MemberRole.MODERATOR;
+
+  const handleModalChange = useCallback(
+    (category: CURRENT_MODAL_TYPES | null) => {
+      setCurrentModal(category);
+    },
+    []
+  );
 
   const getServerHeaderPopover = useCallback(
     (handleClose: any) => {
@@ -39,7 +60,10 @@ const ServerHeader = ({
           {isModerator && (
             <div
               className="server-header-popover-item-container"
-              onClick={handleClose}
+              onClick={() => {
+                handleModalChange(CURRENT_MODAL_CATEGORIES.INVITE_PEOPLE);
+                handleClose();
+              }}
             >
               <div className="">Invite People</div>
 
@@ -48,7 +72,13 @@ const ServerHeader = ({
           )}
 
           {isAdmin && (
-            <div className="server-header-popover-item-container">
+            <div
+              className="server-header-popover-item-container"
+              onClick={() => {
+                handleModalChange(CURRENT_MODAL_CATEGORIES.SERVER_SETTINGS);
+                handleClose();
+              }}
+            >
               <div className="">Server Setting</div>
 
               <SettingsIcon size={18} />
@@ -56,7 +86,13 @@ const ServerHeader = ({
           )}
 
           {isAdmin && (
-            <div className="server-header-popover-item-container">
+            <div
+              className="server-header-popover-item-container"
+              onClick={() => {
+                handleModalChange(CURRENT_MODAL_CATEGORIES.MANAGE_MEMBERS);
+                handleClose();
+              }}
+            >
               <div className="">Manage Members</div>
 
               <MultipleUsersIcon size={18} />
@@ -64,7 +100,13 @@ const ServerHeader = ({
           )}
 
           {isModerator && (
-            <div className="server-header-popover-item-container">
+            <div
+              className="server-header-popover-item-container"
+              onClick={() => {
+                handleModalChange(CURRENT_MODAL_CATEGORIES.CREATE_CHANEL);
+                handleClose();
+              }}
+            >
               <div className="">Create Chanel</div>
 
               <CirclePlayIcon size={18} />
@@ -76,6 +118,10 @@ const ServerHeader = ({
               className={classNames("server-header-popover-item-container", {
                 isRed: true,
               })}
+              onClick={() => {
+                handleModalChange(CURRENT_MODAL_CATEGORIES.DELETE_SERVER);
+                handleClose();
+              }}
             >
               <div className="">Delete Server</div>
 
@@ -88,6 +134,10 @@ const ServerHeader = ({
               className={classNames("server-header-popover-item-container", {
                 isRed: true,
               })}
+              onClick={() => {
+                handleModalChange(CURRENT_MODAL_CATEGORIES.LEAVE_SERVER);
+                handleClose();
+              }}
             >
               <div className="">Leave Server</div>
 
@@ -97,22 +147,23 @@ const ServerHeader = ({
         </div>
       );
     },
-    [isAdmin, isModerator]
+    [handleModalChange, isAdmin, isModerator]
   );
 
   return (
     <>
-      <div
-        className="server-header-container"
-        onClick={handleDropdownClick}
-        ref={serverHeaderRef}
-      >
+      <div className="server-header-container" ref={serverHeaderRef}>
         <div>{currentServer?.name}</div>
 
         <ChevronDownIcon size={20} />
       </div>
 
       <Popover anchorRef={serverHeaderRef}>{getServerHeaderPopover}</Popover>
+
+      <InvitePeopleModal
+        isOpen={currentModal === CURRENT_MODAL_CATEGORIES.INVITE_PEOPLE}
+        onClose={handleModalChange}
+      />
     </>
   );
 };

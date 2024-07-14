@@ -1,0 +1,13 @@
+.invite-people-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 2rem;
+
+    .invite-people-header {
+        font-size: 2rem;
+        color: black;
+        font-weight: 700;
+    }
+}

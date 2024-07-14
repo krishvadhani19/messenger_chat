@@ -32,13 +32,13 @@
         color: var(--gray-300);
         border-radius: 0.25rem;
 
-        &.isRed {
-            color: var(--danger-primary);
-        }
-
         &:hover {
             color: var(--primary-violet);
             background-color: var(--neutral-700);
+        }
+
+        &.isRed {
+            color: var(--danger-primary);
         }
     }
 }
