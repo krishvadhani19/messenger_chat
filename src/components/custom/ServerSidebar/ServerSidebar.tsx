@@ -39,9 +39,17 @@ const ServerSidebar = ({
     );
   }, [currentServer, userProfile]);
 
+  const role = useMemo(
+    () =>
+      currentServer?.members.find(
+        (memberItem) => memberItem?.profileId === userProfile?.id
+      ),
+    [currentServer?.members, userProfile?.id]
+  )?.role;
+
   return (
     <div className="server-sidebar-container">
-      <ServerHeader currentServer={currentServer} />
+      <ServerHeader currentServer={currentServer} currentUserRole={role!} />
     </div>
   );
 };

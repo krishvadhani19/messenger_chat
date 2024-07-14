@@ -13,6 +13,8 @@ import PlusIcon from "./PlusIcon";
 import ChevronDownIcon from "./ChevronDownIcon";
 import AddUserIcon from "./AddUserIcon";
 import SettingsIcon from "./SettingsIcon";
+import CirclePlayIcon from "./CirclePlayIcon";
+import TrashIcon from "./TrashIcon";
 
 export interface IconPropsType {
   color?: string;
@@ -37,4 +39,6 @@ export {
   ChevronDownIcon,
   AddUserIcon,
   SettingsIcon,
+  CirclePlayIcon,
+  TrashIcon,
 };
