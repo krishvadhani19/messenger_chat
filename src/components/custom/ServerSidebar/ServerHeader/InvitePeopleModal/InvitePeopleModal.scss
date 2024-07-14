@@ -1,13 +1,48 @@
 .invite-people-container {
     display: flex;
     align-items: center;
-    justify-content: center;
+    // justify-content: center;
     flex-direction: column;
     padding: 2rem;
+    width: 30rem;
+    gap: 2rem;
 
     .invite-people-header {
         font-size: 2rem;
         color: black;
         font-weight: 700;
+    }
+
+    .invite-people-main {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+        gap: 0.5rem;
+
+        .invite-people-link {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+
+            .invite-people-link-copy-icon {
+                cursor: pointer;
+                margin-top: 1.2rem;
+                color: var(--gray-600);
+            }
+        }
+
+        .invite-people-generate-new-link {
+            cursor: pointer;
+            color: var(--gray-500);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            flex: 0 0 auto;
+        }
     }
 }

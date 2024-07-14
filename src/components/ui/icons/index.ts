@@ -15,6 +15,9 @@ import AddUserIcon from "./AddUserIcon";
 import SettingsIcon from "./SettingsIcon";
 import CirclePlayIcon from "./CirclePlayIcon";
 import TrashIcon from "./TrashIcon";
+import CopyIcon from "./CopyIcon";
+import RefreshIcon from "./RefreshIcon";
+import CircleCheckIcon from "./CircleCheckIcon";
 
 export interface IconPropsType {
   color?: string;
@@ -41,4 +44,7 @@ export {
   SettingsIcon,
   CirclePlayIcon,
   TrashIcon,
+  CopyIcon,
+  RefreshIcon,
+  CircleCheckIcon,
 };
