@@ -3,7 +3,7 @@ import { z } from "zod";
 import axios from "axios";
 
 const APIRequestSchema = z.object({
-  method: z.enum(["POST", "GET", "DELETE", "PUT"]),
+  method: z.enum(["POST", "GET", "DELETE", "PATCH"]),
   url: z.string(),
   data: z.any().optional(),
   headers: z.record(z.string()).optional(),
@@ -25,7 +25,7 @@ export const APIRequest = async (params: APIRequestSchemaType) => {
       },
     };
 
-    if (validatedParams.data && (method === "post" || "put")) {
+    if (validatedParams.data && (method === "post" || "patch")) {
       config.data = validatedParams.data;
     }
 

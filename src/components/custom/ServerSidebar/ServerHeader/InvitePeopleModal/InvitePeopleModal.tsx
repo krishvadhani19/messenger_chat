@@ -6,18 +6,50 @@ import Modal from "@/components/ui/Modal/Modal";
 import InputField from "@/components/ui/Input/InputField";
 import { CircleCheckIcon, CopyIcon, RefreshIcon } from "@/components/ui/Icons";
 import { APIRequest } from "@/utils/auth-util";
+import { useParams } from "next/navigation";
+import toast from "react-hot-toast";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Server } from "@prisma/client";
 
 type InvitePeopleModalPropsType = {
   isOpen: boolean;
   onClose: (category: null) => void;
+  inviteCode: string;
 };
 
-const InvitePeopleModal = ({ isOpen, onClose }: InvitePeopleModalPropsType) => {
+const InvitePeopleModal = ({
+  isOpen,
+  onClose,
+  inviteCode,
+}: InvitePeopleModalPropsType) => {
+  const [isCopied, setIsCopied] = useState<boolean>(false);
+  const { serverId } = useParams();
+
   const [inviteLink, setInviteLink] = useState<string>(
-    `${window.location.origin}/invite/${crypto.randomUUID()}`
+    `${window.location.origin}/invite/${inviteCode}`
   );
 
-  const [isCopied, setIsCopied] = useState<boolean>(false);
+  const generateNewInviteCode = useMutation({
+    mutationFn: useCallback(
+      async () =>
+        await APIRequest({
+          method: "PATCH",
+          url: `/api/servers/${serverId}`,
+          data: { serverId },
+        }),
+      [serverId]
+    ),
+    onSuccess: (newData: Server) => {
+      setInviteLink(`${window.location.origin}/invite/${newData?.inviteCode}`);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const handleNewInviteCodeClick = useCallback(() => {
+    generateNewInviteCode.mutate();
+  }, [generateNewInviteCode]);
 
   const handleClose = useCallback(() => {
     onClose(null);
@@ -27,15 +59,8 @@ const InvitePeopleModal = ({ isOpen, onClose }: InvitePeopleModalPropsType) => {
     setIsCopied(true);
     await navigator.clipboard.writeText(inviteLink);
 
-    setTimeout(() => setIsCopied((prev) => !prev), 1500);
+    setTimeout(() => setIsCopied((prev) => !prev), 1000);
   }, [inviteLink]);
-
-  const generateNewServerLink = useCallback(async () => {
-    try {
-      const data = await APIRequest({ method: "POST", url: "" });
-      setInviteLink(`${window.location.origin}/invite/${crypto.randomUUID()}`);
-    } catch (error) {}
-  }, []);
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
@@ -65,7 +90,7 @@ const InvitePeopleModal = ({ isOpen, onClose }: InvitePeopleModalPropsType) => {
 
           <div
             className="invite-people-generate-new-link"
-            onClick={generateNewServerLink}
+            onClick={handleNewInviteCodeClick}
           >
             Generate new invite link
             <RefreshIcon size={14} />

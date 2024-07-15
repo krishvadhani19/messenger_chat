@@ -4,6 +4,7 @@ import "@/styles/index.scss";
 import { Toaster } from "react-hot-toast";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
+import Providers from "./provider";
 
 const inter = Open_Sans({ subsets: ["latin"] });
 
@@ -23,7 +24,7 @@ const RootLayout = async ({
     <SessionProvider session={session}>
       <html lang="en">
         <body className={inter.className}>
-          {children}
+          <Providers>{children}</Providers>
 
           <Toaster
             position="bottom-right"

@@ -163,6 +163,7 @@ const ServerHeader = ({
       <InvitePeopleModal
         isOpen={currentModal === CURRENT_MODAL_CATEGORIES.INVITE_PEOPLE}
         onClose={handleModalChange}
+        inviteCode={currentServer?.inviteCode}
       />
     </>
   );
