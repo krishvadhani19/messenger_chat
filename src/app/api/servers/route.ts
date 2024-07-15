@@ -1,4 +1,7 @@
-import { createNewServer } from "@/server/controllers/server";
+import {
+  createNewServer,
+  updateServerSettings,
+} from "@/server/controllers/server";
 import { NextResponse } from "next/server";
 import { getCurrentUserId } from "@/server/actions/getCurrentUserId";
 import { getCurrentUserProfile } from "@/server/controllers/user";

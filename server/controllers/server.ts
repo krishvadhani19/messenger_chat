@@ -130,3 +130,25 @@ export const addNewMemberToServer = async (
     return null;
   }
 };
+
+export const updateServerSettings = async (
+  serverId: string,
+  name: string,
+  imageUrl: string
+) => {
+  try {
+    const updatedServer = await db.server.update({
+      where: {
+        id: serverId,
+      },
+      data: {
+        name,
+        imageUrl,
+      },
+    });
+
+    return updatedServer;
+  } catch (error) {
+    return null;
+  }
+};

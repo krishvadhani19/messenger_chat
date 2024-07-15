@@ -16,6 +16,7 @@ import { MemberRole } from "@prisma/client";
 import classNames from "classnames";
 import LogoutIcon from "@/components/ui/Icons/LogoutIcon";
 import InvitePeopleModal from "./InvitePeopleModal/InvitePeopleModal";
+import ServerSettingsModal from "./ServerSettingsModal/ServerSettingsModal";
 
 type ServerHeaderPropsType = {
   currentServer: FULL_SERVER_TYPE;
@@ -164,6 +165,12 @@ const ServerHeader = ({
         isOpen={currentModal === CURRENT_MODAL_CATEGORIES.INVITE_PEOPLE}
         onClose={handleModalChange}
         inviteCode={currentServer?.inviteCode}
+      />
+
+      <ServerSettingsModal
+        isOpen={currentModal === CURRENT_MODAL_CATEGORIES.SERVER_SETTINGS}
+        onClose={handleModalChange}
+        currentServer={currentServer}
       />
     </>
   );
