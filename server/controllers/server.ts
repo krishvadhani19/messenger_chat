@@ -81,3 +81,52 @@ export const getServer = async (serverId: string, profileId: string) => {
     return null;
   }
 };
+
+export const getServerUsingInviteCode = async (
+  inviteCode: string,
+  profileId: string
+) => {
+  try {
+    const server = await db.server.findUnique({
+      where: {
+        inviteCode,
+        members: {
+          some: {
+            profileId,
+          },
+        },
+      },
+    });
+
+    return server;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+export const addNewMemberToServer = async (
+  inviteCode: string,
+  profileId: string
+) => {
+  try {
+    const server = await db.server.update({
+      where: {
+        inviteCode,
+      },
+      data: {
+        members: {
+          create: [
+            {
+              profileId,
+            },
+          ],
+        },
+      },
+    });
+
+    return server;
+  } catch (error) {
+    return null;
+  }
+};

@@ -8,7 +8,7 @@ import { CircleCheckIcon, CopyIcon, RefreshIcon } from "@/components/ui/Icons";
 import { APIRequest } from "@/utils/auth-util";
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { Server } from "@prisma/client";
 
 type InvitePeopleModalPropsType = {
@@ -24,7 +24,6 @@ const InvitePeopleModal = ({
 }: InvitePeopleModalPropsType) => {
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const { serverId } = useParams();
-
   const [inviteLink, setInviteLink] = useState<string>(
     `${window.location.origin}/invite/${inviteCode}`
   );
@@ -91,8 +90,12 @@ const InvitePeopleModal = ({
           <div
             className="invite-people-generate-new-link"
             onClick={handleNewInviteCodeClick}
+            aria-disabled={generateNewInviteCode.isPending}
           >
-            Generate new invite link
+            {generateNewInviteCode.isPending
+              ? "Generating new invite link"
+              : " Generate new invite link"}
+
             <RefreshIcon size={14} />
           </div>
         </div>

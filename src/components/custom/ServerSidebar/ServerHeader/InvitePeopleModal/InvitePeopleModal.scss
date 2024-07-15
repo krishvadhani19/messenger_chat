@@ -43,6 +43,10 @@
             justify-content: center;
             gap: 0.25rem;
             flex: 0 0 auto;
+
+            &:hover {
+                text-decoration: underline;
+            }
         }
     }
 }
