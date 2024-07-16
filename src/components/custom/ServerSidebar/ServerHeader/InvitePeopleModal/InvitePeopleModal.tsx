@@ -33,7 +33,7 @@ const InvitePeopleModal = ({
       async () =>
         await APIRequest({
           method: "PATCH",
-          url: `/api/servers/${serverId}`,
+          url: `/api/servers/invite-code/${serverId}`,
           data: { serverId },
         }),
       [serverId]

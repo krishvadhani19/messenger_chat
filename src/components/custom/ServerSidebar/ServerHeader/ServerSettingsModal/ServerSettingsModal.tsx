@@ -11,7 +11,6 @@ import Button from "@/components/ui/Button/Button";
 import { useRouter } from "next/navigation";
 import { useUploadThing } from "@/hooks/useUploadThing";
 import { APIRequest } from "@/utils/auth-util";
-import { Server } from "@prisma/client";
 import { CreateServerModalSchema } from "@/server/schemas/CreateServerModalSchema";
 import { z } from "zod";
 import toast from "react-hot-toast";
@@ -50,7 +49,7 @@ const ServerSettingsModal = ({
     onClientUploadComplete: async ([data]) => {
       await APIRequest({
         method: "PATCH",
-        url: `/api/servers/${currentServer?.id}`,
+        url: `/api/servers/server-settings/${currentServer?.id}`,
         data: {
           name: formData?.serverName,
           imageUrl: data?.url,
@@ -137,7 +136,7 @@ const ServerSettingsModal = ({
           } else {
             await APIRequest({
               method: "PATCH",
-              url: `/api/servers/${currentServer?.id}`,
+              url: `/api/servers/server-settings/${currentServer?.id}`,
               data: {
                 name: formData?.serverName,
                 imageUrl: formData?.image?.url,
