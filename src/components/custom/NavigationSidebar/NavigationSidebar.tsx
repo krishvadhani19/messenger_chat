@@ -1,18 +1,18 @@
 import "./NavigationSidebar.scss";
 import { getCurrentUserProfile } from "@/server/controllers/user";
 import { getCurrentUserId } from "@/server/actions/getCurrentUserId";
-import { redirect } from "next/navigation";
 import { getAllServers } from "@/server/controllers/server";
 import AddServerButton from "./AddServerButton/AddServerButton";
-import { memo } from "react";
 import ServerContainer from "./ServerContainer/ServerContainer";
+import UserDetail from "./UserDetail/UserDetail";
+import { logout } from "@/server/actions/logout";
 
 const NavigationSidebar = async () => {
   const currentUserId = await getCurrentUserId();
   const profile = await getCurrentUserProfile(currentUserId!);
 
   if (!profile) {
-    return redirect("/");
+    return await logout();
   }
 
   const servers = await getAllServers(currentUserId!);
@@ -24,8 +24,10 @@ const NavigationSidebar = async () => {
       <div className="navigation-sidebar-separator" />
 
       <ServerContainer servers={servers} />
+
+      {profile && <UserDetail />}
     </div>
   );
 };
 
-export default memo(NavigationSidebar);
+export default NavigationSidebar;

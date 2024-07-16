@@ -167,16 +167,16 @@ const ServerSettingsModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
-      <form className="create-server-modal-container" onSubmit={updateServer}>
-        <div className="create-server-modal-title">Customize your server</div>
+      <form className="server-settings-modal-container" onSubmit={updateServer}>
+        <div className="server-settings-modal-title">Customize your server</div>
 
-        <div className="create-server-modal-sub-title">
+        <div className="server-settings-modal-sub-title">
           Give your server a personality with a name and an image. Your can
           always change it later.
         </div>
 
         {formData?.image.url ? (
-          <div className="create-server-modal-image-container">
+          <div className="server-settings-modal-image-container">
             <CustomImage
               url={formData?.image?.url}
               alt=""

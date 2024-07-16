@@ -1,0 +1,36 @@
+.server-settings-modal-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1.25rem;
+    max-width: 60%;
+    margin: 0 auto;
+    text-align: center;
+
+    .server-settings-modal-title {
+        font-size: var(--text-2xl);
+        font-weight: 700;
+    }
+
+    .server-settings-modal-sub-title {
+        font-size: var(--text-sm);
+        font-weight: 500;
+        color: var(--gray-400);
+    }
+
+    .server-settings-modal-image-container {
+        position: relative;
+
+        .image-cross-icon {
+            cursor: pointer;
+            position: absolute;
+            right: 2px;
+            top: 2px;
+            padding: 0.125rem;
+            border-radius: 50%;
+            background-color: var(--danger-primary);
+            color: var(--gray-100);
+        }
+    }
+}

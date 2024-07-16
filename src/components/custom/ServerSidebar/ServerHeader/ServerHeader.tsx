@@ -17,6 +17,7 @@ import classNames from "classnames";
 import LogoutIcon from "@/components/ui/Icons/LogoutIcon";
 import InvitePeopleModal from "./InvitePeopleModal/InvitePeopleModal";
 import ServerSettingsModal from "./ServerSettingsModal/ServerSettingsModal";
+import ManageMembersModal from "./ManageMembersModal/ManageMembersModal";
 
 type ServerHeaderPropsType = {
   currentServer: FULL_SERVER_TYPE;
@@ -171,6 +172,12 @@ const ServerHeader = ({
         isOpen={currentModal === CURRENT_MODAL_CATEGORIES.SERVER_SETTINGS}
         onClose={handleModalChange}
         currentServer={currentServer}
+      />
+
+      <ManageMembersModal
+        isOpen={currentModal === CURRENT_MODAL_CATEGORIES.MANAGE_MEMBERS}
+        onClose={handleModalChange}
+        members={currentServer?.members}
       />
     </>
   );
