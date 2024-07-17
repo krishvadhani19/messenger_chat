@@ -32,7 +32,7 @@ const Tooltip = ({
       enterDelay={enterDelay}
       arrow
     >
-      {children}
+      <span>{children}</span>
     </MUITooltip>
   );
 };

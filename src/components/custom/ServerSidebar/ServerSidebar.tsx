@@ -1,4 +1,4 @@
-import { Chanel, Member, Profile, Server } from "@prisma/client";
+import { Profile } from "@prisma/client";
 import { memo, useMemo } from "react";
 import "./ServerSidebar.scss";
 import { FULL_SERVER_TYPE } from "@/types/types";
@@ -31,25 +31,26 @@ const ServerSidebar = ({
     );
   }, [currentServer]);
 
-  let isAdmin, isModerator;
-
   const serverMembers = useMemo(() => {
     return currentServer?.members.filter(
       (memberItem) => memberItem.id !== userProfile.id
     );
   }, [currentServer, userProfile]);
 
-  const role = useMemo(
+  const currentUserMember = useMemo(
     () =>
       currentServer?.members.find(
         (memberItem) => memberItem?.profileId === userProfile?.id
       ),
     [currentServer?.members, userProfile?.id]
-  )?.role;
+  );
 
   return (
     <div className="server-sidebar-container">
-      <ServerHeader currentServer={currentServer} currentUserRole={role!} />
+      <ServerHeader
+        currentServer={currentServer}
+        currentUserMember={currentUserMember!}
+      />
     </div>
   );
 };

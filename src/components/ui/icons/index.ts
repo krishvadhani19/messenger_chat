@@ -19,6 +19,7 @@ import CopyIcon from "./CopyIcon";
 import RefreshIcon from "./RefreshIcon";
 import CircleCheckIcon from "./CircleCheckIcon";
 import EllipsisVerticalIcon from "./EllipsisVerticalIcon";
+import ShieldAlertIcon from "./ShieldAlertIcon";
 
 export interface IconPropsType {
   color?: string;
@@ -49,4 +50,5 @@ export {
   RefreshIcon,
   CircleCheckIcon,
   EllipsisVerticalIcon,
+  ShieldAlertIcon,
 };

@@ -1,8 +1,8 @@
 "use client";
 
-import { FULL_SERVER_TYPE } from "@/types/types";
+import { FULL_SERVER_TYPE, MEMBER_WITH_PROFILE } from "@/types/types";
 import "./ServerHeader.scss";
-import { memo, useCallback, useRef, useState } from "react";
+import { createContext, memo, useCallback, useRef, useState } from "react";
 import {
   AddUserIcon,
   ChevronDownIcon,
@@ -12,16 +12,17 @@ import {
 } from "@/components/ui/Icons";
 import Popover from "@/components/ui/Popover/Popover";
 import MultipleUsersIcon from "@/components/ui/Icons/MultipleUsersIcon";
-import { MemberRole } from "@prisma/client";
+import { MemberRole, Profile } from "@prisma/client";
 import classNames from "classnames";
 import LogoutIcon from "@/components/ui/Icons/LogoutIcon";
 import InvitePeopleModal from "./InvitePeopleModal/InvitePeopleModal";
 import ServerSettingsModal from "./ServerSettingsModal/ServerSettingsModal";
 import ManageMembersModal from "./ManageMembersModal/ManageMembersModal";
+import { CurrentUserMemberContext } from "@/contexts/CurrentUserMemberContext";
 
 type ServerHeaderPropsType = {
   currentServer: FULL_SERVER_TYPE;
-  currentUserRole: MemberRole;
+  currentUserMember: MEMBER_WITH_PROFILE;
 };
 
 const CURRENT_MODAL_CATEGORIES = {
@@ -38,15 +39,17 @@ type CURRENT_MODAL_TYPES =
 
 const ServerHeader = ({
   currentServer,
-  currentUserRole,
+  currentUserMember,
 }: ServerHeaderPropsType) => {
   const serverHeaderRef = useRef<HTMLDivElement>(null);
   const [currentModal, setCurrentModal] = useState<CURRENT_MODAL_TYPES | null>(
     null
   );
 
-  const isAdmin = currentUserRole === MemberRole.ADMIN;
-  const isModerator = isAdmin || currentUserRole === MemberRole.MODERATOR;
+  const { role: currentMemberRole } = currentUserMember;
+
+  const isAdmin = currentMemberRole === MemberRole.ADMIN;
+  const isModerator = isAdmin || currentMemberRole === MemberRole.MODERATOR;
 
   const handleModalChange = useCallback(
     (category: CURRENT_MODAL_TYPES | null) => {
@@ -153,7 +156,7 @@ const ServerHeader = ({
   );
 
   return (
-    <>
+    <CurrentUserMemberContext.Provider value={currentUserMember}>
       <div className="server-header-container" ref={serverHeaderRef}>
         <div>{currentServer?.name}</div>
 
@@ -179,7 +182,7 @@ const ServerHeader = ({
         onClose={handleModalChange}
         members={currentServer?.members}
       />
-    </>
+    </CurrentUserMemberContext.Provider>
   );
 };
 

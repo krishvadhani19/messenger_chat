@@ -1,8 +1,7 @@
 "use client";
 
-import Button from "@/components/ui/Button/Button";
 import "./UserDetail.scss";
-import { memo, useCallback } from "react";
+import { memo, useCallback, useEffect } from "react";
 import { logout } from "@/server/actions/logout";
 import Avatar from "@/components/ui/Avatar/Avatar";
 import { Profile } from "@prisma/client";
