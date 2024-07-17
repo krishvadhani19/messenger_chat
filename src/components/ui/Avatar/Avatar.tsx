@@ -11,7 +11,7 @@ type AvatarPropsType = {
 const Avatar = ({ imageUrl, imageName, onClick }: AvatarPropsType) => {
   return (
     <div className="avatar-container" onClick={onClick}>
-      <Image src={imageUrl} alt={imageName || "image"} width={16} height={16} />
+      <Image src={imageUrl} alt={imageName || "image"} width={40} height={40} />
     </div>
   );
 };

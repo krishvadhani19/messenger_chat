@@ -3,12 +3,12 @@
 import Modal from "@/components/ui/Modal/Modal";
 import "./ManageMembersModal.scss";
 import { memo, useCallback } from "react";
-import { Member } from "@prisma/client";
 import MemberItem from "./MemberItem/MemberItem";
+import { MEMBER_WITH_PROFILE } from "@/types/types";
 
 type ManageMembersModalPropsType = {
   isOpen: boolean;
-  members: Member[];
+  members: MEMBER_WITH_PROFILE[];
   onClose: (val: null) => void;
 };
 

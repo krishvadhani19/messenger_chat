@@ -81,7 +81,7 @@ const ServerHeader = ({
                 handleClose();
               }}
             >
-              <div className="">Server Setting</div>
+              <div className="">Server Settings</div>
 
               <SettingsIcon size={18} />
             </div>

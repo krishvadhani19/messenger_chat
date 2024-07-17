@@ -5,6 +5,7 @@
     flex-direction: column;
     width: 30rem;
     gap: 2rem;
+    padding: 2rem;
 
     .manage-members-modal-header {
         display: flex;
@@ -26,6 +27,7 @@
     }
 
     .manage-members-modal-member-list {
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;

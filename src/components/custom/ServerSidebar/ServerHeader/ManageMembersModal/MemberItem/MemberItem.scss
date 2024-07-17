@@ -1,0 +1,36 @@
+.member-item-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--gray-200);
+    }
+
+    .member-item-user-details {
+        flex-direction: column;
+        display: flex;
+        justify-content: center;
+
+        .member-item-user-name {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--gray-700);
+        }
+
+        .member-item-user-email {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--gray-400);
+        }
+    }
+
+    .member-item-see-more {
+        cursor: pointer;
+    }
+}

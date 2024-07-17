@@ -18,6 +18,7 @@ import TrashIcon from "./TrashIcon";
 import CopyIcon from "./CopyIcon";
 import RefreshIcon from "./RefreshIcon";
 import CircleCheckIcon from "./CircleCheckIcon";
+import EllipsisVerticalIcon from "./EllipsisVerticalIcon";
 
 export interface IconPropsType {
   color?: string;
@@ -47,4 +48,5 @@ export {
   CopyIcon,
   RefreshIcon,
   CircleCheckIcon,
+  EllipsisVerticalIcon,
 };
