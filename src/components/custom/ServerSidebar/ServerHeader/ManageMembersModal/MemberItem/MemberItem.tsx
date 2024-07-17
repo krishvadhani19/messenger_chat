@@ -24,24 +24,22 @@ const MemberItem = ({ memberItem }: MemberItemPropsType) => {
   const currentUserMember = useContext(CurrentUserMemberContext);
   const seeMoreRef = useRef<HTMLDivElement>(null);
 
-  const currentUserProfile = currentUserMember;
-  const isCurrentUser =
-    currentUserProfile?.profile?.id === memberItem?.profile?.id;
-  const isCurrentUserModerator =
-    currentUserMember?.role === MemberRole.MODERATOR;
+  const currentUserProfile = currentUserMember?.profile;
+  const isCurrentUser = currentUserProfile?.id === memberItem?.profile?.id;
+  const isMemberModerator = memberItem?.role === MemberRole.MODERATOR;
 
   const getMemberDetails = useCallback(
     (handleClose: any) => {
       return (
         <div className="member-item-details-popover">
           <div className="member-item-details-popover-option-item">
-            {!isCurrentUserModerator && <>Make</>} Guest
-            {isCurrentUserModerator && <TickIcon size={16} color="#22c55e" />}
+            {isMemberModerator && <>Make</>} Guest
+            {!isMemberModerator && <TickIcon size={16} color="#22c55e" />}
           </div>
 
           <div className="member-item-details-popover-option-item">
-            {isCurrentUserModerator && <>Make</>} Moderator
-            {!isCurrentUserModerator && <TickIcon size={16} color="#22c55e" />}
+            {!isMemberModerator && <>Make</>} Moderator
+            {isMemberModerator && <TickIcon size={16} color="#22c55e" />}
           </div>
 
           <div
@@ -56,7 +54,7 @@ const MemberItem = ({ memberItem }: MemberItemPropsType) => {
         </div>
       );
     },
-    [isCurrentUserModerator]
+    [isMemberModerator]
   );
 
   return (
