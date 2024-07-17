@@ -12,20 +12,23 @@ const NavigationSidebar = async () => {
   const profile = await getCurrentUserProfile(currentUserId!);
 
   if (!profile) {
-    return await logout();
+    await logout();
+    return;
   }
 
   const servers = await getAllServers(currentUserId!);
 
   return (
     <div className="navigation-sidebar-container">
-      <AddServerButton />
+      <div className="navigation-sidebar-servers">
+        <AddServerButton />
 
-      <div className="navigation-sidebar-separator" />
+        <div className="navigation-sidebar-separator" />
 
-      <ServerContainer servers={servers} />
+        <ServerContainer servers={servers} />
+      </div>
 
-      {profile && <UserDetail />}
+      <UserDetail profile={profile} />
     </div>
   );
 };

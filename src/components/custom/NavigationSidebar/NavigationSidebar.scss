@@ -3,18 +3,24 @@
     background-color: bisque;
     height: 100%;
     padding: 1rem;
-
     display: flex;
     align-items: center;
-    justify-content: start;
+    justify-content: space-between;
     flex-direction: column;
     background-color: var(--neutral-900);
-    gap: 1rem;
 
-    .navigation-sidebar-separator {
-        width: 100%;
-        height: 2px;
-        background-color: var(--gray-700);
-        border-radius: 0.5rem;
+    .navigation-sidebar-servers {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+
+        .navigation-sidebar-separator {
+            width: 100%;
+            height: 2px;
+            background-color: var(--gray-700);
+            border-radius: 0.5rem;
+        }
     }
 }
