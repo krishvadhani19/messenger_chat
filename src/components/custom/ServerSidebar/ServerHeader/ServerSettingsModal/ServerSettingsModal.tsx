@@ -1,6 +1,13 @@
 "use client";
 
-import { FormEvent, memo, useCallback, useMemo, useState } from "react";
+import {
+  FormEvent,
+  memo,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 import "./ServerSettingsModal.scss";
 import Modal from "@/components/ui/Modal/Modal";
 import CustomImage from "@/components/ui/CustomImage/CustomImage";
@@ -15,11 +22,11 @@ import { CreateServerModalSchema } from "@/server/schemas/CreateServerModalSchem
 import { z } from "zod";
 import toast from "react-hot-toast";
 import { FULL_SERVER_TYPE } from "@/types/types";
+import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
 
 type ServerSettingsModalPropsType = {
   isOpen: boolean;
   onClose: (category: null) => void;
-  currentServer: FULL_SERVER_TYPE;
 };
 
 type ServerSettingsModalSchemaType = z.infer<typeof CreateServerModalSchema>;
@@ -27,9 +34,10 @@ type ServerSettingsModalSchemaType = z.infer<typeof CreateServerModalSchema>;
 const ServerSettingsModal = ({
   isOpen,
   onClose,
-  currentServer,
 }: ServerSettingsModalPropsType) => {
   const router = useRouter();
+
+  const { currentServer } = useContext(ServerSidebarContext);
 
   const initialFormData: ServerSettingsModalSchemaType = useMemo(
     () => ({

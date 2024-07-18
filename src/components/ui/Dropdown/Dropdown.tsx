@@ -2,7 +2,7 @@ import { memo, useCallback, useRef } from "react";
 import Popover from "../Popover/Popover";
 import "./Dropdown.scss";
 import classNames from "classnames";
-import { CaretSortIcon } from "../Icons";
+import { CaretSortIcon, TickIcon } from "../Icons";
 
 export type dropdownItemType = {
   id: string;
@@ -27,10 +27,11 @@ const Dropdown = ({
       return (
         <div className="popover-container">
           {allItems.map((item, index) => {
+            const isSelected = item?.id === selectedItem?.id;
             return (
               <div
                 className={classNames("popover-item", {
-                  isSelected: item?.id === selectedItem?.id,
+                  isSelected,
                 })}
                 key={index}
                 onClick={() => {
@@ -39,6 +40,8 @@ const Dropdown = ({
                 }}
               >
                 {item?.label}
+
+                {isSelected && <TickIcon size={18} color="#22c55e" />}
               </div>
             );
           })}
@@ -57,7 +60,12 @@ const Dropdown = ({
 
         <CaretSortIcon size={20} />
       </div>
-      <Popover anchorRef={selectedItemRef}>{getDropdownContent}</Popover>
+      <Popover
+        anchorRef={selectedItemRef}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      >
+        {getDropdownContent}
+      </Popover>
     </>
   );
 };
