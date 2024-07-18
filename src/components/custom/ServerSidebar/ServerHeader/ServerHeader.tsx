@@ -2,7 +2,7 @@
 
 import { FULL_SERVER_TYPE, MEMBER_WITH_PROFILE } from "@/types/types";
 import "./ServerHeader.scss";
-import { memo, useCallback, useRef, useState } from "react";
+import { memo, useCallback, useContext, useRef, useState } from "react";
 import {
   AddUserIcon,
   ChevronDownIcon,
@@ -18,12 +18,7 @@ import LogoutIcon from "@/components/ui/Icons/LogoutIcon";
 import InvitePeopleModal from "./InvitePeopleModal/InvitePeopleModal";
 import ServerSettingsModal from "./ServerSettingsModal/ServerSettingsModal";
 import ManageMembersModal from "./ManageMembersModal/ManageMembersModal";
-import { CurrentUserMemberContext } from "@/contexts/currentUserMemberContext";
-
-type ServerHeaderPropsType = {
-  currentServer: FULL_SERVER_TYPE;
-  currentUserMember: MEMBER_WITH_PROFILE;
-};
+import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
 
 const CURRENT_MODAL_CATEGORIES = {
   INVITE_PEOPLE: "INVITE_PEOPLE",
@@ -37,14 +32,12 @@ const CURRENT_MODAL_CATEGORIES = {
 type CURRENT_MODAL_TYPES =
   (typeof CURRENT_MODAL_CATEGORIES)[keyof typeof CURRENT_MODAL_CATEGORIES];
 
-const ServerHeader = ({
-  currentServer,
-  currentUserMember,
-}: ServerHeaderPropsType) => {
+const ServerHeader = () => {
   const serverHeaderRef = useRef<HTMLDivElement>(null);
   const [currentModal, setCurrentModal] = useState<CURRENT_MODAL_TYPES | null>(
     null
   );
+  const { currentUserMember, currentServer } = useContext(ServerSidebarContext);
 
   const { role: currentMemberRole } = currentUserMember;
 
@@ -156,7 +149,7 @@ const ServerHeader = ({
   );
 
   return (
-    <CurrentUserMemberContext.Provider value={currentUserMember}>
+    <>
       <div className="server-header-container" ref={serverHeaderRef}>
         <div>{currentServer?.name}</div>
 
@@ -180,9 +173,8 @@ const ServerHeader = ({
       <ManageMembersModal
         isOpen={currentModal === CURRENT_MODAL_CATEGORIES.MANAGE_MEMBERS}
         onClose={handleModalChange}
-        members={currentServer?.members}
       />
-    </CurrentUserMemberContext.Provider>
+    </>
   );
 };
 

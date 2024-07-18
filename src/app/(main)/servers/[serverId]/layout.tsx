@@ -4,6 +4,7 @@ import { getCurrentUserId } from "@/server/actions/getCurrentUserId";
 import { redirect } from "next/navigation";
 import { getServer } from "@/server/controllers/server";
 import ServerSidebar from "@/components/custom/ServerSidebar/ServerSidebar";
+import { logout } from "@/server/actions/logout";
 
 type ServerIdLayoutPropsType = {
   children: React.ReactNode;
@@ -18,7 +19,7 @@ const ServerIdLayout = async ({
   const profile = await getCurrentUserProfile(currentUserId!);
 
   if (!profile) {
-    return redirect("/auth/login");
+    return await logout();
   }
 
   const server = await getServer(params?.serverId, profile?.id);

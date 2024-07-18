@@ -29,15 +29,12 @@ const InvitePeopleModal = ({
   );
 
   const generateNewInviteCode = useMutation({
-    mutationFn: useCallback(
-      async () =>
-        await APIRequest({
-          method: "PATCH",
-          url: `/api/servers/invite-code/${serverId}`,
-          data: { serverId },
-        }),
-      [serverId]
-    ),
+    mutationFn: async () =>
+      await APIRequest({
+        method: "PATCH",
+        url: `/api/servers/invite-code/${serverId}`,
+        data: { serverId },
+      }),
     onSuccess: (newData: Server) => {
       setInviteLink(`${window.location.origin}/invite/${newData?.inviteCode}`);
     },

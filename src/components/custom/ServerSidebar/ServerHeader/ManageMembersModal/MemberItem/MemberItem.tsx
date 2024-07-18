@@ -1,24 +1,18 @@
 "use client";
 
-import React, { memo, useCallback, useContext, useMemo, useRef } from "react";
+import React, { memo, useCallback, useContext, useRef } from "react";
 import "./MemberItem.scss";
 import Avatar from "@/components/ui/Avatar/Avatar";
 import { MEMBER_WITH_PROFILE } from "@/types/types";
 import {
   EllipsisVerticalIcon,
-  LoaderIcon,
   ShieldAlertIcon,
-  TickIcon,
   TrashIcon,
 } from "@/components/ui/Icons";
 import Popover from "@/components/ui/Popover/Popover";
-import { CurrentUserMemberContext } from "@/contexts/currentUserMemberContext";
 import classNames from "classnames";
 import { MemberRole } from "@prisma/client";
-import { useMutation } from "@tanstack/react-query";
-import { APIRequest } from "@/utils/auth-util";
-import toast from "react-hot-toast";
-import { ManageMemberContext } from "@/contexts/manageMemberContext";
+import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
 
 type MemberItemPropsType = {
   memberItem: MEMBER_WITH_PROFILE;
@@ -26,7 +20,7 @@ type MemberItemPropsType = {
 
 const MemberItem = ({ memberItem }: MemberItemPropsType) => {
   const { profile } = memberItem;
-  const currentUserMember = useContext(CurrentUserMemberContext);
+  const { currentUserMember } = useContext(ServerSidebarContext);
   const seeMoreRef = useRef<HTMLDivElement>(null);
 
   const currentUserProfile = currentUserMember?.profile;
@@ -34,7 +28,7 @@ const MemberItem = ({ memberItem }: MemberItemPropsType) => {
   const isMemberModerator = memberItem?.role === MemberRole.MODERATOR;
 
   const { updateMemberRole, removeMemberFromServer } =
-    useContext(ManageMemberContext)!;
+    useContext(ServerSidebarContext);
 
   const getMemberDetails = useCallback(
     (handleClose: any) => {
@@ -47,8 +41,6 @@ const MemberItem = ({ memberItem }: MemberItemPropsType) => {
         await removeMemberFromServer(memberItem?.id);
         handleClose();
       };
-
-      console.log("render");
 
       return (
         <div className="member-item-details-popover">
@@ -124,10 +116,6 @@ const MemberItem = ({ memberItem }: MemberItemPropsType) => {
           className="member-item-see-more"
         />
       )}
-
-      {/* {updateMemberRole.isPending && (
-        <LoaderIcon size={20} className="spinner" />
-      )} */}
 
       <Popover anchorRef={seeMoreRef}>{getMemberDetails}</Popover>
     </div>

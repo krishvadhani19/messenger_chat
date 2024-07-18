@@ -2,24 +2,26 @@
 
 import Modal from "@/components/ui/Modal/Modal";
 import "./ManageMembersModal.scss";
-import { memo, useCallback } from "react";
+import { memo, useCallback, useContext } from "react";
 import MemberItem from "./MemberItem/MemberItem";
-import { MEMBER_WITH_PROFILE } from "@/types/types";
+import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
 
 type ManageMembersModalPropsType = {
   isOpen: boolean;
-  members: MEMBER_WITH_PROFILE[];
   onClose: (val: null) => void;
 };
 
 const ManageMembersModal = ({
   isOpen,
-  members,
   onClose,
 }: ManageMembersModalPropsType) => {
   const handleClose = useCallback(() => {
     onClose(null);
   }, [onClose]);
+
+  const { currentServer } = useContext(ServerSidebarContext);
+
+  const members = currentServer?.members;
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
