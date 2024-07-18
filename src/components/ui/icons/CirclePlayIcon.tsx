@@ -20,7 +20,8 @@ const CirclePlayIcon = ({
         stroke-linejoin="round"
       >
         <circle cx="12" cy="12" r="10" />
-        <polygon points="10 8 16 12 10 16 10 8" />
+        <path d="M8 12h8" />
+        <path d="M12 8v8" />
       </svg>
     </span>
   );
