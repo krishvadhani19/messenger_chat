@@ -20,6 +20,12 @@
             font-size: 1.125rem;
             font-weight: 700;
             color: var(--gray-700);
+
+            .member-item-user-name-role {
+                font-size: 0.75rem;
+                color: var(--danger-primary);
+                font-weight: 600;
+            }
         }
 
         .member-item-user-email {

@@ -2,7 +2,7 @@
 
 import { FULL_SERVER_TYPE, MEMBER_WITH_PROFILE } from "@/types/types";
 import "./ServerHeader.scss";
-import { createContext, memo, useCallback, useRef, useState } from "react";
+import { memo, useCallback, useRef, useState } from "react";
 import {
   AddUserIcon,
   ChevronDownIcon,
@@ -12,13 +12,13 @@ import {
 } from "@/components/ui/Icons";
 import Popover from "@/components/ui/Popover/Popover";
 import MultipleUsersIcon from "@/components/ui/Icons/MultipleUsersIcon";
-import { MemberRole, Profile } from "@prisma/client";
+import { MemberRole } from "@prisma/client";
 import classNames from "classnames";
 import LogoutIcon from "@/components/ui/Icons/LogoutIcon";
 import InvitePeopleModal from "./InvitePeopleModal/InvitePeopleModal";
 import ServerSettingsModal from "./ServerSettingsModal/ServerSettingsModal";
 import ManageMembersModal from "./ManageMembersModal/ManageMembersModal";
-import { CurrentUserMemberContext } from "@/contexts/CurrentUserMemberContext";
+import { CurrentUserMemberContext } from "@/contexts/currentUserMemberContext";
 
 type ServerHeaderPropsType = {
   currentServer: FULL_SERVER_TYPE;

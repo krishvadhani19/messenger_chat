@@ -6,14 +6,19 @@ import Avatar from "@/components/ui/Avatar/Avatar";
 import { MEMBER_WITH_PROFILE } from "@/types/types";
 import {
   EllipsisVerticalIcon,
+  LoaderIcon,
   ShieldAlertIcon,
   TickIcon,
   TrashIcon,
 } from "@/components/ui/Icons";
 import Popover from "@/components/ui/Popover/Popover";
-import { CurrentUserMemberContext } from "@/contexts/CurrentUserMemberContext";
+import { CurrentUserMemberContext } from "@/contexts/currentUserMemberContext";
 import classNames from "classnames";
 import { MemberRole } from "@prisma/client";
+import { useMutation } from "@tanstack/react-query";
+import { APIRequest } from "@/utils/auth-util";
+import toast from "react-hot-toast";
+import { ManageMemberContext } from "@/contexts/manageMemberContext";
 
 type MemberItemPropsType = {
   memberItem: MEMBER_WITH_PROFILE;
@@ -28,24 +33,48 @@ const MemberItem = ({ memberItem }: MemberItemPropsType) => {
   const isCurrentUser = currentUserProfile?.id === memberItem?.profile?.id;
   const isMemberModerator = memberItem?.role === MemberRole.MODERATOR;
 
+  const { updateMemberRole, removeMemberFromServer } =
+    useContext(ManageMemberContext)!;
+
   const getMemberDetails = useCallback(
     (handleClose: any) => {
+      const handleRoleChange = async (newRole: MemberRole) => {
+        await updateMemberRole(memberItem?.id, newRole);
+        handleClose();
+      };
+
+      const handleRemoveMemberFromServer = async () => {
+        await removeMemberFromServer(memberItem?.id);
+        handleClose();
+      };
+
+      console.log("render");
+
       return (
         <div className="member-item-details-popover">
-          <div className="member-item-details-popover-option-item">
-            {isMemberModerator && <>Make</>} Guest
-            {!isMemberModerator && <TickIcon size={16} color="#22c55e" />}
-          </div>
+          {isMemberModerator && (
+            <div
+              className="member-item-details-popover-option-item"
+              onClick={() => handleRoleChange(MemberRole.GUEST)}
+            >
+              Make Guest
+            </div>
+          )}
 
-          <div className="member-item-details-popover-option-item">
-            {!isMemberModerator && <>Make</>} Moderator
-            {isMemberModerator && <TickIcon size={16} color="#22c55e" />}
-          </div>
+          {!isMemberModerator && (
+            <div
+              className="member-item-details-popover-option-item"
+              onClick={() => handleRoleChange(MemberRole.MODERATOR)}
+            >
+              Make Moderator
+            </div>
+          )}
 
           <div
             className={classNames("member-item-details-popover-option-item", {
               isRed: true,
             })}
+            onClick={handleRemoveMemberFromServer}
           >
             <span>Remove from Server</span>
 
@@ -54,7 +83,12 @@ const MemberItem = ({ memberItem }: MemberItemPropsType) => {
         </div>
       );
     },
-    [isMemberModerator]
+    [
+      isMemberModerator,
+      memberItem?.id,
+      removeMemberFromServer,
+      updateMemberRole,
+    ]
   );
 
   return (
@@ -68,6 +102,12 @@ const MemberItem = ({ memberItem }: MemberItemPropsType) => {
         <div className="member-item-user-details">
           <div className="member-item-user-name">
             {profile?.name}
+
+            {!isCurrentUser && (
+              <span className="member-item-user-name-role">
+                {isMemberModerator ? "Moderator" : "Guest"}
+              </span>
+            )}
 
             {isCurrentUser && <ShieldAlertIcon size={16} color="#f43f5e" />}
           </div>
@@ -84,6 +124,10 @@ const MemberItem = ({ memberItem }: MemberItemPropsType) => {
           className="member-item-see-more"
         />
       )}
+
+      {/* {updateMemberRole.isPending && (
+        <LoaderIcon size={20} className="spinner" />
+      )} */}
 
       <Popover anchorRef={seeMoreRef}>{getMemberDetails}</Popover>
     </div>
