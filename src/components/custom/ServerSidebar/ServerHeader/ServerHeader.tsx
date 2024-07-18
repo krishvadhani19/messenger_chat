@@ -1,6 +1,5 @@
 "use client";
 
-import { FULL_SERVER_TYPE, MEMBER_WITH_PROFILE } from "@/types/types";
 import "./ServerHeader.scss";
 import { memo, useCallback, useContext, useRef, useState } from "react";
 import {
@@ -9,16 +8,17 @@ import {
   CirclePlayIcon,
   SettingsIcon,
   TrashIcon,
+  LogoutIcon,
 } from "@/components/ui/Icons";
 import Popover from "@/components/ui/Popover/Popover";
 import MultipleUsersIcon from "@/components/ui/Icons/MultipleUsersIcon";
 import { MemberRole } from "@prisma/client";
 import classNames from "classnames";
-import LogoutIcon from "@/components/ui/Icons/LogoutIcon";
 import InvitePeopleModal from "./InvitePeopleModal/InvitePeopleModal";
 import ServerSettingsModal from "./ServerSettingsModal/ServerSettingsModal";
 import ManageMembersModal from "./ManageMembersModal/ManageMembersModal";
 import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
+import CreateChanelModal from "./CreateChanelModal/CreateChanelModal";
 
 const CURRENT_MODAL_CATEGORIES = {
   INVITE_PEOPLE: "INVITE_PEOPLE",
@@ -52,7 +52,7 @@ const ServerHeader = () => {
   );
 
   const getServerHeaderPopover = useCallback(
-    (handleClose: any) => {
+    (handleClose: () => void) => {
       return (
         <div className="server-header-popover">
           {isModerator && (
@@ -167,11 +167,15 @@ const ServerHeader = () => {
       <ServerSettingsModal
         isOpen={currentModal === CURRENT_MODAL_CATEGORIES.SERVER_SETTINGS}
         onClose={handleModalChange}
-        currentServer={currentServer}
       />
 
       <ManageMembersModal
         isOpen={currentModal === CURRENT_MODAL_CATEGORIES.MANAGE_MEMBERS}
+        onClose={handleModalChange}
+      />
+
+      <CreateChanelModal
+        isOpen={currentModal === CURRENT_MODAL_CATEGORIES.CREATE_CHANEL}
         onClose={handleModalChange}
       />
     </>

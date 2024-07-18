@@ -31,7 +31,7 @@ const MemberItem = ({ memberItem }: MemberItemPropsType) => {
     useContext(ServerSidebarContext);
 
   const getMemberDetails = useCallback(
-    (handleClose: any) => {
+    (handleClose: () => void) => {
       const handleRoleChange = async (newRole: MemberRole) => {
         await updateMemberRole(memberItem?.id, newRole);
         handleClose();
