@@ -1,8 +1,12 @@
+import { db } from "@/lib/db";
 import { getCurrentUserId } from "@/server/actions/getCurrentUserId";
 import { getCurrentUserProfile } from "@/server/controllers/user";
 import { NextResponse } from "next/server";
 
-export async function GET(req: Request) {
+export const DELETE = async (
+  req: Request,
+  { params }: { params: { memberId: string } }
+) => {
   try {
     /**
      * Getting current user if from session
@@ -24,7 +28,21 @@ export async function GET(req: Request) {
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
+
+    const { memberId } = params;
+
+    if (!memberId) {
+      return new NextResponse("Member ID missing", { status: 400 });
+    }
+
+    const deletedMember = await db.member.delete({
+      where: {
+        id: memberId,
+      },
+    });
+
+    return NextResponse.json(deletedMember);
   } catch (error) {
     return new NextResponse("Internal Error", { status: 500 });
   }
-}
+};

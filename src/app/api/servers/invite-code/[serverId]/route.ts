@@ -36,7 +36,7 @@ export async function PATCH(
     const { serverId } = params;
 
     if (!serverId) {
-      return new NextResponse("Server ID missing", { status: 401 });
+      return new NextResponse("Server ID missing", { status: 400 });
     }
 
     const updatedServer = await db.server.update({
