@@ -4,7 +4,7 @@ import { PlusIcon } from "@/components/ui/Icons";
 import { memo, useCallback, useState } from "react";
 import "./AddServerButton.scss";
 import Tooltip from "@/components/ui/Tooltip/Tooltip";
-import CreateServerModal from "../../CreateServerModal/CreateServerModal";
+import CreateServerModal from "./CreateServerModal/CreateServerModal";
 
 const AddServerButton = () => {
   const [isServerModalOpen, setIsServerModalOpen] = useState<boolean>(false);

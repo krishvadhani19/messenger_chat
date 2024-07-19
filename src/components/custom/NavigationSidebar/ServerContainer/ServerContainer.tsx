@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import "./ServerContainer.scss";
 import { Server } from "@prisma/client";
-import ServerItem from "../ServerItem/ServerItem";
+import ServerItem from "./ServerItem/ServerItem";
 
 type ServerContainerPropsType = {
   servers: Server[] | null;
