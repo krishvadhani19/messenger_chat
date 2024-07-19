@@ -100,7 +100,6 @@ export const getServerUsingInviteCode = async (
 
     return server;
   } catch (error) {
-    console.log(error);
     return null;
   }
 };
@@ -125,7 +124,16 @@ export const addNewMemberToServer = async (
       },
     });
 
-    return server;
+    const updatedServer = await db.server.update({
+      where: {
+        id: server?.id,
+      },
+      data: {
+        inviteCode: crypto.randomUUID(),
+      },
+    });
+
+    return updatedServer;
   } catch (error) {
     return null;
   }

@@ -35,15 +35,6 @@ export const DELETE = async (
       return new NextResponse("Required ID missing", { status: 400 });
     }
 
-    await db.server.update({
-      where: {
-        id: serverId,
-      },
-      data: {
-        inviteCode: crypto.randomUUID(),
-      },
-    });
-
     const deletedMember = await db.member.delete({
       where: {
         id: memberId,
