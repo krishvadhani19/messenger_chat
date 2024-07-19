@@ -138,7 +138,9 @@ const CreateServerModal = ({
           handleClose();
         }
       } catch (error) {
-        toast.error("");
+        toast.error(
+          "Something went wrong while creating server. Please try again!"
+        );
       }
     },
     [validateForm, startUpload, formData?.image?.file, router, handleClose]

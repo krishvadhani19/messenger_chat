@@ -2,7 +2,7 @@
 
 import Modal from "@/components/ui/Modal/Modal";
 import "./CreateChanelModal.scss";
-import { memo, useCallback, useState } from "react";
+import { FormEvent, memo, useCallback, useState } from "react";
 import InputField from "@/components/ui/Input/InputField";
 import { z } from "zod";
 import {
@@ -11,6 +11,10 @@ import {
 } from "@/server/schemas/Modals/CreateChanelModalSchema";
 import { ChanelType } from "@prisma/client";
 import Dropdown from "@/components/ui/Dropdown/Dropdown";
+import Button from "@/components/ui/Button/Button";
+import toast from "react-hot-toast";
+import { APIRequest } from "@/utils/auth-util";
+import { useParams, useRouter } from "next/navigation";
 
 type CreateChanelPropsType = {
   isOpen: boolean;
@@ -47,33 +51,115 @@ const initialFormData: CreateChanelModalSchemaType = {
 const CreateChanelModal = ({ isOpen, onClose }: CreateChanelPropsType) => {
   const [formData, setFormData] =
     useState<CreateChanelModalSchemaType>(initialFormData);
+  const [formErrors, setFormErrors] =
+    useState<Partial<CreateChanelModalSchemaType>>();
+
+  const { serverId } = useParams();
+  const router = useRouter();
+
+  const validateForm = useCallback(() => {
+    try {
+      CreateChanelModalSchema.parse(formData);
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const errors: Partial<CreateChanelModalSchemaType> = {};
+
+        // Adding all the errors to formError state
+        error.errors.forEach((err) => {
+          const path = err.path.join(".");
+
+          if (path === "chanelName") {
+            errors[path] = err.message;
+          } else {
+            toast.error(err.message);
+          }
+        });
+
+        setFormErrors(errors);
+      }
+
+      return false;
+    }
+  }, [formData]);
+
+  const resetFormData = useCallback(() => {
+    setFormData(initialFormData);
+    setFormErrors(undefined);
+  }, []);
 
   const handleClose = useCallback(() => {
-    onClose(null);
-  }, [onClose]);
+    resetFormData();
 
-  const selectChanelType = useCallback((chanel: CHANEL_TYPE_MAP_TYPE) => {
-    setFormData((prev) => ({ ...prev, chanelType: chanel }));
-  }, []);
+    onClose(null);
+  }, [onClose, resetFormData]);
+
+  const handleFormDataChange = useCallback(
+    (
+      val: string | CHANEL_TYPE_MAP_TYPE,
+      field: keyof CreateChanelModalSchemaType
+    ) => {
+      setFormData((prev) => ({ ...prev, [field]: val }));
+    },
+    []
+  );
+
+  const handleSubmit = useCallback(
+    async (e: FormEvent) => {
+      try {
+        e.preventDefault();
+
+        if (validateForm()) {
+          await APIRequest({
+            method: "POST",
+            url: "/api/channels/create-channel",
+            data: {
+              serverId,
+              chanelName: formData?.chanelName,
+              chanelType: formData?.chanelType?.id,
+            },
+          });
+
+          router.refresh();
+
+          handleClose();
+        }
+      } catch (error) {
+        toast.error(
+          "Something went wrong while creating server. Please try again!"
+        );
+      }
+    },
+    [formData, handleClose, router, serverId, validateForm]
+  );
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
       <div className="create-chanel-container">
         <div className="create-chanel-header">Create Chanel</div>
 
-        <form className="create-chanel-form-container">
+        <form className="create-chanel-form-container" onSubmit={handleSubmit}>
           <InputField
             isRequired
             inputValue={formData?.chanelName}
+            type="text"
+            autoComplete="text"
             label="Chanel Name"
             placeholder="Enter chanel name"
+            errorMessage={formErrors?.chanelName}
+            onChange={(val: string) => handleFormDataChange(val, "chanelName")}
           />
 
           <Dropdown
+            label="Chanel Type"
             selectedItem={formData?.chanelType}
             allItems={CHANEL_TYPES}
-            handleItemClick={selectChanelType}
+            handleItemClick={(chanel) =>
+              handleFormDataChange(chanel, "chanelType")
+            }
           />
+
+          <Button text="Create" buttonType="submit" />
         </form>
       </div>
     </Modal>

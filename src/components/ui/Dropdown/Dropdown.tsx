@@ -10,12 +10,14 @@ export type dropdownItemType = {
 };
 
 type DropdownItemPropsType = {
+  label?: string;
   selectedItem: dropdownItemType;
   allItems: dropdownItemType[];
   handleItemClick: (item: any) => void;
 };
 
 const Dropdown = ({
+  label = "",
   selectedItem,
   allItems,
   handleItemClick,
@@ -54,12 +56,20 @@ const Dropdown = ({
   return (
     <>
       <div className="dropdown-container" ref={selectedItemRef}>
-        <div className="dropdown-container-selected-item">
-          {selectedItem?.label}
-        </div>
+        {label && (
+          <div className="dropdown-container-label">
+            {label}
+            <sup style={{ color: "#f43f5e" }}>*</sup>
+          </div>
+        )}
 
-        <CaretSortIcon size={20} />
+        <div className="dropdown-container-selected-item">
+          <div className="">{selectedItem?.label}</div>
+
+          <CaretSortIcon size={20} />
+        </div>
       </div>
+
       <Popover
         anchorRef={selectedItemRef}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
