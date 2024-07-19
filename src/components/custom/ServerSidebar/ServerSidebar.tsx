@@ -9,6 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { APIRequest } from "@/utils/auth-util";
 import toast from "react-hot-toast";
 import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
+import { useParams } from "next/navigation";
 
 type ServerSidebarPropsType = {
   currentServer: FULL_SERVER_TYPE;
@@ -25,6 +26,7 @@ const ServerSidebar = ({
   userProfile,
 }: ServerSidebarPropsType) => {
   const [server, setServer] = useState(currentServer);
+  const { serverId } = useParams();
 
   const currentUserMember = useMemo(
     () =>
@@ -69,7 +71,7 @@ const ServerSidebar = ({
     mutationFn: async (memberId: string) =>
       await APIRequest({
         method: "DELETE",
-        url: `/api/members/delete-member/${memberId}`,
+        url: `/api/members/delete-member/${serverId}/${memberId}`,
       }),
     onSuccess: (deletedMember: Member) => {
       const { id: memberId } = deletedMember;

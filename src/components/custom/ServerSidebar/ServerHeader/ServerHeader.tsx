@@ -14,12 +14,13 @@ import Popover from "@/components/ui/Popover/Popover";
 import MultipleUsersIcon from "@/components/ui/Icons/MultipleUsersIcon";
 import { MemberRole } from "@prisma/client";
 import classNames from "classnames";
+import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
 import InvitePeopleModal from "./InvitePeopleModal/InvitePeopleModal";
 import ServerSettingsModal from "./ServerSettingsModal/ServerSettingsModal";
 import ManageMembersModal from "./ManageMembersModal/ManageMembersModal";
-import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
 import CreateChanelModal from "./CreateChanelModal/CreateChanelModal";
 import DeleteServerModal from "./DeleteServerModal/DeleteServerModal";
+import LeaveServerModal from "./LeaveServerModal/LeaveServerModal";
 
 const CURRENT_MODAL_CATEGORIES = {
   INVITE_PEOPLE: "INVITE_PEOPLE",
@@ -182,6 +183,11 @@ const ServerHeader = () => {
 
       <DeleteServerModal
         isOpen={currentModal === CURRENT_MODAL_CATEGORIES.DELETE_SERVER}
+        onClose={handleModalChange}
+      />
+
+      <LeaveServerModal
+        isOpen={currentModal === CURRENT_MODAL_CATEGORIES.LEAVE_SERVER}
         onClose={handleModalChange}
       />
     </>

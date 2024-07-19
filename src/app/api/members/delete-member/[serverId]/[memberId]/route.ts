@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 export const DELETE = async (
   req: Request,
-  { params }: { params: { memberId: string } }
+  { params }: { params: { memberId: string; serverId: string } }
 ) => {
   try {
     /**
@@ -29,11 +29,20 @@ export const DELETE = async (
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { memberId } = params;
+    const { memberId, serverId } = params;
 
-    if (!memberId) {
-      return new NextResponse("Member ID missing", { status: 400 });
+    if (!memberId || !serverId) {
+      return new NextResponse("Required ID missing", { status: 400 });
     }
+
+    await db.server.update({
+      where: {
+        id: serverId,
+      },
+      data: {
+        inviteCode: crypto.randomUUID(),
+      },
+    });
 
     const deletedMember = await db.member.delete({
       where: {
