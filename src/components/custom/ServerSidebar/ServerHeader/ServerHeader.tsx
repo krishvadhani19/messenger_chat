@@ -19,6 +19,7 @@ import ServerSettingsModal from "./ServerSettingsModal/ServerSettingsModal";
 import ManageMembersModal from "./ManageMembersModal/ManageMembersModal";
 import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
 import CreateChanelModal from "./CreateChanelModal/CreateChanelModal";
+import DeleteServerModal from "./DeleteServerModal/DeleteServerModal";
 
 const CURRENT_MODAL_CATEGORIES = {
   INVITE_PEOPLE: "INVITE_PEOPLE",
@@ -176,6 +177,11 @@ const ServerHeader = () => {
 
       <CreateChanelModal
         isOpen={currentModal === CURRENT_MODAL_CATEGORIES.CREATE_CHANEL}
+        onClose={handleModalChange}
+      />
+
+      <DeleteServerModal
+        isOpen={currentModal === CURRENT_MODAL_CATEGORIES.DELETE_SERVER}
         onClose={handleModalChange}
       />
     </>

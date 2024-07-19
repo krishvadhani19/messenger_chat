@@ -1,0 +1,30 @@
+.delete-server-modal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 30rem;
+    padding: 1rem 2rem;
+    gap: 1rem;
+
+    .delete-server-modal-header {
+        font-size: 2rem;
+        color: black;
+        font-weight: 700;
+    }
+
+    .delete-server-modal-title {
+        color: var(--gray-500);
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .delete-server-modal-options {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 1rem;
+    }
+}

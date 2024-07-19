@@ -1,5 +1,3 @@
-"use client";
-
 import { memo, useCallback } from "react";
 import "./Button.scss";
 import classNames from "classnames";
