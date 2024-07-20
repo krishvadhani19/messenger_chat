@@ -1,11 +1,6 @@
 import { IconPropsType } from ".";
 
-const MicIcon = ({
-  color,
-  size = 22,
-  className,
-  onClick,
-}: IconPropsType) => {
+const MicIcon = ({ color, size = 22, className, onClick }: IconPropsType) => {
   return (
     <span className={`flex-center ${className}`} onClick={onClick}>
       <svg

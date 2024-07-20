@@ -4,13 +4,32 @@ import Modal from "@/components/ui/Modal/Modal";
 import { CommandIcon, SearchIcon } from "@/components/ui/Icons";
 import InputField from "@/components/ui/Input/InputField";
 
-const ServerSearch = () => {
+type SearchServerPropsType = {
+  data: {
+    label: string;
+    type: "channel" | "member";
+    data:
+      | undefined
+      | {
+          id: string;
+          name: string;
+          icon: JSX.Element;
+        }[];
+  }[];
+};
+
+const ServerSearch = ({ data }: SearchServerPropsType) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [searchInput, setSearchInput] = useState<string>("");
 
   const handleModalVisibility = useCallback(
     () => setIsOpen((prev) => !prev),
     []
   );
+
+  const handleSearchInputChange = useCallback((val: string) => {
+    setSearchInput(val);
+  }, []);
 
   return (
     <>
@@ -30,9 +49,41 @@ const ServerSearch = () => {
       <Modal isOpen={isOpen} onClose={handleModalVisibility} closeIcon={false}>
         <div className="search-server-modal-container">
           <InputField
-            inputValue=""
+            inputValue={searchInput}
             placeholder="Search all channels and members"
+            type="text"
+            autoComplete="text"
+            onChange={handleSearchInputChange}
           />
+
+          <div className="search-server-modal-results">
+            {data.map((category, key) => {
+              if (!category?.data?.length) {
+                return null;
+              }
+
+              return (
+                <div key={key} className="search-server-modal-results-category">
+                  <div className="search-server-modal-results-category-title">
+                    {category?.label}
+                  </div>
+
+                  <div className="search-server-modal-results-category-channels">
+                    {category?.data?.map((dataItem, key) => (
+                      <div
+                        key={key}
+                        className="search-server-modal-results-channel-item"
+                      >
+                        {dataItem?.icon}
+
+                        <span>{dataItem?.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </Modal>
     </>

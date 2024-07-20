@@ -13,15 +13,15 @@ import {
 } from "@/components/ui/Icons";
 
 const iconMap = {
-  [ChanelType.TEXT]: <HashIcon />,
-  [ChanelType.AUDIO]: <MicIcon />,
-  [ChanelType.VIDEO]: <VideoIcon />,
+  [ChanelType.TEXT]: <HashIcon size={16} />,
+  [ChanelType.AUDIO]: <MicIcon size={16} />,
+  [ChanelType.VIDEO]: <VideoIcon size={16} />,
 };
 
 const iconRoleMap = {
   [MemberRole.GUEST]: null,
-  [MemberRole.MODERATOR]: <ShieldCheckIcon />,
-  [MemberRole.ADMIN]: <ShieldAlertIcon />,
+  [MemberRole.MODERATOR]: <ShieldCheckIcon size={16} color="#f43f5e" />,
+  [MemberRole.ADMIN]: <ShieldAlertIcon color="#f43f5e" size={16} />,
 };
 
 const ServerSidebarMain = () => {
@@ -29,42 +29,72 @@ const ServerSidebarMain = () => {
 
   const textChannels = useMemo(() => {
     return currentServer?.channels.filter(
-      (chanelItem) => chanelItem.chanelType === "TEXT"
+      (chanelItem) => chanelItem.chanelType === ChanelType.TEXT
     );
   }, [currentServer]);
 
   const audioChannels = useMemo(() => {
     return currentServer?.channels.filter(
-      (chanelItem) => chanelItem.chanelType === "VIDEO"
+      (chanelItem) => chanelItem.chanelType === ChanelType.AUDIO
     );
   }, [currentServer]);
 
   const videoChannels = useMemo(() => {
     return currentServer?.channels.filter(
-      (chanelItem) => chanelItem.chanelType === "VIDEO"
+      (chanelItem) => chanelItem.chanelType === ChanelType.VIDEO
     );
   }, [currentServer]);
 
   const serverMembers = useMemo(() => {
     return currentServer?.members.filter(
-      (memberItem) => memberItem.id !== currentUserMember?.profile.id
+      (memberItem) => memberItem.id !== currentUserMember?.id
     );
   }, [currentServer?.members, currentUserMember]);
 
   return (
     <div className="server-sidebar-main">
       <ServerSearch
-      // data={[
-      //   {
-      //     label: "Text channels",
-      //     type: "channel",
-      //     data: textChannels.map((channelItem) => ({
-      //       id: channelItem.id,
-      //       name: channelItem.name,
-      //       icon: iconMap[channelItem.chanelType],
-      //     })),
-      //   },
-      // ]}
+        data={[
+          {
+            label: "Text channels",
+            type: "channel",
+            data: textChannels.map((channelItem) => ({
+              id: channelItem?.id,
+              name: channelItem?.name,
+              icon: iconMap[channelItem?.chanelType],
+            })),
+          },
+
+          {
+            label: "Voice channels",
+            type: "channel",
+            data: audioChannels.map((channelItem) => ({
+              id: channelItem?.id,
+              name: channelItem?.name,
+              icon: iconMap[channelItem?.chanelType],
+            })),
+          },
+
+          {
+            label: "Video channels",
+            type: "channel",
+            data: videoChannels.map((channelItem) => ({
+              id: channelItem?.id,
+              name: channelItem?.name,
+              icon: iconMap[channelItem?.chanelType],
+            })),
+          },
+
+          {
+            label: "Members",
+            type: "member",
+            data: serverMembers.map((memberItem) => ({
+              id: memberItem.id,
+              name: memberItem?.profile.name!,
+              icon: iconRoleMap[memberItem?.role]!,
+            })),
+          },
+        ]}
       />
 
       <ServerChannels />
