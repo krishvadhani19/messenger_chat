@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 export const DELETE = async (
   req: Request,
-  { params }: { params: { memberId: string; serverId: string } }
+  { params }: { params: { memberId: string } }
 ) => {
   try {
     /**
@@ -29,9 +29,9 @@ export const DELETE = async (
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { memberId, serverId } = params;
+    const { memberId } = params;
 
-    if (!memberId || !serverId) {
+    if (!memberId) {
       return new NextResponse("Required ID missing", { status: 400 });
     }
 

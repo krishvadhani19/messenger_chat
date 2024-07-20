@@ -14,7 +14,6 @@ type LeaveServerModalPropsType = {
 const LeaveServerModal = ({ isOpen, onClose }: LeaveServerModalPropsType) => {
   const router = useRouter();
   const { currentServer, currentUserMember } = useContext(ServerSidebarContext);
-  const { serverId } = useParams();
 
   const handleClose = useCallback(() => {
     onClose(null);
@@ -23,13 +22,13 @@ const LeaveServerModal = ({ isOpen, onClose }: LeaveServerModalPropsType) => {
   const handleConfirm = useCallback(async () => {
     await APIRequest({
       method: "DELETE",
-      url: `/api/members/delete-member/${serverId}/${currentUserMember?.id}`,
+      url: `/api/members/delete-member/${currentUserMember?.id}`,
     });
 
     router.refresh();
 
     handleClose();
-  }, [currentUserMember?.id, handleClose, router, serverId]);
+  }, [currentUserMember?.id, handleClose, router]);
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
