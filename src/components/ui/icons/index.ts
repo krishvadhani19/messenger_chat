@@ -22,6 +22,11 @@ import EllipsisVerticalIcon from "./EllipsisVerticalIcon";
 import ShieldAlertIcon from "./ShieldAlertIcon";
 import LogoutIcon from "./LogoutIcon";
 import CommandIcon from "./CommandIcon";
+import SearchIcon from "./SearchIcon";
+import HashIcon from "./HashIcon";
+import MicIcon from "./MicIcon";
+import VideoIcon from "./VideoIcon";
+import ShieldCheckIcon from "./ShieldCheckIcon";
 
 export interface IconPropsType {
   color?: string;
@@ -55,4 +60,9 @@ export {
   ShieldAlertIcon,
   LogoutIcon,
   CommandIcon,
+  SearchIcon,
+  HashIcon,
+  MicIcon,
+  VideoIcon,
+  ShieldCheckIcon,
 };

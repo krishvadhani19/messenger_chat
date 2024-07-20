@@ -11,9 +11,13 @@
     border: 0.5px solid var(--gray-600);
 
     .server-search-title {
+        display: flex;
+        align-items: center;
+        align-items: center;
         color: var(--gray-400);
         font-size: 0.875rem;
         font-weight: 500;
+        gap: 0.25rem;
     }
 
     .server-search-shortcut {
@@ -25,10 +29,18 @@
 
         .server-search-shortcut-item {
             padding: 0.125rem;
-            background-color: var(--neutral-700);
+            background-color: var(--neutral-600);
             border-radius: 0.125rem;
             width: 1rem;
             height: 1rem;
         }
     }
+}
+
+.search-server-modal-container {
+    min-height: 6rem;
+    color: var(--gray-100);
+    background-color: var(--neutral-900);
+    width: 30rem;
+    padding: 1rem;
 }

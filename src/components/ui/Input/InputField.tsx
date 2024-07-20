@@ -19,15 +19,15 @@ type InputPropsType = {
   label?: string;
   type?: "text" | "password" | "email" | "number";
   inputMode?:
-  | "text"
-  | "email"
-  | "numeric"
-  | "search"
-  | "tel"
-  | "url"
-  | "none"
-  | "decimal"
-  | undefined;
+    | "text"
+    | "email"
+    | "numeric"
+    | "search"
+    | "tel"
+    | "url"
+    | "none"
+    | "decimal"
+    | undefined;
   autoComplete?: string;
   disabled?: boolean;
   errorMessage?: string;
@@ -37,7 +37,7 @@ type InputPropsType = {
   onChange?: (value: string) => void;
   onBlur?: (value: string) => void;
   onEnterKeyPress?: (value: string) => void;
-}
+};
 
 const InputField = ({
   inputValue,
