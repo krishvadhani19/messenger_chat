@@ -1,8 +1,8 @@
 "use client";
 
+import "./ServerSidebar.scss";
 import { Member, MemberRole, Profile } from "@prisma/client";
 import { memo, useCallback, useMemo, useState } from "react";
-import "./ServerSidebar.scss";
 import { FULL_SERVER_TYPE } from "@/types/types";
 import ServerHeader from "./ServerHeader/ServerHeader";
 import { useMutation } from "@tanstack/react-query";
@@ -10,6 +10,7 @@ import { APIRequest } from "@/utils/auth-util";
 import toast from "react-hot-toast";
 import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
 import { useParams } from "next/navigation";
+import ServerSidebarMain from "./ServerSidebarMain/ServerSidebarMain";
 
 type ServerSidebarPropsType = {
   currentServer: FULL_SERVER_TYPE;
@@ -127,6 +128,8 @@ const ServerSidebar = ({
     >
       <div className="server-sidebar-container">
         <ServerHeader />
+
+        <ServerSidebarMain />
       </div>
     </ServerSidebarContext.Provider>
   );

@@ -21,6 +21,7 @@ import CircleCheckIcon from "./CircleCheckIcon";
 import EllipsisVerticalIcon from "./EllipsisVerticalIcon";
 import ShieldAlertIcon from "./ShieldAlertIcon";
 import LogoutIcon from "./LogoutIcon";
+import CommandIcon from "./CommandIcon";
 
 export interface IconPropsType {
   color?: string;
@@ -53,4 +54,5 @@ export {
   EllipsisVerticalIcon,
   ShieldAlertIcon,
   LogoutIcon,
+  CommandIcon,
 };
