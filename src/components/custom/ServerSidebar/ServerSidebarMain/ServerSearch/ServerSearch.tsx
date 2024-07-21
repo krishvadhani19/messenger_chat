@@ -3,6 +3,7 @@ import "./ServerSearch.scss";
 import Modal from "@/components/ui/Modal/Modal";
 import { CommandIcon, SearchIcon } from "@/components/ui/Icons";
 import InputField from "@/components/ui/Input/InputField";
+import { useParams, useRouter } from "next/navigation";
 
 type SearchServerPropsType = {
   data: {
@@ -23,6 +24,23 @@ const ServerSearch = ({ data }: SearchServerPropsType) => {
   const [searchInput, setSearchInput] = useState<string>("");
   const [filteredData, setFilteredData] =
     useState<SearchServerPropsType["data"]>(data);
+  const router = useRouter();
+  const { serverId } = useParams();
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === "k") {
+        event.preventDefault();
+        setIsOpen(true);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   const handleModalVisibility = useCallback(
     () => setIsOpen((prev) => !prev),
@@ -49,21 +67,18 @@ const ServerSearch = ({ data }: SearchServerPropsType) => {
     [data]
   );
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.key === "k") {
-        event.preventDefault();
-        setIsOpen(true);
+  const handleChannelClick = useCallback(
+    (id: string, type: "channel" | "member") => {
+      handleModalVisibility();
+
+      if (type === "member") {
+        router.push(`/server/${serverId}/conversations/${id}`);
+      } else if (type === "channel") {
+        router.push(`/server/${serverId}/channels/${id}`);
       }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      console.log("return");
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
+    },
+    [handleModalVisibility, router, serverId]
+  );
 
   return (
     <>
@@ -91,6 +106,10 @@ const ServerSearch = ({ data }: SearchServerPropsType) => {
           />
 
           <div className="search-server-modal-results">
+            {!filteredData.length && (
+              <div className="flex-center">No results found.</div>
+            )}
+
             {filteredData.map((category, key) => {
               if (!category?.data?.length) {
                 return null;
@@ -107,6 +126,9 @@ const ServerSearch = ({ data }: SearchServerPropsType) => {
                       <div
                         key={key}
                         className="search-server-modal-results-channel-item"
+                        onClick={() =>
+                          handleChannelClick(dataItem?.id, category.type)
+                        }
                       >
                         {dataItem?.icon}
 
