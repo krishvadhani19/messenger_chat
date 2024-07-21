@@ -29,15 +29,44 @@
             .server-channels-categoryItem-channelItem {
                 display: flex;
                 align-items: center;
-                gap: 0.25rem;
+                justify-content: space-between;
                 padding: 0.5rem;
                 color: var(--gray-400);
                 border-radius: 0.25rem;
                 font-size: 0.875rem;
                 cursor: pointer;
 
+                .server-channels-categoryItem-channelItem-name {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.25rem;
+                }
+
+                .server-channels-categoryItem-channelItem-invisible-container {
+                    display: none;
+                    // display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.25rem;
+                }
+
+                .server-channels-categoryItem-channelItem-visible-container {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.25rem;
+                }
+
                 &:hover {
                     background-color: var(--neutral-700);
+
+                    .server-channels-categoryItem-channelItem-invisible-container {
+                        display: flex;
+                    }
+
+                    .server-channels-categoryItem-channelItem-visible-container {
+                        display: none;
+                    }
                 }
             }
         }

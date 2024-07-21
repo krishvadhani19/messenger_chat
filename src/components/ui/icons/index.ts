@@ -29,6 +29,8 @@ import HashIcon from "./HashIcon";
 import MicIcon from "./MicIcon";
 import VideoIcon from "./VideoIcon";
 import ShieldCheckIcon from "./ShieldCheckIcon";
+import EditIcon from "./EditIcon";
+import LockIcon from "./LockIcon";
 
 export interface IconPropsType {
   color?: string;
@@ -68,4 +70,6 @@ export {
   MicIcon,
   VideoIcon,
   ShieldCheckIcon,
+  EditIcon,
+  LockIcon,
 };
