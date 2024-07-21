@@ -97,7 +97,36 @@ const ServerSidebarMain = () => {
         ]}
       />
 
-      <ServerChannels />
+      <ServerChannels
+        data={[
+          {
+            label: "Text channels",
+            data: textChannels.map((channelItem) => ({
+              id: channelItem?.id,
+              name: channelItem?.name,
+              icon: iconMap[channelItem?.chanelType],
+            })),
+          },
+
+          {
+            label: "Voice channels",
+            data: audioChannels.map((channelItem) => ({
+              id: channelItem?.id,
+              name: channelItem?.name,
+              icon: iconMap[channelItem?.chanelType],
+            })),
+          },
+
+          {
+            label: "Video channels",
+            data: videoChannels.map((channelItem) => ({
+              id: channelItem?.id,
+              name: channelItem?.name,
+              icon: iconMap[channelItem?.chanelType],
+            })),
+          },
+        ]}
+      />
     </div>
   );
 };

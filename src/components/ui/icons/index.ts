@@ -1,3 +1,5 @@
+import { CSSProperties } from "react";
+
 import TickIcon from "./TickIcon";
 import StarFilledIcon from "./StarFilledIcon";
 import RightArrowIcon from "./RightArrowIcon";
@@ -32,6 +34,7 @@ export interface IconPropsType {
   color?: string;
   size?: number;
   className?: string;
+  style?: CSSProperties;
   onClick?: () => void;
 }
 
