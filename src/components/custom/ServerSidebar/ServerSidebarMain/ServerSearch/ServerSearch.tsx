@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import "./ServerSearch.scss";
 import Modal from "@/components/ui/Modal/Modal";
 import { CommandIcon, SearchIcon } from "@/components/ui/Icons";
@@ -21,14 +21,48 @@ type SearchServerPropsType = {
 const ServerSearch = ({ data }: SearchServerPropsType) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [searchInput, setSearchInput] = useState<string>("");
+  const [filteredData, setFilteredData] =
+    useState<SearchServerPropsType["data"]>(data);
 
   const handleModalVisibility = useCallback(
     () => setIsOpen((prev) => !prev),
     []
   );
 
-  const handleSearchInputChange = useCallback((val: string) => {
-    setSearchInput(val);
+  const handleSearchInputChange = useCallback(
+    (val: string) => {
+      setSearchInput(val);
+
+      if (!val.length) {
+        setFilteredData(data);
+        return;
+      }
+
+      const dataFilteredWithSearch = data.filter((dataItem) => {
+        return !!dataItem?.data?.filter((dataItemChild) => {
+          return dataItemChild?.name.startsWith(val);
+        }).length;
+      });
+
+      setFilteredData(dataFilteredWithSearch);
+    },
+    [data]
+  );
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === "k") {
+        event.preventDefault();
+        setIsOpen(true);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      console.log("return");
+      document.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
 
   return (
@@ -57,7 +91,7 @@ const ServerSearch = ({ data }: SearchServerPropsType) => {
           />
 
           <div className="search-server-modal-results">
-            {data.map((category, key) => {
+            {filteredData.map((category, key) => {
               if (!category?.data?.length) {
                 return null;
               }
