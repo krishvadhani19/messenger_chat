@@ -7,9 +7,11 @@ export const ServerSidebarContext = createContext<{
   currentUserMember: MEMBER_WITH_PROFILE;
   updateMemberRole: (memberId: string, newRole: MemberRole) => Promise<void>;
   removeMemberFromServer: (memberId: string) => Promise<void>;
+  deleteChannelFromServer: (channelId: string) => Promise<void>;
 }>({
   currentServer: {} as FULL_SERVER_TYPE,
   currentUserMember: {} as MEMBER_WITH_PROFILE,
   updateMemberRole: async () => {},
   removeMemberFromServer: async () => {},
+  deleteChannelFromServer: async () => {},
 });

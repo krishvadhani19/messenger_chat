@@ -1,8 +1,18 @@
 import { IconPropsType } from ".";
 
-const EditIcon = ({ color, size = 22, className, onClick }: IconPropsType) => {
+const EditIcon = ({
+  color,
+  size = 22,
+  className,
+  style,
+  onClick,
+}: IconPropsType) => {
   return (
-    <span className={`flex-center ${className}`} onClick={onClick}>
+    <span
+      className={`flex-center ${className}`}
+      onClick={onClick}
+      style={style}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={size}

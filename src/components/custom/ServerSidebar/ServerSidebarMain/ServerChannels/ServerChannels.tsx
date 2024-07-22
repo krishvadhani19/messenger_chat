@@ -10,8 +10,12 @@ import {
 import Tooltip from "@/components/ui/Tooltip/Tooltip";
 import CreateChanelModal from "../../ServerHeader/CreateChanelModal/CreateChanelModal";
 import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
-import { ChanelType, MemberRole } from "@prisma/client";
+import { MemberRole } from "@prisma/client";
 import ManageMembersModal from "../../ServerHeader/ManageMembersModal/ManageMembersModal";
+import DeleteModal from "@/components/generic/DeleteModal/DeleteModal";
+import { APIRequest } from "@/utils/auth-util";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 type ServerChannelPropsType = {
   data: {
@@ -28,6 +32,7 @@ type ServerChannelPropsType = {
 const CURRENT_MODAL_CATEGORIES = {
   CREATE_CHANNEL: "CREATE_CHANNEL",
   MANAGE_MEMBER: "MANAGE_MEMBER",
+  DELETE_CHANNEL: "DELETE_CHANNEL",
 } as const;
 
 type CURRENT_MODAL_CATEGORIES_TYPE =
@@ -36,20 +41,35 @@ type CURRENT_MODAL_CATEGORIES_TYPE =
 const ServerChannels = ({ data }: ServerChannelPropsType) => {
   const [currentModal, setCurrentModal] =
     useState<CURRENT_MODAL_CATEGORIES_TYPE | null>(null);
-  const [currentChannel, setCurrentChannel] = useState<ChanelType>(
-    ChanelType.TEXT
-  );
+
+  const [currentItem, setCurrentItem] = useState<{
+    id: string;
+    name: string;
+    icon: JSX.Element;
+  }>();
 
   const handleModalChange = useCallback(
-    (category: CURRENT_MODAL_CATEGORIES_TYPE | null) => {
+    (
+      category: CURRENT_MODAL_CATEGORIES_TYPE | null,
+      channelItem?: {
+        id: string;
+        name: string;
+        icon: JSX.Element;
+      }
+    ) => {
       setCurrentModal(category);
+
+      setCurrentItem(channelItem);
     },
     []
   );
 
-  const { currentUserMember } = useContext(ServerSidebarContext);
+  const { currentUserMember, deleteChannelFromServer } =
+    useContext(ServerSidebarContext);
 
-  console.log({ currentChannel });
+  const handleDeleteChannel = useCallback(async () => {
+    deleteChannelFromServer(currentItem?.id!);
+  }, [currentItem, deleteChannelFromServer]);
 
   return (
     <>
@@ -92,11 +112,11 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
                     >
                       <SettingsIcon
                         size={16}
-                        onClick={() =>
+                        onClick={() => {
                           handleModalChange(
                             CURRENT_MODAL_CATEGORIES.MANAGE_MEMBER
-                          )
-                        }
+                          );
+                        }}
                         style={{ cursor: "pointer" }}
                       />
                     </Tooltip>
@@ -114,10 +134,25 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
                       <span>{channelItem?.name}</span>
                     </div>
 
-                    <div className="server-channels-categoryItem-channelItem-invisible-container">
-                      <EditIcon size={16} />
-                      <TrashIcon size={16} />
-                    </div>
+                    {category?.type === "channel" && (
+                      <div className="server-channels-categoryItem-channelItem-invisible-container">
+                        <Tooltip title="Edit" placement="top">
+                          <EditIcon size={16} />
+                        </Tooltip>
+
+                        <Tooltip title="Delete" placement="top">
+                          <TrashIcon
+                            size={16}
+                            onClick={() => {
+                              handleModalChange(
+                                CURRENT_MODAL_CATEGORIES.DELETE_CHANNEL,
+                                channelItem
+                              );
+                            }}
+                          />
+                        </Tooltip>
+                      </div>
+                    )}
 
                     {channelItem?.name === "general" && (
                       <div className="server-channels-categoryItem-channelItem-visible-container">
@@ -135,12 +170,20 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
       <CreateChanelModal
         isOpen={currentModal === CURRENT_MODAL_CATEGORIES.CREATE_CHANNEL}
         onClose={handleModalChange}
-        defaultSelection={currentChannel}
       />
 
       <ManageMembersModal
         isOpen={currentModal === CURRENT_MODAL_CATEGORIES.MANAGE_MEMBER}
         onClose={handleModalChange}
+      />
+
+      <DeleteModal
+        isOpen={currentModal === CURRENT_MODAL_CATEGORIES.DELETE_CHANNEL}
+        onClose={handleModalChange}
+        deleteItemHeader="Delete channel"
+        deleteItemName={currentItem?.name!}
+        confirmButtonText="Confirm"
+        confirmChanges={handleDeleteChannel}
       />
     </>
   );

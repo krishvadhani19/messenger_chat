@@ -1,7 +1,7 @@
 "use client";
 
 import "./ServerSidebar.scss";
-import { Member, MemberRole, Profile } from "@prisma/client";
+import { Chanel, Member, MemberRole, Profile } from "@prisma/client";
 import { memo, useCallback, useMemo, useState } from "react";
 import { FULL_SERVER_TYPE } from "@/types/types";
 import ServerHeader from "./ServerHeader/ServerHeader";
@@ -93,6 +93,35 @@ const ServerSidebar = ({
     [removeMemberFromServer]
   );
 
+  // --------------------- Delete Channel from server ---------------------
+  const deleteChannelFromServer = useMutation({
+    mutationFn: async (channelId: string) =>
+      await APIRequest({
+        method: "DELETE",
+        url: `/api/channels/delete-channel/${channelId}`,
+      }),
+    onSuccess: (deletedChannel: Chanel) => {
+      const { id: channelId } = deletedChannel;
+
+      setServer((prevServer) => ({
+        ...prevServer,
+        channels: prevServer.channels.filter(
+          (channelItem) => channelItem.id !== channelId
+        ),
+      }));
+    },
+    onError: () => {
+      toast.error("Failed to delete channel from server.");
+    },
+  });
+
+  const handleDeleteChannelFromServer = useCallback(
+    async (channelId: string) => {
+      deleteChannelFromServer.mutate(channelId);
+    },
+    [deleteChannelFromServer]
+  );
+
   return (
     <ServerSidebarContext.Provider
       value={{
@@ -100,6 +129,7 @@ const ServerSidebar = ({
         currentUserMember: currentUserMember!,
         updateMemberRole: handleUpdateMemberRole,
         removeMemberFromServer: handleRemoveMemberFromServer,
+        deleteChannelFromServer: handleDeleteChannelFromServer,
       }}
     >
       <div className="server-sidebar-container">
