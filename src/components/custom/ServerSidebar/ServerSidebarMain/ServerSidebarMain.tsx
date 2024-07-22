@@ -11,6 +11,7 @@ import {
   ShieldCheckIcon,
   VideoIcon,
 } from "@/components/ui/Icons";
+import Separator from "@/components/ui/Separator/Separator";
 
 const iconMap = {
   [ChanelType.TEXT]: <HashIcon size={16} />,
@@ -97,10 +98,13 @@ const ServerSidebarMain = () => {
         ]}
       />
 
+      <Separator />
+
       <ServerChannels
         data={[
           {
             label: "Text channels",
+            type: "channel",
             data: textChannels.map((channelItem) => ({
               id: channelItem?.id,
               name: channelItem?.name,
@@ -110,6 +114,7 @@ const ServerSidebarMain = () => {
 
           {
             label: "Voice channels",
+            type: "channel",
             data: audioChannels.map((channelItem) => ({
               id: channelItem?.id,
               name: channelItem?.name,
@@ -119,10 +124,21 @@ const ServerSidebarMain = () => {
 
           {
             label: "Video channels",
+            type: "channel",
             data: videoChannels.map((channelItem) => ({
               id: channelItem?.id,
               name: channelItem?.name,
               icon: iconMap[channelItem?.chanelType],
+            })),
+          },
+
+          {
+            label: "Members",
+            type: "member",
+            data: serverMembers.map((memberItem) => ({
+              id: memberItem.id,
+              name: memberItem?.profile.name!,
+              icon: iconRoleMap[memberItem?.role]!,
             })),
           },
         ]}

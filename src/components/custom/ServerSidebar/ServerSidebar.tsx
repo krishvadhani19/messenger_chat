@@ -93,30 +93,6 @@ const ServerSidebar = ({
     [removeMemberFromServer]
   );
 
-  const textChannels = useMemo(() => {
-    return currentServer?.channels.filter(
-      (chanelItem) => chanelItem.chanelType === "TEXT"
-    );
-  }, [currentServer]);
-
-  const audioChannels = useMemo(() => {
-    return currentServer?.channels.filter(
-      (chanelItem) => chanelItem.chanelType === "VIDEO"
-    );
-  }, [currentServer]);
-
-  const videoChannels = useMemo(() => {
-    return currentServer?.channels.filter(
-      (chanelItem) => chanelItem.chanelType === "VIDEO"
-    );
-  }, [currentServer]);
-
-  const serverMembers = useMemo(() => {
-    return currentServer?.members.filter(
-      (memberItem) => memberItem.id !== userProfile.id
-    );
-  }, [currentServer, userProfile]);
-
   return (
     <ServerSidebarContext.Provider
       value={{

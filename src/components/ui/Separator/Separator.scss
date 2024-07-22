@@ -1,0 +1,9 @@
+.separator-container {
+    width: 100%;
+    height: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--neutral-700);
+    border-radius: 50%;
+}

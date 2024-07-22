@@ -19,6 +19,7 @@ import { useParams, useRouter } from "next/navigation";
 type CreateChanelPropsType = {
   isOpen: boolean;
   onClose: (val: null) => void;
+  defaultSelection?: ChanelType;
 };
 
 type CreateChanelModalSchemaType = z.infer<typeof CreateChanelModalSchema>;
@@ -48,9 +49,17 @@ const initialFormData: CreateChanelModalSchemaType = {
   chanelType: CHANEL_TYPE_MAP.TEXT,
 };
 
-const CreateChanelModal = ({ isOpen, onClose }: CreateChanelPropsType) => {
-  const [formData, setFormData] =
-    useState<CreateChanelModalSchemaType>(initialFormData);
+const CreateChanelModal = ({
+  isOpen,
+  onClose,
+  defaultSelection,
+}: CreateChanelPropsType) => {
+  const [formData, setFormData] = useState<CreateChanelModalSchemaType>({
+    ...initialFormData,
+    ...(defaultSelection && {
+      chanelType: CHANEL_TYPE_MAP[defaultSelection],
+    }),
+  });
   const [formErrors, setFormErrors] =
     useState<Partial<CreateChanelModalSchemaType>>();
 
