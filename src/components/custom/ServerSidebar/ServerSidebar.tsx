@@ -1,7 +1,13 @@
 "use client";
 
 import "./ServerSidebar.scss";
-import { Chanel, Member, MemberRole, Profile } from "@prisma/client";
+import {
+  Chanel,
+  ChanelType,
+  Member,
+  MemberRole,
+  Profile,
+} from "@prisma/client";
 import { memo, useCallback, useMemo, useState } from "react";
 import { FULL_SERVER_TYPE } from "@/types/types";
 import ServerHeader from "./ServerHeader/ServerHeader";
@@ -122,6 +128,48 @@ const ServerSidebar = ({
     [deleteChannelFromServer]
   );
 
+  // --------------------- Edit Channel ---------------------
+
+  const editChannelFromServer = useMutation({
+    mutationFn: async ({
+      channelId,
+      channelName,
+      channelType,
+    }: {
+      channelId: string;
+      channelName: string;
+      channelType: ChanelType;
+    }) =>
+      await APIRequest({
+        method: "PATCH",
+        url: `/api/channels/edit-channel/${channelId}`,
+        data: {
+          chanelName: channelName,
+          chanelType: channelType,
+        },
+      }),
+    onSuccess: (editedChannel: Chanel) => {
+      const { id: channelId } = editedChannel;
+
+      setServer((prevServer) => ({
+        ...prevServer,
+        channels: prevServer.channels.map((channelItem) =>
+          channelItem.id === channelId ? editedChannel : channelItem
+        ),
+      }));
+    },
+    onError: () => {
+      toast.error("Failed to edit channel.");
+    },
+  });
+
+  const handleEditChannelFromServer = useCallback(
+    async (channelId: string, channelName: string, channelType: ChanelType) => {
+      editChannelFromServer.mutate({ channelId, channelName, channelType });
+    },
+    [editChannelFromServer]
+  );
+
   return (
     <ServerSidebarContext.Provider
       value={{
@@ -130,6 +178,7 @@ const ServerSidebar = ({
         updateMemberRole: handleUpdateMemberRole,
         removeMemberFromServer: handleRemoveMemberFromServer,
         deleteChannelFromServer: handleDeleteChannelFromServer,
+        editChannelFromServer: handleEditChannelFromServer,
       }}
     >
       <div className="server-sidebar-container">

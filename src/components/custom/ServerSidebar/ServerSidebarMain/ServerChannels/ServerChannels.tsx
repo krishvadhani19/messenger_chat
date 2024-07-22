@@ -10,12 +10,10 @@ import {
 import Tooltip from "@/components/ui/Tooltip/Tooltip";
 import CreateChanelModal from "../../ServerHeader/CreateChanelModal/CreateChanelModal";
 import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
-import { MemberRole } from "@prisma/client";
+import { ChanelType, MemberRole } from "@prisma/client";
 import ManageMembersModal from "../../ServerHeader/ManageMembersModal/ManageMembersModal";
 import DeleteModal from "@/components/generic/DeleteModal/DeleteModal";
-import { APIRequest } from "@/utils/auth-util";
-import { useMutation } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import EditModal from "@/components/generic/EditModal/EditModal";
 
 type ServerChannelPropsType = {
   data: {
@@ -33,6 +31,7 @@ const CURRENT_MODAL_CATEGORIES = {
   CREATE_CHANNEL: "CREATE_CHANNEL",
   MANAGE_MEMBER: "MANAGE_MEMBER",
   DELETE_CHANNEL: "DELETE_CHANNEL",
+  EDIT_CHANNEL: "EDIT_CHANNEL",
 } as const;
 
 type CURRENT_MODAL_CATEGORIES_TYPE =
@@ -64,12 +63,19 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
     []
   );
 
-  const { currentUserMember, deleteChannelFromServer } =
+  const { currentUserMember, deleteChannelFromServer, editChannelFromServer } =
     useContext(ServerSidebarContext);
 
   const handleDeleteChannel = useCallback(async () => {
     deleteChannelFromServer(currentItem?.id!);
   }, [currentItem, deleteChannelFromServer]);
+
+  const handleEditChannel = useCallback(
+    async (chanelName: string, chanelType: ChanelType) => {
+      await editChannelFromServer(currentItem?.id!, chanelName, chanelType);
+    },
+    [currentItem?.id, editChannelFromServer]
+  );
 
   return (
     <>
@@ -137,7 +143,16 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
                     {category?.type === "channel" && (
                       <div className="server-channels-categoryItem-channelItem-invisible-container">
                         <Tooltip title="Edit" placement="top">
-                          <EditIcon size={16} />
+                          <EditIcon
+                            size={16}
+                            onClick={() => {
+                              console.log("yes");
+                              handleModalChange(
+                                CURRENT_MODAL_CATEGORIES.EDIT_CHANNEL,
+                                channelItem
+                              );
+                            }}
+                          />
                         </Tooltip>
 
                         <Tooltip title="Delete" placement="top">
@@ -184,6 +199,15 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
         deleteItemName={currentItem?.name!}
         confirmButtonText="Confirm"
         confirmChanges={handleDeleteChannel}
+      />
+
+      <EditModal
+        isOpen={currentModal === CURRENT_MODAL_CATEGORIES.EDIT_CHANNEL}
+        onClose={handleModalChange}
+        modalHeading="Edit channel"
+        channelName={currentItem?.name!}
+        confirmButtonText="Confirm"
+        confirmChanges={handleEditChannel}
       />
     </>
   );

@@ -1,5 +1,5 @@
 import { FULL_SERVER_TYPE, MEMBER_WITH_PROFILE } from "@/types/types";
-import { MemberRole } from "@prisma/client";
+import { ChanelType, MemberRole } from "@prisma/client";
 import { createContext } from "react";
 
 export const ServerSidebarContext = createContext<{
@@ -8,10 +8,16 @@ export const ServerSidebarContext = createContext<{
   updateMemberRole: (memberId: string, newRole: MemberRole) => Promise<void>;
   removeMemberFromServer: (memberId: string) => Promise<void>;
   deleteChannelFromServer: (channelId: string) => Promise<void>;
+  editChannelFromServer: (
+    channelId: string,
+    channelName: string,
+    channelType: ChanelType
+  ) => Promise<void>;
 }>({
   currentServer: {} as FULL_SERVER_TYPE,
   currentUserMember: {} as MEMBER_WITH_PROFILE,
   updateMemberRole: async () => {},
   removeMemberFromServer: async () => {},
   deleteChannelFromServer: async () => {},
+  editChannelFromServer: async () => {},
 });
