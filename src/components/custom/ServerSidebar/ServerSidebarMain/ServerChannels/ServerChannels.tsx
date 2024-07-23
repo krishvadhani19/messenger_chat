@@ -210,26 +210,26 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
         })}
       </div>
 
-      <CreateChanelModal
-        isOpen={currentModal === CURRENT_MODAL_CATEGORIES.CREATE_CHANNEL}
-        onClose={handleModalChange}
-      />
+      {currentModal === CURRENT_MODAL_CATEGORIES.CREATE_CHANNEL && (
+        <CreateChanelModal isOpen onClose={handleModalChange} />
+      )}
 
-      <ManageMembersModal
-        isOpen={currentModal === CURRENT_MODAL_CATEGORIES.MANAGE_MEMBER}
-        onClose={handleModalChange}
-      />
+      {currentModal === CURRENT_MODAL_CATEGORIES.MANAGE_MEMBER && (
+        <ManageMembersModal isOpen onClose={handleModalChange} />
+      )}
 
-      <DeleteModal
-        isOpen={currentModal === CURRENT_MODAL_CATEGORIES.DELETE_CHANNEL}
-        onClose={handleModalChange}
-        deleteItemHeader="Delete channel"
-        deleteItemName={currentItem?.name!}
-        confirmButtonText="Confirm"
-        confirmChanges={handleDeleteChannel}
-      />
+      {currentModal === CURRENT_MODAL_CATEGORIES.DELETE_CHANNEL && (
+        <DeleteModal
+          isOpen
+          onClose={handleModalChange}
+          deleteItemHeader="Delete channel"
+          deleteItemName={currentItem?.name!}
+          confirmButtonText="Confirm"
+          confirmChanges={handleDeleteChannel}
+        />
+      )}
 
-      {/* Doing this modal does not render in the DOM */}
+      {/* Doing this modal does not render in the DOM on initial render of this component */}
       {currentModal === CURRENT_MODAL_CATEGORIES.EDIT_CHANNEL && (
         <EditModal
           isOpen

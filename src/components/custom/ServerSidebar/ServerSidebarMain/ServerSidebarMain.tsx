@@ -12,12 +12,7 @@ import {
   VideoIcon,
 } from "@/components/ui/Icons";
 import Separator from "@/components/ui/Separator/Separator";
-
-const iconMap = {
-  [ChanelType.TEXT]: <HashIcon size={16} />,
-  [ChanelType.AUDIO]: <MicIcon size={16} />,
-  [ChanelType.VIDEO]: <VideoIcon size={16} />,
-};
+import ChannelIcon from "@/utils/ChannelIcon";
 
 const iconRoleMap = {
   [MemberRole.GUEST]: null,
@@ -62,7 +57,7 @@ const ServerSidebarMain = () => {
             data: textChannels.map((channelItem) => ({
               id: channelItem?.id,
               name: channelItem?.name,
-              icon: iconMap[channelItem?.chanelType],
+              icon: <ChannelIcon type={channelItem?.chanelType} size={16} />,
             })),
           },
 
@@ -72,7 +67,7 @@ const ServerSidebarMain = () => {
             data: audioChannels.map((channelItem) => ({
               id: channelItem?.id,
               name: channelItem?.name,
-              icon: iconMap[channelItem?.chanelType],
+              icon: <ChannelIcon type={channelItem?.chanelType} size={16} />,
             })),
           },
 
@@ -82,7 +77,7 @@ const ServerSidebarMain = () => {
             data: videoChannels.map((channelItem) => ({
               id: channelItem?.id,
               name: channelItem?.name,
-              icon: iconMap[channelItem?.chanelType],
+              icon: <ChannelIcon type={channelItem?.chanelType} size={16} />,
             })),
           },
 
@@ -108,7 +103,7 @@ const ServerSidebarMain = () => {
             data: textChannels.map((channelItem) => ({
               id: channelItem?.id,
               name: channelItem?.name,
-              icon: iconMap[channelItem?.chanelType],
+              icon: <ChannelIcon type={channelItem?.chanelType} size={16} />,
               type: channelItem?.chanelType,
             })),
           },
@@ -119,7 +114,7 @@ const ServerSidebarMain = () => {
             data: audioChannels.map((channelItem) => ({
               id: channelItem?.id,
               name: channelItem?.name,
-              icon: iconMap[channelItem?.chanelType],
+              icon: <ChannelIcon type={channelItem?.chanelType} size={16} />,
               type: channelItem?.chanelType,
             })),
           },
@@ -130,7 +125,7 @@ const ServerSidebarMain = () => {
             data: videoChannels.map((channelItem) => ({
               id: channelItem?.id,
               name: channelItem?.name,
-              icon: iconMap[channelItem?.chanelType],
+              icon: <ChannelIcon type={channelItem?.chanelType} size={16} />,
               type: channelItem?.chanelType,
             })),
           },

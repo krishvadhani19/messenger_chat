@@ -1,7 +1,40 @@
-import React from "react";
+import ChatSection from "@/components/custom/ChatSection/ChatSection";
+import { db } from "@/lib/db";
+import { getCurrentUserId } from "@/server/actions/getCurrentUserId";
+import { logout } from "@/server/actions/logout";
+import { getCurrentUserProfile } from "@/server/controllers/user";
+import { redirect } from "next/navigation";
 
-const ChannelSlugPage = () => {
-  return <div>ChannelSLug Page</div>;
+type ChanelSlugPagePropsType = {
+  params: { serverId: string; channelId: string };
+};
+
+const ChannelSlugPage = async ({ params }: ChanelSlugPagePropsType) => {
+  const currentUserId = await getCurrentUserId();
+  const profile = await getCurrentUserProfile(currentUserId!);
+
+  if (!profile) {
+    return await logout();
+  }
+
+  const currentChannel = await db.chanel.findUnique({
+    where: {
+      id: params.channelId,
+    },
+  });
+
+  const member = await db.member.findFirst({
+    where: {
+      serverId: params.serverId,
+      profileId: profile?.id,
+    },
+  });
+
+  if (!currentChannel || !member) {
+    redirect(`/servers/${params.serverId}`);
+  }
+
+  return <ChatSection currentChannel={currentChannel} />;
 };
 
 export default ChannelSlugPage;
