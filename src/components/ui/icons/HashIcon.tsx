@@ -1,11 +1,6 @@
 import { IconPropsType } from ".";
 
-const HashIcon = ({
-  color,
-  size = 22,
-  className,
-  onClick,
-}: IconPropsType) => {
+const HashIcon = ({ color, size = 22, className, onClick }: IconPropsType) => {
   return (
     <span className={`flex-center ${className}`} onClick={onClick}>
       <svg
@@ -15,9 +10,9 @@ const HashIcon = ({
         viewBox="0 0 24 24"
         fill="none"
         stroke={color || "currentColor"}
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       >
         <line x1="4" x2="20" y1="9" y2="9" />
         <line x1="4" x2="20" y1="15" y2="15" />
