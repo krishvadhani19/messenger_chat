@@ -1,6 +1,5 @@
 import {
   createNewServer,
-  updateServerSettings,
 } from "@/server/controllers/server";
 import { NextResponse } from "next/server";
 import { getCurrentUserId } from "@/server/actions/getCurrentUserId";

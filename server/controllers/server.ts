@@ -36,7 +36,17 @@ export const getAllServers = async (profileId: string) => {
       where: {
         members: {
           some: {
-            profileId,
+            profileId: profileId,
+          },
+        },
+      },
+      include: {
+        channels: {
+          where: {
+            name: "general",
+          },
+          orderBy: {
+            createdAt: "asc",
           },
         },
       },

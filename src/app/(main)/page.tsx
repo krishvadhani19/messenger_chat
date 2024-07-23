@@ -1,6 +1,6 @@
-import { db } from "@/lib/db";
 import { getCurrentUserId } from "@/server/actions/getCurrentUserId";
 import { logout } from "@/server/actions/logout";
+import { getAllServers } from "@/server/controllers/server";
 import { getCurrentUserProfile } from "@/server/controllers/user";
 import { redirect } from "next/navigation";
 
@@ -12,25 +12,7 @@ const MainRedirectionPage = async () => {
     return await logout();
   }
 
-  const servers = await db.server.findMany({
-    where: {
-      members: {
-        some: {
-          profileId: profile?.id,
-        },
-      },
-    },
-    include: {
-      channels: {
-        where: {
-          name: "general",
-        },
-        orderBy: {
-          createdAt: "asc",
-        },
-      },
-    },
-  });
+  const servers = await getAllServers(profile?.id);
 
   const initialServer = servers?.[0];
 
