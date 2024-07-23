@@ -109,6 +109,7 @@ const ServerSidebarMain = () => {
               id: channelItem?.id,
               name: channelItem?.name,
               icon: iconMap[channelItem?.chanelType],
+              type: channelItem?.chanelType,
             })),
           },
 
@@ -119,6 +120,7 @@ const ServerSidebarMain = () => {
               id: channelItem?.id,
               name: channelItem?.name,
               icon: iconMap[channelItem?.chanelType],
+              type: channelItem?.chanelType,
             })),
           },
 
@@ -129,6 +131,7 @@ const ServerSidebarMain = () => {
               id: channelItem?.id,
               name: channelItem?.name,
               icon: iconMap[channelItem?.chanelType],
+              type: channelItem?.chanelType,
             })),
           },
 
@@ -139,6 +142,7 @@ const ServerSidebarMain = () => {
               id: memberItem.id,
               name: memberItem?.profile.name!,
               icon: iconRoleMap[memberItem?.role]!,
+              type: null,
             })),
           },
         ]}

@@ -14,6 +14,7 @@ import { ChanelType, MemberRole } from "@prisma/client";
 import ManageMembersModal from "../../ServerHeader/ManageMembersModal/ManageMembersModal";
 import DeleteModal from "@/components/generic/DeleteModal/DeleteModal";
 import EditModal from "@/components/generic/EditModal/EditModal";
+import { ChanelTypeLabelEnum } from "@/server/schemas/Modals/CreateChanelModalSchema";
 
 type ServerChannelPropsType = {
   data: {
@@ -23,6 +24,7 @@ type ServerChannelPropsType = {
       id: string;
       name: string;
       icon: JSX.Element;
+      type: ChanelType | null;
     }[];
   }[];
 };
@@ -45,6 +47,7 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
     id: string;
     name: string;
     icon: JSX.Element;
+    type: ChanelType | null;
   }>();
 
   const handleModalChange = useCallback(
@@ -54,11 +57,13 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
         id: string;
         name: string;
         icon: JSX.Element;
+        type: ChanelType | null;
       }
     ) => {
+      if (channelItem) {
+        setCurrentItem({ ...channelItem });
+      }
       setCurrentModal(category);
-
-      setCurrentItem(channelItem);
     },
     []
   );
@@ -146,7 +151,6 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
                           <EditIcon
                             size={16}
                             onClick={() => {
-                              console.log("yes");
                               handleModalChange(
                                 CURRENT_MODAL_CATEGORIES.EDIT_CHANNEL,
                                 channelItem
@@ -207,6 +211,7 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
         modalHeading="Edit channel"
         channelName={currentItem?.name!}
         confirmButtonText="Confirm"
+        defaultChannelTypeSelection={currentItem?.type!}
         confirmChanges={handleEditChannel}
       />
     </>

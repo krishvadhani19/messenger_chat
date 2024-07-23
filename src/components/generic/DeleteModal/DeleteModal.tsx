@@ -4,7 +4,6 @@ import Modal from "@/components/ui/Modal/Modal";
 import "./DeleteModal.scss";
 import { memo, useCallback } from "react";
 import Button from "@/components/ui/Button/Button";
-import { useRouter } from "next/navigation";
 
 type DeleteServerModalPropsType = {
   isOpen: boolean;
@@ -23,8 +22,6 @@ const DeleteModal = ({
   confirmButtonText,
   confirmChanges,
 }: DeleteServerModalPropsType) => {
-  const router = useRouter();
-
   const handleClose = useCallback(() => {
     onClose(null);
   }, [onClose]);
@@ -32,10 +29,8 @@ const DeleteModal = ({
   const handleConfirm = useCallback(async () => {
     await confirmChanges();
 
-    router.refresh();
-
     handleClose();
-  }, [confirmChanges, handleClose, router]);
+  }, [confirmChanges, handleClose]);
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>

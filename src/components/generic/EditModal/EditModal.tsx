@@ -2,7 +2,7 @@
 
 import Modal from "@/components/ui/Modal/Modal";
 import "./EditModal.scss";
-import { FormEvent, memo, useCallback, useState } from "react";
+import { FormEvent, memo, useCallback, useEffect, useState } from "react";
 import InputField from "@/components/ui/Input/InputField";
 import { z } from "zod";
 import {
@@ -13,8 +13,6 @@ import { ChanelType } from "@prisma/client";
 import Dropdown from "@/components/ui/Dropdown/Dropdown";
 import Button from "@/components/ui/Button/Button";
 import toast from "react-hot-toast";
-import { APIRequest } from "@/utils/auth-util";
-import { useParams, useRouter } from "next/navigation";
 
 type CreateChannelPropsType = {
   isOpen: boolean;
@@ -65,15 +63,8 @@ const EditModal = ({
   defaultChannelTypeSelection,
   confirmChanges,
 }: CreateChannelPropsType) => {
-  const [formData, setFormData] = useState<CreateChannelModalSchemaType>({
-    ...initialFormData,
-    ...(channelName && {
-      chanelName: channelName,
-    }),
-    ...(defaultChannelTypeSelection && {
-      chanelType: CHANNEL_TYPE_MAP[defaultChannelTypeSelection],
-    }),
-  });
+  const [formData, setFormData] =
+    useState<CreateChannelModalSchemaType>(initialFormData);
   const [formErrors, setFormErrors] =
     useState<Partial<CreateChannelModalSchemaType>>();
 
@@ -103,16 +94,9 @@ const EditModal = ({
     }
   }, [formData]);
 
-  const resetFormData = useCallback(() => {
-    setFormData(initialFormData);
-    setFormErrors(undefined);
-  }, []);
-
   const handleClose = useCallback(() => {
-    resetFormData();
-
     onClose(null);
-  }, [onClose, resetFormData]);
+  }, [onClose]);
 
   const handleFormDataChange = useCallback(
     (
@@ -128,12 +112,29 @@ const EditModal = ({
     async (e: FormEvent) => {
       e.preventDefault();
 
-      await confirmChanges(formData?.chanelName, formData?.chanelType?.id);
       if (validateForm()) {
+        await confirmChanges(formData?.chanelName, formData?.chanelType?.id);
       }
+
+      handleClose();
     },
-    [confirmChanges, formData, validateForm]
+    [confirmChanges, formData, handleClose, validateForm]
   );
+
+  useEffect(() => {
+    if (isOpen) {
+      console.log("render");
+      setFormData({
+        ...initialFormData,
+        ...(channelName && {
+          chanelName: channelName,
+        }),
+        ...(defaultChannelTypeSelection && {
+          chanelType: CHANNEL_TYPE_MAP[defaultChannelTypeSelection],
+        }),
+      });
+    }
+  }, [channelName, defaultChannelTypeSelection, isOpen]);
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
