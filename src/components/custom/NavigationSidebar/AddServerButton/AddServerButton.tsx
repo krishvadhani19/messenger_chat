@@ -23,10 +23,12 @@ const AddServerButton = () => {
           <PlusIcon size={20} />
         </div>
 
-        <CreateServerModal
-          isServerModalOpen={isServerModalOpen}
-          closeServerModal={handleServerModalChange}
-        />
+        {isServerModalOpen && (
+          <CreateServerModal
+            isServerModalOpen
+            closeServerModal={handleServerModalChange}
+          />
+        )}
       </>
     </Tooltip>
   );

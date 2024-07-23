@@ -92,16 +92,9 @@ const CreateChanelModal = ({
     }
   }, [formData]);
 
-  const resetFormData = useCallback(() => {
-    setFormData(initialFormData);
-    setFormErrors(undefined);
-  }, []);
-
   const handleClose = useCallback(() => {
-    resetFormData();
-
     onClose(null);
-  }, [onClose, resetFormData]);
+  }, [onClose]);
 
   const handleFormDataChange = useCallback(
     (

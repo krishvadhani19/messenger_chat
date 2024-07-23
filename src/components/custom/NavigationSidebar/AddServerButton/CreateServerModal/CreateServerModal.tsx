@@ -61,16 +61,10 @@ const CreateServerModal = ({
     Partial<CreateServerModalSchemaType>
   >({});
 
-  const resetForm = useCallback(() => {
-    setFormData(initialFormData);
-    setFormErrors({});
-  }, []);
-
   const handleClose = useCallback(() => {
     URL.revokeObjectURL(formData?.image?.url);
-    resetForm();
     closeServerModal();
-  }, [closeServerModal, formData?.image?.url, resetForm]);
+  }, [closeServerModal, formData?.image?.url]);
 
   const validateForm = useCallback(() => {
     try {
