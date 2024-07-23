@@ -63,8 +63,16 @@ const EditModal = ({
   defaultChannelTypeSelection,
   confirmChanges,
 }: CreateChannelPropsType) => {
-  const [formData, setFormData] =
-    useState<CreateChannelModalSchemaType>(initialFormData);
+  const [formData, setFormData] = useState<CreateChannelModalSchemaType>({
+    ...initialFormData,
+    ...(channelName && {
+      chanelName: channelName,
+    }),
+    ...(defaultChannelTypeSelection && {
+      chanelType: CHANNEL_TYPE_MAP[defaultChannelTypeSelection],
+    }),
+  });
+
   const [formErrors, setFormErrors] =
     useState<Partial<CreateChannelModalSchemaType>>();
 
@@ -120,21 +128,6 @@ const EditModal = ({
     },
     [confirmChanges, formData, handleClose, validateForm]
   );
-
-  useEffect(() => {
-    if (isOpen) {
-      console.log("render");
-      setFormData({
-        ...initialFormData,
-        ...(channelName && {
-          chanelName: channelName,
-        }),
-        ...(defaultChannelTypeSelection && {
-          chanelType: CHANNEL_TYPE_MAP[defaultChannelTypeSelection],
-        }),
-      });
-    }
-  }, [channelName, defaultChannelTypeSelection, isOpen]);
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>

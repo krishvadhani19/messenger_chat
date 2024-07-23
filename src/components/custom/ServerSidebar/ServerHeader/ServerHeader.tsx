@@ -160,36 +160,33 @@ const ServerHeader = () => {
 
       <Popover anchorRef={serverHeaderRef}>{getServerHeaderPopover}</Popover>
 
-      <InvitePeopleModal
-        isOpen={currentModal === CURRENT_MODAL_CATEGORIES.INVITE_PEOPLE}
-        onClose={handleModalChange}
-        inviteCode={currentServer?.inviteCode}
-      />
+      {currentModal === CURRENT_MODAL_CATEGORIES.INVITE_PEOPLE && (
+        <InvitePeopleModal
+          isOpen
+          onClose={handleModalChange}
+          inviteCode={currentServer?.inviteCode}
+        />
+      )}
 
-      <ServerSettingsModal
-        isOpen={currentModal === CURRENT_MODAL_CATEGORIES.SERVER_SETTINGS}
-        onClose={handleModalChange}
-      />
+      {currentModal === CURRENT_MODAL_CATEGORIES.SERVER_SETTINGS && (
+        <ServerSettingsModal isOpen onClose={handleModalChange} />
+      )}
 
-      <ManageMembersModal
-        isOpen={currentModal === CURRENT_MODAL_CATEGORIES.MANAGE_MEMBERS}
-        onClose={handleModalChange}
-      />
+      {currentModal === CURRENT_MODAL_CATEGORIES.MANAGE_MEMBERS && (
+        <ManageMembersModal isOpen onClose={handleModalChange} />
+      )}
 
-      <CreateChanelModal
-        isOpen={currentModal === CURRENT_MODAL_CATEGORIES.CREATE_CHANEL}
-        onClose={handleModalChange}
-      />
+      {currentModal === CURRENT_MODAL_CATEGORIES.CREATE_CHANEL && (
+        <CreateChanelModal isOpen onClose={handleModalChange} />
+      )}
 
-      <DeleteServerModal
-        isOpen={currentModal === CURRENT_MODAL_CATEGORIES.DELETE_SERVER}
-        onClose={handleModalChange}
-      />
+      {currentModal === CURRENT_MODAL_CATEGORIES.DELETE_SERVER && (
+        <DeleteServerModal isOpen onClose={handleModalChange} />
+      )}
 
-      <LeaveServerModal
-        isOpen={currentModal === CURRENT_MODAL_CATEGORIES.LEAVE_SERVER}
-        onClose={handleModalChange}
-      />
+      {currentModal === CURRENT_MODAL_CATEGORIES.LEAVE_SERVER && (
+        <LeaveServerModal isOpen onClose={handleModalChange} />
+      )}
     </>
   );
 };

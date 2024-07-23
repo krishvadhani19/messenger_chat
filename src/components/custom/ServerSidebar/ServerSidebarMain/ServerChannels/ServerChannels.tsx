@@ -14,7 +14,8 @@ import { ChanelType, MemberRole } from "@prisma/client";
 import ManageMembersModal from "../../ServerHeader/ManageMembersModal/ManageMembersModal";
 import DeleteModal from "@/components/generic/DeleteModal/DeleteModal";
 import EditModal from "@/components/generic/EditModal/EditModal";
-import { ChanelTypeLabelEnum } from "@/server/schemas/Modals/CreateChanelModalSchema";
+import { useParams, useRouter } from "next/navigation";
+import classNames from "classnames";
 
 type ServerChannelPropsType = {
   data: {
@@ -42,6 +43,8 @@ type CURRENT_MODAL_CATEGORIES_TYPE =
 const ServerChannels = ({ data }: ServerChannelPropsType) => {
   const [currentModal, setCurrentModal] =
     useState<CURRENT_MODAL_CATEGORIES_TYPE | null>(null);
+  const router = useRouter();
+  const { serverId, memberId, channelId } = useParams();
 
   const [currentItem, setCurrentItem] = useState<{
     id: string;
@@ -72,7 +75,7 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
     useContext(ServerSidebarContext);
 
   const handleDeleteChannel = useCallback(async () => {
-    deleteChannelFromServer(currentItem?.id!);
+    await deleteChannelFromServer(currentItem?.id!);
   }, [currentItem, deleteChannelFromServer]);
 
   const handleEditChannel = useCallback(
@@ -80,6 +83,17 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
       await editChannelFromServer(currentItem?.id!, chanelName, chanelType);
     },
     [currentItem?.id, editChannelFromServer]
+  );
+
+  const handleChannelItemClick = useCallback(
+    (channelId: string, channelType: "member" | "channel") => {
+      if (channelType === "channel") {
+        router.push(`/servers/${serverId}/channels/${channelId}`);
+      } else if (channelType === "member") {
+        router.push(`/servers/${serverId}/conversations/${channelId}`);
+      }
+    },
+    [router, serverId]
   );
 
   return (
@@ -138,7 +152,17 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
                 {category?.data.map((channelItem, key) => (
                   <div
                     key={key}
-                    className="server-channels-categoryItem-channelItem"
+                    className={classNames(
+                      "server-channels-categoryItem-channelItem",
+                      {
+                        isSelected:
+                          channelId === channelItem?.id ||
+                          memberId === channelItem?.id,
+                      }
+                    )}
+                    onClick={() =>
+                      handleChannelItemClick(channelItem?.id, category?.type)
+                    }
                   >
                     <div className="server-channels-categoryItem-channelItem-name">
                       {channelItem?.icon}
@@ -205,15 +229,18 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
         confirmChanges={handleDeleteChannel}
       />
 
-      <EditModal
-        isOpen={currentModal === CURRENT_MODAL_CATEGORIES.EDIT_CHANNEL}
-        onClose={handleModalChange}
-        modalHeading="Edit channel"
-        channelName={currentItem?.name!}
-        confirmButtonText="Confirm"
-        defaultChannelTypeSelection={currentItem?.type!}
-        confirmChanges={handleEditChannel}
-      />
+      {/* Doing this modal does not render in the DOM */}
+      {currentModal === CURRENT_MODAL_CATEGORIES.EDIT_CHANNEL && (
+        <EditModal
+          isOpen
+          onClose={handleModalChange}
+          modalHeading="Edit channel"
+          channelName={currentItem?.name!}
+          confirmButtonText="Confirm"
+          defaultChannelTypeSelection={currentItem?.type!}
+          confirmChanges={handleEditChannel}
+        />
+      )}
     </>
   );
 };

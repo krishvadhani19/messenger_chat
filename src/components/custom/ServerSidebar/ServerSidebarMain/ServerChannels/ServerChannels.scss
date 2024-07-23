@@ -37,6 +37,10 @@
                 cursor: pointer;
                 line-height: 1rem;
 
+                &.isSelected {
+                    background-color: var(--neutral-700);
+                }
+
                 .server-channels-categoryItem-channelItem-name {
                     display: flex;
                     align-items: center;

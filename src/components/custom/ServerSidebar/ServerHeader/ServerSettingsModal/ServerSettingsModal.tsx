@@ -1,5 +1,3 @@
-"use client";
-
 import {
   FormEvent,
   memo,
@@ -21,7 +19,6 @@ import { APIRequest } from "@/utils/auth-util";
 import { CreateServerModalSchema } from "@/server/schemas/CreateServerModalSchema";
 import { z } from "zod";
 import toast from "react-hot-toast";
-import { FULL_SERVER_TYPE } from "@/types/types";
 import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
 
 type ServerSettingsModalPropsType = {
@@ -70,16 +67,10 @@ const ServerSettingsModal = ({
     Partial<ServerSettingsModalSchemaType>
   >({});
 
-  const resetForm = useCallback(() => {
-    setFormData(initialFormData);
-    setFormErrors({});
-  }, [initialFormData]);
-
   const handleClose = useCallback(() => {
     URL.revokeObjectURL(formData?.image?.url);
-    resetForm();
     onClose(null);
-  }, [onClose, formData?.image?.url, resetForm]);
+  }, [onClose, formData?.image?.url]);
 
   const validateForm = useCallback(() => {
     try {

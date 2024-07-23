@@ -72,9 +72,9 @@ const ServerSearch = ({ data }: SearchServerPropsType) => {
       handleModalVisibility();
 
       if (type === "member") {
-        router.push(`/server/${serverId}/conversations/${id}`);
+        router.push(`/servers/${serverId}/conversations/${id}`);
       } else if (type === "channel") {
-        router.push(`/server/${serverId}/channels/${id}`);
+        router.push(`/servers/${serverId}/channels/${id}`);
       }
     },
     [handleModalVisibility, router, serverId]
