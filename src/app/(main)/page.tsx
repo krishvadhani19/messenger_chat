@@ -4,7 +4,7 @@ import { logout } from "@/server/actions/logout";
 import { getCurrentUserProfile } from "@/server/controllers/user";
 import { redirect } from "next/navigation";
 
-const ServersRedirectionPage = async () => {
+const MainRedirectionPage = async () => {
   const currentUserId = await getCurrentUserId();
   const profile = await getCurrentUserProfile(currentUserId!);
 
@@ -45,4 +45,4 @@ const ServersRedirectionPage = async () => {
   );
 };
 
-export default ServersRedirectionPage;
+export default MainRedirectionPage;
