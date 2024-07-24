@@ -1,10 +1,10 @@
 import React, { memo } from "react";
 import "./ServerContainer.scss";
-import { Server } from "@prisma/client";
 import ServerItem from "./ServerItem/ServerItem";
+import { SERVER_WITH_CHANNELS } from "../NavigationSidebar";
 
 type ServerContainerPropsType = {
-  servers: Server[] | null;
+  servers: SERVER_WITH_CHANNELS[] | null;
 };
 
 const ServerContainer = ({ servers }: ServerContainerPropsType) => {

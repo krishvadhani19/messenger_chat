@@ -6,6 +6,10 @@ import AddServerButton from "./AddServerButton/AddServerButton";
 import ServerContainer from "./ServerContainer/ServerContainer";
 import UserDetail from "./UserDetail/UserDetail";
 import { logout } from "@/server/actions/logout";
+import { Chanel, Server } from "@prisma/client";
+import { memo } from "react";
+
+export type SERVER_WITH_CHANNELS = Server & { channels: Chanel[] };
 
 const NavigationSidebar = async () => {
   const currentUserId = await getCurrentUserId();
@@ -25,7 +29,7 @@ const NavigationSidebar = async () => {
 
         <div className="navigation-sidebar-separator" />
 
-        <ServerContainer servers={servers} />
+        <ServerContainer servers={servers!} />
       </div>
 
       <UserDetail profile={profile} />
@@ -33,4 +37,4 @@ const NavigationSidebar = async () => {
   );
 };
 
-export default NavigationSidebar;
+export default memo(NavigationSidebar);

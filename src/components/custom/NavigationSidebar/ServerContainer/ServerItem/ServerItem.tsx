@@ -3,12 +3,12 @@
 import React, { memo, useCallback } from "react";
 import "./ServerItem.scss";
 import Tooltip from "@/components/ui/Tooltip/Tooltip";
-import { Server } from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
 import classNames from "classnames";
+import { SERVER_WITH_CHANNELS } from "../../NavigationSidebar";
 
 type ServerItemPropsType = {
-  serverItem: Server;
+  serverItem: SERVER_WITH_CHANNELS;
 };
 
 const ServerItem = ({ serverItem }: ServerItemPropsType) => {
@@ -16,7 +16,9 @@ const ServerItem = ({ serverItem }: ServerItemPropsType) => {
   const router = useRouter();
 
   const handelServerItemClick = useCallback(() => {
-    router.push(`/servers/${serverItem.id}`);
+    router.push(
+      `/servers/${serverItem.id}/channels/${serverItem?.channels?.[0]?.id}`
+    );
   }, [router, serverItem]);
 
   return (
