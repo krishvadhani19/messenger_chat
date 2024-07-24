@@ -26,19 +26,19 @@ export const PATCH = async (
       return new NextResponse("Channel ID is missing", { status: 400 });
     }
 
-    const { chanelName, chanelType } = await req.json();
+    const { channelName, channelType } = await req.json();
 
-    if (!chanelName || !chanelType) {
+    if (!channelName || !channelType) {
       return new NextResponse("Channel Details missing", { status: 400 });
     }
 
-    const updatedChannel = await db.chanel.update({
+    const updatedChannel = await db.channel.update({
       where: {
         id: channelId,
       },
       data: {
-        name: chanelName,
-        chanelType,
+        name: channelName,
+        channelType,
       },
     });
 

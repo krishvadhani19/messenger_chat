@@ -1,6 +1,6 @@
-import { Chanel } from "@prisma/client";
+import { Channel } from "@prisma/client";
 import { createContext } from "react";
 
 export const ChatSectionContext = createContext<{
-  currentChannel: Chanel;
-}>({ currentChannel: {} as Chanel });
+  currentChannel: Channel;
+}>({ currentChannel: {} as Channel });

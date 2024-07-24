@@ -17,28 +17,28 @@ const handler = async (req: Request) => {
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
-    const { chanelName, chanelType, serverId } = await req.json();
+    const { channelName, channelType, serverId } = await req.json();
 
     if (!serverId) {
       return new NextResponse("Server ID is missing", { status: 400 });
     }
 
-    if (!chanelName || !chanelType) {
-      return new NextResponse("Missing details required to make chanel", {
+    if (!channelName || !channelType) {
+      return new NextResponse("Missing details required to make channel", {
         status: 400,
       });
     }
 
-    const newChanel = await db.chanel.create({
+    const newChannel = await db.channel.create({
       data: {
-        name: chanelName,
+        name: channelName,
         serverId,
         profileId: profile?.id,
-        chanelType,
+        channelType,
       },
     });
 
-    return NextResponse.json(newChanel);
+    return NextResponse.json(newChannel);
   } catch (error) {
     return new NextResponse("Internal Error", { status: 500 });
   }

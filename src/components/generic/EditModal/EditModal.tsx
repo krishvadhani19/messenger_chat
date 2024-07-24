@@ -6,10 +6,10 @@ import { FormEvent, memo, useCallback, useEffect, useState } from "react";
 import InputField from "@/components/ui/Input/InputField";
 import { z } from "zod";
 import {
-  ChanelTypeLabelEnum,
-  CreateChanelModalSchema,
-} from "@/server/schemas/Modals/CreateChanelModalSchema";
-import { ChanelType } from "@prisma/client";
+  ChannelTypeLabelEnum,
+  CreateChannelModalSchema,
+} from "@/server/schemas/Modals/CreateChannelModalSchema";
+import { ChannelType } from "@prisma/client";
 import Dropdown from "@/components/ui/Dropdown/Dropdown";
 import Button from "@/components/ui/Button/Button";
 import toast from "react-hot-toast";
@@ -20,38 +20,38 @@ type CreateChannelPropsType = {
   modalHeading: string;
   confirmButtonText: string;
   channelName?: string;
-  defaultChannelTypeSelection?: ChanelType;
+  defaultChannelTypeSelection?: ChannelType;
   confirmChanges: (
     channelName: string,
-    chanelType: ChanelType
+    channelType: ChannelType
   ) => Promise<void>;
 };
 
-type CreateChannelModalSchemaType = z.infer<typeof CreateChanelModalSchema>;
+type CreateChannelModalSchemaType = z.infer<typeof CreateChannelModalSchema>;
 
 const CHANNEL_TYPE_MAP = {
   TEXT: {
-    id: ChanelType.TEXT,
-    label: ChanelTypeLabelEnum.Text,
+    id: ChannelType.TEXT,
+    label: ChannelTypeLabelEnum.Text,
   },
   AUDIO: {
-    id: ChanelType.AUDIO,
-    label: ChanelTypeLabelEnum.Audio,
+    id: ChannelType.AUDIO,
+    label: ChannelTypeLabelEnum.Audio,
   },
   VIDEO: {
-    id: ChanelType.VIDEO,
-    label: ChanelTypeLabelEnum.Video,
+    id: ChannelType.VIDEO,
+    label: ChannelTypeLabelEnum.Video,
   },
 } as const;
 
 type CHANNEL_TYPE_MAP_TYPE =
   (typeof CHANNEL_TYPE_MAP)[keyof typeof CHANNEL_TYPE_MAP];
 
-const CHANEL_TYPES = Object.values(CHANNEL_TYPE_MAP);
+const CHANNEL_TYPES = Object.values(CHANNEL_TYPE_MAP);
 
 const initialFormData: CreateChannelModalSchemaType = {
-  chanelName: "",
-  chanelType: CHANNEL_TYPE_MAP.TEXT,
+  channelName: "",
+  channelType: CHANNEL_TYPE_MAP.TEXT,
 };
 
 const EditModal = ({
@@ -66,10 +66,10 @@ const EditModal = ({
   const [formData, setFormData] = useState<CreateChannelModalSchemaType>({
     ...initialFormData,
     ...(channelName && {
-      chanelName: channelName,
+      channelName: channelName,
     }),
     ...(defaultChannelTypeSelection && {
-      chanelType: CHANNEL_TYPE_MAP[defaultChannelTypeSelection],
+      channelType: CHANNEL_TYPE_MAP[defaultChannelTypeSelection],
     }),
   });
 
@@ -78,7 +78,7 @@ const EditModal = ({
 
   const validateForm = useCallback(() => {
     try {
-      CreateChanelModalSchema.parse(formData);
+      CreateChannelModalSchema.parse(formData);
       return true;
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -88,7 +88,7 @@ const EditModal = ({
         error.errors.forEach((err) => {
           const path = err.path.join(".");
 
-          if (path === "chanelName") {
+          if (path === "channelName") {
             errors[path] = err.message;
           } else {
             toast.error(err.message);
@@ -121,7 +121,7 @@ const EditModal = ({
       e.preventDefault();
 
       if (validateForm()) {
-        await confirmChanges(formData?.chanelName, formData?.chanelType?.id);
+        await confirmChanges(formData?.channelName, formData?.channelType?.id);
       }
 
       handleClose();
@@ -131,27 +131,27 @@ const EditModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
-      <div className="create-chanel-container">
-        <div className="create-chanel-header">{modalHeading}</div>
+      <div className="create-channel-container">
+        <div className="create-channel-header">{modalHeading}</div>
 
-        <form className="create-chanel-form-container" onSubmit={handleSubmit}>
+        <form className="create-channel-form-container" onSubmit={handleSubmit}>
           <InputField
             isRequired
-            inputValue={formData?.chanelName}
+            inputValue={formData?.channelName}
             type="text"
             autoComplete="text"
-            label="Chanel Name"
-            placeholder="Enter chanel name"
-            errorMessage={formErrors?.chanelName}
-            onChange={(val: string) => handleFormDataChange(val, "chanelName")}
+            label="Channel Name"
+            placeholder="Enter channel name"
+            errorMessage={formErrors?.channelName}
+            onChange={(val: string) => handleFormDataChange(val, "channelName")}
           />
 
           <Dropdown
-            label="Chanel Type"
-            selectedItem={formData?.chanelType}
-            allItems={CHANEL_TYPES}
-            handleItemClick={(chanel) =>
-              handleFormDataChange(chanel, "chanelType")
+            label="Channel Type"
+            selectedItem={formData?.channelType}
+            allItems={CHANNEL_TYPES}
+            handleItemClick={(channel) =>
+              handleFormDataChange(channel, "channelType")
             }
           />
 

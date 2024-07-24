@@ -26,7 +26,7 @@ model Profile {
 
   servers  Server[]
   members  Member[]
-  channels Chanel[]
+  channels Channel[]
 
   @@unique([email])
 }
@@ -44,7 +44,7 @@ model Server {
   updatedAt DateTime @updatedAt
 
   members  Member[] @relation("MemberToServer")
-  channels Chanel[]
+  channels Channel[]
 
   @@index([profileId])
 }
@@ -72,16 +72,16 @@ model Member {
   @@index([serverId])
 }
 
-enum ChanelType {
+enum ChannelType {
   TEXT
   AUDIO
   VIDEO
 }
 
-model Chanel {
+model Channel {
   id         String     @id @default(auto()) @map("_id") @db.ObjectId
   name       String
-  chanelType ChanelType @default(TEXT)
+  channelType ChannelType @default(TEXT)
 
   profileId String  @db.ObjectId
   profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)

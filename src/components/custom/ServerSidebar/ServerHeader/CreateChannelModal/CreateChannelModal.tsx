@@ -1,84 +1,84 @@
 "use client";
 
 import Modal from "@/components/ui/Modal/Modal";
-import "./CreateChanelModal.scss";
+import "./CreateChannelModal.scss";
 import { FormEvent, memo, useCallback, useState } from "react";
 import InputField from "@/components/ui/Input/InputField";
 import { z } from "zod";
 import {
-  ChanelTypeLabelEnum,
-  CreateChanelModalSchema,
-} from "@/server/schemas/Modals/CreateChanelModalSchema";
-import { ChanelType } from "@prisma/client";
+  ChannelTypeLabelEnum,
+  CreateChannelModalSchema,
+} from "@/server/schemas/Modals/CreateChannelModalSchema";
+import { ChannelType } from "@prisma/client";
 import Dropdown from "@/components/ui/Dropdown/Dropdown";
 import Button from "@/components/ui/Button/Button";
 import toast from "react-hot-toast";
 import { APIRequest } from "@/utils/auth-util";
 import { useParams, useRouter } from "next/navigation";
 
-type CreateChanelPropsType = {
+type CreateChannelPropsType = {
   isOpen: boolean;
   onClose: (val: null) => void;
-  defaultSelection?: ChanelType;
+  defaultSelection?: ChannelType;
 };
 
-type CreateChanelModalSchemaType = z.infer<typeof CreateChanelModalSchema>;
+type CreateChannelModalSchemaType = z.infer<typeof CreateChannelModalSchema>;
 
-const CHANEL_TYPE_MAP = {
+const CHANNEL_TYPE_MAP = {
   TEXT: {
-    id: ChanelType.TEXT,
-    label: ChanelTypeLabelEnum.Text,
+    id: ChannelType.TEXT,
+    label: ChannelTypeLabelEnum.Text,
   },
   AUDIO: {
-    id: ChanelType.AUDIO,
-    label: ChanelTypeLabelEnum.Audio,
+    id: ChannelType.AUDIO,
+    label: ChannelTypeLabelEnum.Audio,
   },
   VIDEO: {
-    id: ChanelType.VIDEO,
-    label: ChanelTypeLabelEnum.Video,
+    id: ChannelType.VIDEO,
+    label: ChannelTypeLabelEnum.Video,
   },
 } as const;
 
-type CHANEL_TYPE_MAP_TYPE =
-  (typeof CHANEL_TYPE_MAP)[keyof typeof CHANEL_TYPE_MAP];
+type CHANNEL_TYPE_MAP_TYPE =
+  (typeof CHANNEL_TYPE_MAP)[keyof typeof CHANNEL_TYPE_MAP];
 
-const CHANEL_TYPES = Object.values(CHANEL_TYPE_MAP);
+const CHANNEL_TYPES = Object.values(CHANNEL_TYPE_MAP);
 
-const initialFormData: CreateChanelModalSchemaType = {
-  chanelName: "",
-  chanelType: CHANEL_TYPE_MAP.TEXT,
+const initialFormData: CreateChannelModalSchemaType = {
+  channelName: "",
+  channelType: CHANNEL_TYPE_MAP.TEXT,
 };
 
-const CreateChanelModal = ({
+const CreateChannelModal = ({
   isOpen,
   onClose,
   defaultSelection,
-}: CreateChanelPropsType) => {
-  const [formData, setFormData] = useState<CreateChanelModalSchemaType>({
+}: CreateChannelPropsType) => {
+  const [formData, setFormData] = useState<CreateChannelModalSchemaType>({
     ...initialFormData,
     ...(defaultSelection && {
-      chanelType: CHANEL_TYPE_MAP[defaultSelection],
+      channelType: CHANNEL_TYPE_MAP[defaultSelection],
     }),
   });
   const [formErrors, setFormErrors] =
-    useState<Partial<CreateChanelModalSchemaType>>();
+    useState<Partial<CreateChannelModalSchemaType>>();
 
   const { serverId } = useParams();
   const router = useRouter();
 
   const validateForm = useCallback(() => {
     try {
-      CreateChanelModalSchema.parse(formData);
+      CreateChannelModalSchema.parse(formData);
       return true;
     } catch (error) {
       if (error instanceof z.ZodError) {
-        const errors: Partial<CreateChanelModalSchemaType> = {};
+        const errors: Partial<CreateChannelModalSchemaType> = {};
 
         // Adding all the errors to formError state
         error.errors.forEach((err) => {
           const path = err.path.join(".");
 
-          if (path === "chanelName") {
+          if (path === "channelName") {
             errors[path] = err.message;
           } else {
             toast.error(err.message);
@@ -98,8 +98,8 @@ const CreateChanelModal = ({
 
   const handleFormDataChange = useCallback(
     (
-      val: string | CHANEL_TYPE_MAP_TYPE,
-      field: keyof CreateChanelModalSchemaType
+      val: string | CHANNEL_TYPE_MAP_TYPE,
+      field: keyof CreateChannelModalSchemaType
     ) => {
       setFormData((prev) => ({ ...prev, [field]: val }));
     },
@@ -117,8 +117,8 @@ const CreateChanelModal = ({
             url: "/api/channels/create-channel",
             data: {
               serverId,
-              chanelName: formData?.chanelName,
-              chanelType: formData?.chanelType?.id,
+              channelName: formData?.channelName,
+              channelType: formData?.channelType?.id,
             },
           });
 
@@ -137,27 +137,27 @@ const CreateChanelModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
-      <div className="create-chanel-container">
-        <div className="create-chanel-header">Create Chanel</div>
+      <div className="create-channel-container">
+        <div className="create-channel-header">Create Channel</div>
 
-        <form className="create-chanel-form-container" onSubmit={handleSubmit}>
+        <form className="create-channel-form-container" onSubmit={handleSubmit}>
           <InputField
             isRequired
-            inputValue={formData?.chanelName}
+            inputValue={formData?.channelName}
             type="text"
             autoComplete="text"
-            label="Chanel Name"
-            placeholder="Enter chanel name"
-            errorMessage={formErrors?.chanelName}
-            onChange={(val: string) => handleFormDataChange(val, "chanelName")}
+            label="Channel Name"
+            placeholder="Enter channel name"
+            errorMessage={formErrors?.channelName}
+            onChange={(val: string) => handleFormDataChange(val, "channelName")}
           />
 
           <Dropdown
-            label="Chanel Type"
-            selectedItem={formData?.chanelType}
-            allItems={CHANEL_TYPES}
-            handleItemClick={(chanel) =>
-              handleFormDataChange(chanel, "chanelType")
+            label="Channel Type"
+            selectedItem={formData?.channelType}
+            allItems={CHANNEL_TYPES}
+            handleItemClick={(channel) =>
+              handleFormDataChange(channel, "channelType")
             }
           />
 
@@ -168,4 +168,4 @@ const CreateChanelModal = ({
   );
 };
 
-export default memo(CreateChanelModal);
+export default memo(CreateChannelModal);

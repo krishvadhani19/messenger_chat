@@ -1,15 +1,15 @@
 import { HashIcon, MicIcon, VideoIcon } from "@/components/ui/Icons";
-import { ChanelType } from "@prisma/client";
+import { ChannelType } from "@prisma/client";
 import React from "react";
 
 const CHANNEL_TYPE_ICON_MAP = {
-  [ChanelType.TEXT]: HashIcon,
-  [ChanelType.AUDIO]: MicIcon,
-  [ChanelType.VIDEO]: VideoIcon,
+  [ChannelType.TEXT]: HashIcon,
+  [ChannelType.AUDIO]: MicIcon,
+  [ChannelType.VIDEO]: VideoIcon,
 };
 
 type ChannelIconPropsType = {
-  type: ChanelType;
+  type: ChannelType;
   size?: number;
   color?: string;
   onClick?: () => void;

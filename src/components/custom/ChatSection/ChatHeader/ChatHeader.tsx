@@ -9,7 +9,7 @@ const ChatHeader = () => {
   return (
     <div className="chat-header-container">
       <div className="chat-header-chat-name">
-        <ChannelIcon type={currentChannel?.chanelType!} size={26} />
+        <ChannelIcon type={currentChannel?.channelType!} size={26} />
 
         <span>{currentChannel?.name}</span>
       </div>

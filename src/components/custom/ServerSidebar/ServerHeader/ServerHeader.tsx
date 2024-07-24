@@ -18,7 +18,7 @@ import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
 import InvitePeopleModal from "./InvitePeopleModal/InvitePeopleModal";
 import ServerSettingsModal from "./ServerSettingsModal/ServerSettingsModal";
 import ManageMembersModal from "./ManageMembersModal/ManageMembersModal";
-import CreateChanelModal from "./CreateChanelModal/CreateChanelModal";
+import CreateChannelModal from "./CreateChannelModal/CreateChannelModal";
 import DeleteServerModal from "./DeleteServerModal/DeleteServerModal";
 import LeaveServerModal from "./LeaveServerModal/LeaveServerModal";
 
@@ -26,7 +26,7 @@ const CURRENT_MODAL_CATEGORIES = {
   INVITE_PEOPLE: "INVITE_PEOPLE",
   SERVER_SETTINGS: "SERVER_SETTINGS",
   MANAGE_MEMBERS: "MANAGE_MEMBERS",
-  CREATE_CHANEL: "CREATE_CHANEL",
+  CREATE_CHANNEL: "CREATE_CHANNEL",
   DELETE_SERVER: "DELETE_SERVER",
   LEAVE_SERVER: "LEAVE_SERVER",
 } as const;
@@ -103,11 +103,11 @@ const ServerHeader = () => {
             <div
               className="server-header-popover-item-container"
               onClick={() => {
-                handleModalChange(CURRENT_MODAL_CATEGORIES.CREATE_CHANEL);
+                handleModalChange(CURRENT_MODAL_CATEGORIES.CREATE_CHANNEL);
                 handleClose();
               }}
             >
-              <div className="">Create Chanel</div>
+              <div className="">Create Channel</div>
 
               <CirclePlayIcon size={18} />
             </div>
@@ -176,8 +176,8 @@ const ServerHeader = () => {
         <ManageMembersModal isOpen onClose={handleModalChange} />
       )}
 
-      {currentModal === CURRENT_MODAL_CATEGORIES.CREATE_CHANEL && (
-        <CreateChanelModal isOpen onClose={handleModalChange} />
+      {currentModal === CURRENT_MODAL_CATEGORIES.CREATE_CHANNEL && (
+        <CreateChannelModal isOpen onClose={handleModalChange} />
       )}
 
       {currentModal === CURRENT_MODAL_CATEGORIES.DELETE_SERVER && (

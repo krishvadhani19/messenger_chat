@@ -26,7 +26,7 @@ export const DELETE = async (
       return new NextResponse("Channel ID is missing", { status: 400 });
     }
 
-    const deletedChannel = await db.chanel.delete({
+    const deletedChannel = await db.channel.delete({
       where: {
         id: channelId,
       },

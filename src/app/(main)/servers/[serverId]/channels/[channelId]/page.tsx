@@ -5,11 +5,11 @@ import { logout } from "@/server/actions/logout";
 import { getCurrentUserProfile } from "@/server/controllers/user";
 import { redirect } from "next/navigation";
 
-type ChanelSlugPagePropsType = {
+type ChannelSlugPagePropsType = {
   params: { serverId: string; channelId: string };
 };
 
-const ChannelSlugPage = async ({ params }: ChanelSlugPagePropsType) => {
+const ChannelSlugPage = async ({ params }: ChannelSlugPagePropsType) => {
   const currentUserId = await getCurrentUserId();
   const profile = await getCurrentUserProfile(currentUserId!);
 
@@ -17,7 +17,7 @@ const ChannelSlugPage = async ({ params }: ChanelSlugPagePropsType) => {
     return await logout();
   }
 
-  const currentChannel = await db.chanel.findUnique({
+  const currentChannel = await db.channel.findUnique({
     where: {
       id: params.channelId,
     },

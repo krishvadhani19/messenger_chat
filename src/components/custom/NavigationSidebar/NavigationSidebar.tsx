@@ -6,10 +6,10 @@ import AddServerButton from "./AddServerButton/AddServerButton";
 import ServerContainer from "./ServerContainer/ServerContainer";
 import UserDetail from "./UserDetail/UserDetail";
 import { logout } from "@/server/actions/logout";
-import { Chanel, Server } from "@prisma/client";
+import { Channel, Server } from "@prisma/client";
 import { memo } from "react";
 
-export type SERVER_WITH_CHANNELS = Server & { channels: Chanel[] };
+export type SERVER_WITH_CHANNELS = Server & { channels: Channel[] };
 
 const NavigationSidebar = async () => {
   const currentUserId = await getCurrentUserId();

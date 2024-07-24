@@ -4,10 +4,10 @@ import "./ChatSection.scss";
 import ChatHeader from "./ChatHeader/ChatHeader";
 import { ChatSectionContext } from "@/contexts/ChatSectionContext";
 import ChatArea from "./ChatArea/ChatArea";
-import { Chanel } from "@prisma/client";
+import { Channel } from "@prisma/client";
 
 type ChatSectionPropsType = {
-  currentChannel: Chanel;
+  currentChannel: Channel;
 };
 
 const ChatSection = ({ currentChannel }: ChatSectionPropsType) => {

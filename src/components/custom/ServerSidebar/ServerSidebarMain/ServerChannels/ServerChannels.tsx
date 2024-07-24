@@ -8,9 +8,9 @@ import {
   TrashIcon,
 } from "@/components/ui/Icons";
 import Tooltip from "@/components/ui/Tooltip/Tooltip";
-import CreateChanelModal from "../../ServerHeader/CreateChanelModal/CreateChanelModal";
+import CreateChannelModal from "../../ServerHeader/CreateChannelModal/CreateChannelModal";
 import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
-import { ChanelType, MemberRole } from "@prisma/client";
+import { ChannelType, MemberRole } from "@prisma/client";
 import ManageMembersModal from "../../ServerHeader/ManageMembersModal/ManageMembersModal";
 import DeleteModal from "@/components/generic/DeleteModal/DeleteModal";
 import EditModal from "@/components/generic/EditModal/EditModal";
@@ -25,7 +25,7 @@ type ServerChannelPropsType = {
       id: string;
       name: string;
       icon: JSX.Element;
-      type: ChanelType | null;
+      type: ChannelType | null;
     }[];
   }[];
 };
@@ -50,7 +50,7 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
     id: string;
     name: string;
     icon: JSX.Element;
-    type: ChanelType | null;
+    type: ChannelType | null;
   }>();
 
   const handleModalChange = useCallback(
@@ -60,7 +60,7 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
         id: string;
         name: string;
         icon: JSX.Element;
-        type: ChanelType | null;
+        type: ChannelType | null;
       }
     ) => {
       if (channelItem) {
@@ -79,8 +79,8 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
   }, [currentItem, deleteChannelFromServer]);
 
   const handleEditChannel = useCallback(
-    async (chanelName: string, chanelType: ChanelType) => {
-      await editChannelFromServer(currentItem?.id!, chanelName, chanelType);
+    async (channelName: string, channelType: ChannelType) => {
+      await editChannelFromServer(currentItem?.id!, channelName, channelType);
     },
     [currentItem?.id, editChannelFromServer]
   );
@@ -211,7 +211,7 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
       </div>
 
       {currentModal === CURRENT_MODAL_CATEGORIES.CREATE_CHANNEL && (
-        <CreateChanelModal isOpen onClose={handleModalChange} />
+        <CreateChannelModal isOpen onClose={handleModalChange} />
       )}
 
       {currentModal === CURRENT_MODAL_CATEGORIES.MANAGE_MEMBER && (

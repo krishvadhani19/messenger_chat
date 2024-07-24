@@ -1,5 +1,5 @@
 import { FULL_SERVER_TYPE, MEMBER_WITH_PROFILE } from "@/types/types";
-import { ChanelType, MemberRole } from "@prisma/client";
+import { ChannelType, MemberRole } from "@prisma/client";
 import { createContext } from "react";
 
 export const ServerSidebarContext = createContext<{
@@ -11,7 +11,7 @@ export const ServerSidebarContext = createContext<{
   editChannelFromServer: (
     channelId: string,
     channelName: string,
-    channelType: ChanelType
+    channelType: ChannelType
   ) => Promise<void>;
 }>({
   currentServer: {} as FULL_SERVER_TYPE,

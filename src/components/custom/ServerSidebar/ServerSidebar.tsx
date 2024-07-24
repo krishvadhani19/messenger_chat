@@ -2,8 +2,8 @@
 
 import "./ServerSidebar.scss";
 import {
-  Chanel,
-  ChanelType,
+  Channel,
+  ChannelType,
   Member,
   MemberRole,
   Profile,
@@ -106,7 +106,7 @@ const ServerSidebar = ({
         method: "DELETE",
         url: `/api/channels/delete-channel/${channelId}`,
       }),
-    onSuccess: (deletedChannel: Chanel) => {
+    onSuccess: (deletedChannel: Channel) => {
       const { id: channelId } = deletedChannel;
 
       setServer((prevServer) => ({
@@ -138,17 +138,17 @@ const ServerSidebar = ({
     }: {
       channelId: string;
       channelName: string;
-      channelType: ChanelType;
+      channelType: ChannelType;
     }) =>
       await APIRequest({
         method: "PATCH",
         url: `/api/channels/edit-channel/${channelId}`,
         data: {
-          chanelName: channelName,
-          chanelType: channelType,
+          channelName: channelName,
+          channelType: channelType,
         },
       }),
-    onSuccess: (editedChannel: Chanel) => {
+    onSuccess: (editedChannel: Channel) => {
       const { id: channelId } = editedChannel;
 
       setServer((prevServer) => ({
@@ -164,7 +164,11 @@ const ServerSidebar = ({
   });
 
   const handleEditChannelFromServer = useCallback(
-    async (channelId: string, channelName: string, channelType: ChanelType) => {
+    async (
+      channelId: string,
+      channelName: string,
+      channelType: ChannelType
+    ) => {
       editChannelFromServer.mutate({ channelId, channelName, channelType });
     },
     [editChannelFromServer]

@@ -3,14 +3,8 @@ import ServerChannels from "./ServerChannels/ServerChannels";
 import "./ServerSidebarMain.scss";
 import { memo, useContext, useMemo } from "react";
 import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
-import { ChanelType, MemberRole } from "@prisma/client";
-import {
-  HashIcon,
-  MicIcon,
-  ShieldAlertIcon,
-  ShieldCheckIcon,
-  VideoIcon,
-} from "@/components/ui/Icons";
+import { ChannelType, MemberRole } from "@prisma/client";
+import { ShieldAlertIcon, ShieldCheckIcon } from "@/components/ui/Icons";
 import Separator from "@/components/ui/Separator/Separator";
 import ChannelIcon from "@/utils/ChannelIcon";
 
@@ -25,19 +19,19 @@ const ServerSidebarMain = () => {
 
   const textChannels = useMemo(() => {
     return currentServer?.channels.filter(
-      (chanelItem) => chanelItem.chanelType === ChanelType.TEXT
+      (channelItem) => channelItem.channelType === ChannelType.TEXT
     );
   }, [currentServer]);
 
   const audioChannels = useMemo(() => {
     return currentServer?.channels.filter(
-      (chanelItem) => chanelItem.chanelType === ChanelType.AUDIO
+      (channelItem) => channelItem.channelType === ChannelType.AUDIO
     );
   }, [currentServer]);
 
   const videoChannels = useMemo(() => {
     return currentServer?.channels.filter(
-      (chanelItem) => chanelItem.chanelType === ChanelType.VIDEO
+      (channelItem) => channelItem.channelType === ChannelType.VIDEO
     );
   }, [currentServer]);
 
@@ -57,7 +51,7 @@ const ServerSidebarMain = () => {
             data: textChannels.map((channelItem) => ({
               id: channelItem?.id,
               name: channelItem?.name,
-              icon: <ChannelIcon type={channelItem?.chanelType} size={16} />,
+              icon: <ChannelIcon type={channelItem?.channelType} size={16} />,
             })),
           },
 
@@ -67,7 +61,7 @@ const ServerSidebarMain = () => {
             data: audioChannels.map((channelItem) => ({
               id: channelItem?.id,
               name: channelItem?.name,
-              icon: <ChannelIcon type={channelItem?.chanelType} size={16} />,
+              icon: <ChannelIcon type={channelItem?.channelType} size={16} />,
             })),
           },
 
@@ -77,7 +71,7 @@ const ServerSidebarMain = () => {
             data: videoChannels.map((channelItem) => ({
               id: channelItem?.id,
               name: channelItem?.name,
-              icon: <ChannelIcon type={channelItem?.chanelType} size={16} />,
+              icon: <ChannelIcon type={channelItem?.channelType} size={16} />,
             })),
           },
 
@@ -103,8 +97,8 @@ const ServerSidebarMain = () => {
             data: textChannels.map((channelItem) => ({
               id: channelItem?.id,
               name: channelItem?.name,
-              icon: <ChannelIcon type={channelItem?.chanelType} size={16} />,
-              type: channelItem?.chanelType,
+              icon: <ChannelIcon type={channelItem?.channelType} size={16} />,
+              type: channelItem?.channelType,
             })),
           },
 
@@ -114,8 +108,8 @@ const ServerSidebarMain = () => {
             data: audioChannels.map((channelItem) => ({
               id: channelItem?.id,
               name: channelItem?.name,
-              icon: <ChannelIcon type={channelItem?.chanelType} size={16} />,
-              type: channelItem?.chanelType,
+              icon: <ChannelIcon type={channelItem?.channelType} size={16} />,
+              type: channelItem?.channelType,
             })),
           },
 
@@ -125,8 +119,8 @@ const ServerSidebarMain = () => {
             data: videoChannels.map((channelItem) => ({
               id: channelItem?.id,
               name: channelItem?.name,
-              icon: <ChannelIcon type={channelItem?.chanelType} size={16} />,
-              type: channelItem?.chanelType,
+              icon: <ChannelIcon type={channelItem?.channelType} size={16} />,
+              type: channelItem?.channelType,
             })),
           },
 

@@ -1,4 +1,4 @@
-.create-chanel-container {
+.create-channel-container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -7,13 +7,13 @@
     width: 30rem;
     padding: 2rem;
 
-    .create-chanel-header {
+    .create-channel-header {
         font-size: 2rem;
         color: black;
         font-weight: 700;
     }
 
-    .create-chanel-form-container {
+    .create-channel-form-container {
         width: 80%;
         flex-direction: column;
         display: flex;
