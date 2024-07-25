@@ -1,9 +1,9 @@
-import ChatSection from "@/components/custom/ChatSection/ChatSection";
 import { db } from "@/lib/db";
 import { getCurrentUserId } from "@/server/actions/getCurrentUserId";
 import { logout } from "@/server/actions/logout";
 import { getCurrentUserProfile } from "@/server/controllers/user";
 import { redirect } from "next/navigation";
+import ChannelChatSection from "@/components/custom/ChatSection/ChannelChatSection/ChannelChatSection";
 
 type ChannelSlugPagePropsType = {
   params: { serverId: string; channelId: string };
@@ -34,7 +34,7 @@ const ChannelSlugPage = async ({ params }: ChannelSlugPagePropsType) => {
     redirect(`/servers/${params.serverId}`);
   }
 
-  return <ChatSection currentChannel={currentChannel} />;
+  return <ChannelChatSection currentChannel={currentChannel} />;
 };
 
 export default ChannelSlugPage;

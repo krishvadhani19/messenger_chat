@@ -1,17 +1,19 @@
-import { useContext } from "react";
 import "./ChatHeader.scss";
-import { ChatSectionContext } from "@/contexts/ChatSectionContext";
 import ChannelIcon from "@/utils/ChannelIcon";
+import { ChannelType } from "@prisma/client";
 
-const ChatHeader = () => {
-  const { currentChannel } = useContext(ChatSectionContext);
+type ChatHeaderPropsType = {
+  chatHeaderName: string;
+  channelType?: ChannelType;
+};
 
+const ChatHeader = ({ channelType, chatHeaderName }: ChatHeaderPropsType) => {
   return (
     <div className="chat-header-container">
       <div className="chat-header-chat-name">
-        <ChannelIcon type={currentChannel?.channelType!} size={26} />
+        {channelType && <ChannelIcon type={channelType} size={26} />}
 
-        <span>{currentChannel?.name}</span>
+        <span>{chatHeaderName}</span>
       </div>
     </div>
   );

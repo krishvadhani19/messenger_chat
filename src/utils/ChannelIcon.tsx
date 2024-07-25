@@ -21,11 +21,7 @@ const ChannelIcon = ({
   color,
   onClick,
 }: ChannelIconPropsType) => {
-  const IconComponent = CHANNEL_TYPE_ICON_MAP[type];
-
-  if (!IconComponent) {
-    return null; // Or a default icon
-  }
+  const IconComponent = CHANNEL_TYPE_ICON_MAP[type!];
 
   return <IconComponent size={size} color={color} onClick={onClick} />;
 };
