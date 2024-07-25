@@ -33,6 +33,10 @@ const ConversationSlugPage = async ({
     },
   });
 
+  if (!currentMember) {
+    return await logout();
+  }
+
   const conversation = await getOrCreateConversation(
     currentMember?.id!,
     memberId
@@ -44,10 +48,18 @@ const ConversationSlugPage = async ({
 
   const { memberOne, memberTwo } = conversation;
 
-  const otherMember =
-    memberOne?.profile?.id === profile?.id ? memberTwo : memberOne;
+  const [cMember, otherMember] =
+    memberOne?.profile?.id === profile?.id
+      ? [memberOne, memberTwo]
+      : [memberTwo, memberOne];
 
-  return <ConversationChatSection conversation={conversation} />;
+  return (
+    <ConversationChatSection
+      conversation={conversation}
+      currentMember={cMember}
+      otherMember={otherMember}
+    />
+  );
 };
 
 export default ConversationSlugPage;
