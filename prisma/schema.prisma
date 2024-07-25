@@ -13,6 +13,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model VerificationToken {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
 model Profile {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   email         String
@@ -40,11 +49,11 @@ model Server {
   profileId String  @db.ObjectId
   profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
+  members  Member[]
+  channels Channel[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  members  Member[] @relation("MemberToServer")
-  channels Channel[]
 
   @@index([profileId])
 }
@@ -63,7 +72,14 @@ model Member {
   profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   serverId String @db.ObjectId
-  server   Server @relation("MemberToServer", fields: [serverId], references: [id], onDelete: Cascade)
+  server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  conversationsInitiated Conversation[] @relation("MemberOne")
+  conversationsReceived  Conversation[] @relation("MemberTwo")
+
+  messages Message[]
+
+  directMessages DirectMessage[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -79,8 +95,8 @@ enum ChannelType {
 }
 
 model Channel {
-  id         String     @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
   channelType ChannelType @default(TEXT)
 
   profileId String  @db.ObjectId
@@ -89,6 +105,8 @@ model Channel {
   serverId String @db.ObjectId
   server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
 
+  messages Message[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -96,11 +114,58 @@ model Channel {
   @@index([serverId])
 }
 
-model VerificationToken {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  email   String
-  token   String   @unique
-  expires DateTime
+model Message {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  content   String
+  fileUrl   String?
+  isDeleted Boolean @default(false)
 
-  @@unique([email, token])
+  memberId String @db.ObjectId
+  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  channelId String  @db.ObjectId
+  channel   Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([channelId])
+  @@index([memberId])
+}
+
+model Conversation {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  memberOneId String @db.ObjectId
+  memberOne   Member @relation("MemberOne", fields: [memberOneId], references: [id], onDelete: Cascade)
+
+  memberTwoId String @db.ObjectId
+  memberTwo   Member @relation("MemberTwo", fields: [memberTwoId], references: [id], onDelete: Cascade)
+
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  directMessages DirectMessage[]
+
+  @@unique([memberOneId, memberTwoId])
+  @@index([memberOneId])
+  @@index([memberTwoId])
+}
+
+model DirectMessage {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  content   String
+  fileUrl   String?
+  isDeleted Boolean @default(false)
+
+  memberId String @db.ObjectId
+  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  conversationId String       @db.ObjectId
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([memberId])
+  @@index([conversationId])
 }
