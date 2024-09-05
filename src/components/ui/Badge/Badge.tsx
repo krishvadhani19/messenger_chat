@@ -1,11 +1,17 @@
+import classNames from "classnames";
 import "./Badge.scss";
 
 type BadgePropsType = {
-  title: string;
+  children: React.ReactNode;
+  isConnected: boolean;
 };
 
-const Badge = ({ title }: BadgePropsType) => {
-  return <div className="badge-container">{title}</div>;
+const Badge = ({ children, isConnected = false }: BadgePropsType) => {
+  return (
+    <div className={classNames("badge-container", { isConnected })}>
+      {children}
+    </div>
+  );
 };
 
 export default Badge;

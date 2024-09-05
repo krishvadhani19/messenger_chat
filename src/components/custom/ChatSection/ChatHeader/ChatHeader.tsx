@@ -2,6 +2,7 @@ import CustomImage from "@/components/ui/CustomImage/CustomImage";
 import "./ChatHeader.scss";
 import ChannelIcon from "@/utils/ChannelIcon";
 import { ChannelType } from "@prisma/client";
+import SocketIndicator from "./SocketIndicator/SocketIndicator";
 
 type ChatHeaderPropsType = {
   chatHeaderName: string;
@@ -29,6 +30,8 @@ const ChatHeader = ({
 
         <span>{chatHeaderName}</span>
       </div>
+
+      <SocketIndicator />
     </div>
   );
 };

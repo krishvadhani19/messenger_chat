@@ -3,4 +3,12 @@
     justify-content: center;
     align-items: center;
     padding: 0.5rem 1rem;
+    background-color: var(--danger-primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 0.5rem;
+
+    &.isConnected {
+        background-color: var(--primary-green);
+    }
 }
