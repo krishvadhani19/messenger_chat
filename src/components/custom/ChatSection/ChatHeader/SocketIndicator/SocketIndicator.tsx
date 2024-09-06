@@ -8,7 +8,7 @@ const SocketIndicator = () => {
   const { isConnected } = useSocket();
 
   if (!isConnected) {
-    <Badge isConnected={isConnected}>Fallback: Polling every 1s</Badge>;
+    return <Badge isConnected={isConnected}>Fallback: Polling every 1s</Badge>;
   }
 
   return <Badge isConnected={isConnected}>Live: Real-time updates</Badge>;

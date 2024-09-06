@@ -6,7 +6,9 @@ type BadgePropsType = {
   isConnected: boolean;
 };
 
-const Badge = ({ children, isConnected = false }: BadgePropsType) => {
+const Badge = ({ children, isConnected }: BadgePropsType) => {
+  console.log({ isConnected });
+
   return (
     <div className={classNames("badge-container", { isConnected })}>
       {children}
