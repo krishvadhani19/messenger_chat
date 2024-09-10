@@ -16,9 +16,10 @@ app.prepare().then(async () => {
     console.log("Client connected");
 
     socket.on("message1", (data) => {
-      console.log("Recieved from API ::", data);
-      io.emit("message2", data);
+      console.log("Received from API :", data);
     });
+
+    socket.emit("message2", { message: "BSDK" });
   });
 
   server.all("*", (req, res) => {

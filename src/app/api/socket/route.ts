@@ -5,10 +5,23 @@ const socket = io("http://localhost:3000");
 
 export async function POST(req: NextRequest, res: NextApiResponseServerIO) {
   try {
-    // do something you need to do in the backend
-    // (like database operations, etc.)
+    const server = (res.socket as any).server;
+    const io = (server as any).io;
 
-    socket.emit("message1", "Sync Process Completed");
+    if (!io) {
+      console.error("Socket.IO server not initialized");
+      return NextResponse.json(
+        { error: "Internal Server Error" },
+        { status: 500 }
+      );
+    }
+
+    // io.on("connection", (socket: Socket) => {
+    //   socket.on("message1", (data) => {
+    //     console.log({ data });
+    //   });
+
+    // });
 
     return NextResponse.json({ data: "Success" }, { status: 200 });
   } catch (error) {
