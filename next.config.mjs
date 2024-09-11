@@ -8,7 +8,7 @@ const nextConfig = {
     return [
       {
         source: "/api/sockets/io",
-        destination: "http://localhost:3000/api/sockets/io",
+        destination: "http://localhost:3000/api/socket",
       },
     ];
   },
