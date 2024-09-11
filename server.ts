@@ -1,7 +1,7 @@
-const express = require("express");
-const next = require("next");
-const http = require("http");
-const socketIO = require("socket.io");
+import express from "express";
+import next from "next";
+import { createServer } from "http";
+import { Server as SocketIOServer } from "socket.io";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -9,14 +9,17 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(async () => {
   const server = express();
-  const httpServer = http.createServer(server);
-  const io = socketIO(httpServer);
+  const httpServer = createServer(server);
+  const io = new SocketIOServer(httpServer);
 
+  /**
+   * Chat socket
+   */
   io.on("connection", (socket) => {
     console.log("Client connected");
 
-    socket.on("message1", (data) => {
-      console.log("Received from API :", data);
+    socket.on("message1", (data: unknown) => {
+      console.log("Received from API:", data);
     });
 
     socket.emit("message2", { message: "BSDK" });

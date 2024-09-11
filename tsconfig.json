@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -12,11 +13,13 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+
     "plugins": [
       {
         "name": "next"
       }
     ],
+
     "paths": {
       "@/*": ["./src/*"],
       "@/server/*": ["./server/*"]
@@ -25,10 +28,13 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.js",
     "**/*.tsx",
     ".next/types/**/*.ts",
     "server.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "yarn.lock"],
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  }
 }
