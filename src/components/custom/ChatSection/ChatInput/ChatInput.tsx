@@ -4,11 +4,9 @@ import { memo, useCallback, useState } from "react";
 import "./ChatInput.scss";
 import { z } from "zod";
 import { ChatInputSchema } from "@/server/schemas/ChatInputSchema";
-import { PlusIcon } from "@/components/ui/Icons";
+import { PlusIcon, SendIcon, SmileIcon } from "@/components/ui/Icons";
 import InputField from "@/components/ui/Input/InputField";
-import SendIcon from "@/components/ui/Icons/SendIcon";
 import classNames from "classnames";
-import SmileIcon from "@/components/ui/Icons/SmileIcon";
 
 type ChatInputPropsType = {
   apiUrl: string;
