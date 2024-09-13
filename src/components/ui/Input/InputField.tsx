@@ -42,7 +42,7 @@ const InputField = ({
   label,
   disabled = false,
   type = "text",
-  autoComplete,
+  autoComplete = "",
   icon,
   errorMessage = "",
   placeholder,

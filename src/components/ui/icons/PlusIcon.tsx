@@ -1,6 +1,6 @@
 import { IconPropsType } from ".";
 
-const CrossIcon = ({
+const PlusIcon = ({
   color,
   size = 22,
   className,
@@ -31,4 +31,4 @@ const CrossIcon = ({
   );
 };
 
-export default CrossIcon;
+export default PlusIcon;

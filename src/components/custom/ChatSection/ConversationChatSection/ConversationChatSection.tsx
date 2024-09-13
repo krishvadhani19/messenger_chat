@@ -8,6 +8,7 @@ import {
   MEMBER_WITH_PROFILE,
 } from "@/types/types";
 import { ConversationChatSectionContext } from "@/contexts/ConversationChatSectionContext";
+import { memo } from "react";
 
 type ConversationChatSectionPropsType = {
   conversation: CONVERSATION_WITH_BOTH_MEMBER;
@@ -36,4 +37,4 @@ const ConversationChatSection = ({
   );
 };
 
-export default ConversationChatSection;
+export default memo(ConversationChatSection);
