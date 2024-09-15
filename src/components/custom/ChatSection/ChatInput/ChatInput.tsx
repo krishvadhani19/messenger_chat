@@ -1,12 +1,16 @@
 "use client";
 
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useContext, useState } from "react";
 import "./ChatInput.scss";
 import { z } from "zod";
 import { ChatInputSchema } from "@/server/schemas/ChatInputSchema";
 import { PlusIcon, SendIcon, SmileIcon } from "@/components/ui/Icons";
 import InputField from "@/components/ui/Input/InputField";
 import classNames from "classnames";
+import { SocketProvider } from "@/providers/SocketProvider";
+import { SocketContext } from "@/contexts/SocketContext";
+import { useSocket } from "@/hooks/useSocket";
+import { useParams } from "next/navigation";
 
 type ChatInputPropsType = {
   apiUrl: string;
@@ -20,10 +24,23 @@ const ChatInput = ({ apiUrl, query, placeholder }: ChatInputPropsType) => {
   const [formData, setFormData] = useState<ChatInputFormType>({
     content: "",
   });
+  const { serverId, channelId } = useParams();
+  const { messages, sendMessage } = useSocket();
 
-  const handleSendMessage = useCallback(() => {
-    console.log("sent");
-  }, []);
+  const handleSendMessage = useCallback(async () => {
+    try {
+      sendMessage(
+        formData?.content,
+        "",
+        channelId as string,
+        serverId as string,
+        undefined
+      );
+      setFormData({ content: "" });
+    } catch (error) {
+      console.error(error);
+    }
+  }, [channelId, formData?.content, sendMessage, serverId]);
 
   const handleMessageChange = useCallback((val: string) => {
     setFormData({ content: val });
