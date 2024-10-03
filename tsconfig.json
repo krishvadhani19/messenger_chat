@@ -13,6 +13,7 @@
     "jsx": "preserve",
     "incremental": true,
     "outDir": "./dist",
+    "noUnusedLocals": true,
     "plugins": [
       {
         "name": "next"
@@ -28,8 +29,7 @@
     "**/*.ts",
     "**/*.js",
     "**/*.tsx",
-    ".next/types/**/*.ts",
-    "server.js"
+    ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

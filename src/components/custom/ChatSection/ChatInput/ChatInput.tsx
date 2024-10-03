@@ -1,14 +1,12 @@
 "use client";
 
-import { memo, useCallback, useContext, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import "./ChatInput.scss";
 import { z } from "zod";
 import { ChatInputSchema } from "@/server/schemas/ChatInputSchema";
 import { PlusIcon, SendIcon, SmileIcon } from "@/components/ui/Icons";
 import InputField from "@/components/ui/Input/InputField";
 import classNames from "classnames";
-import { SocketProvider } from "@/providers/SocketProvider";
-import { SocketContext } from "@/contexts/SocketContext";
 import { useSocket } from "@/hooks/useSocket";
 import { useParams } from "next/navigation";
 
@@ -31,7 +29,7 @@ const ChatInput = ({ apiUrl, query, placeholder }: ChatInputPropsType) => {
     try {
       sendMessage(
         formData?.content,
-        "",
+        "66a0998870fda637646a1c96",
         channelId as string,
         serverId as string,
         undefined

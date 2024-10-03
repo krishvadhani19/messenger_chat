@@ -6,6 +6,7 @@ import { SocketContext } from "@/contexts/SocketContext";
 import { Socket } from "socket.io-client";
 import { Message } from "@prisma/client";
 import { useParams } from "next/navigation";
+import { APIRequest } from "@/utils/auth-util";
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
@@ -38,20 +39,21 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       setIsConnected(false);
     });
 
+    socketInstance.on("message_ack", async (data) => {
+      console.log("Acknowledge", data);
+      await APIRequest({
+        method: "POST",
+        url: `/api/socket`,
+        data,
+      });
+    });
+
     /**
      * this will receive all the messages including the one the user sends himself
      * Coz it will saved in the db and after that it will be acknowledged here
      */
     socketInstance.on(`chat:${channelId}/messages`, (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
-    });
-
-    socketInstance.io.on("error", (error) => {
-      console.error("Transport error:", error);
-    });
-
-    socketInstance.io.on("reconnect_attempt", (attemptNumber) => {
-      console.log("Attempting reconnection:", attemptNumber);
     });
 
     setSocket(socketInstance);
