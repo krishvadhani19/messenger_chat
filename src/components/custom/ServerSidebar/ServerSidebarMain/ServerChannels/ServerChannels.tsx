@@ -16,6 +16,7 @@ import DeleteModal from "@/components/generic/DeleteModal/DeleteModal";
 import EditModal from "@/components/generic/EditModal/EditModal";
 import { useParams, useRouter } from "next/navigation";
 import classNames from "classnames";
+import { CurrentUserStore } from "@/stores/useCurrentUser";
 
 type ServerChannelPropsType = {
   data: {
@@ -71,8 +72,9 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
     []
   );
 
-  const { currentUserMember, deleteChannelFromServer, editChannelFromServer } =
+  const { deleteChannelFromServer, editChannelFromServer } =
     useContext(ServerSidebarContext);
+  const currentUserMember = CurrentUserStore().currentUserMember;
 
   const handleDeleteChannel = useCallback(async () => {
     await deleteChannelFromServer(currentItem?.id!);

@@ -34,7 +34,7 @@ const ChannelSlugPage = async ({ params }: ChannelSlugPagePropsType) => {
     redirect(`/servers/${params.serverId}`);
   }
 
-  return <ChannelChatSection currentChannel={currentChannel} />;
+  return <ChannelChatSection currentChannel={currentChannel} profile={profile} />;
 };
 
 export default ChannelSlugPage;

@@ -2,9 +2,10 @@ import React, { memo, useCallback, useContext } from "react";
 import "./LeaveServerModal.scss";
 import Modal from "@/components/ui/Modal/Modal";
 import Button from "@/components/ui/Button/Button";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
 import { APIRequest } from "@/utils/auth-util";
+import { CurrentUserStore } from "@/stores/useCurrentUser";
 
 type LeaveServerModalPropsType = {
   isOpen: boolean;
@@ -13,7 +14,8 @@ type LeaveServerModalPropsType = {
 
 const LeaveServerModal = ({ isOpen, onClose }: LeaveServerModalPropsType) => {
   const router = useRouter();
-  const { currentServer, currentUserMember } = useContext(ServerSidebarContext);
+  const { currentServer } = useContext(ServerSidebarContext);
+  const currentUserMember = CurrentUserStore().currentUserMember;
 
   const handleClose = useCallback(() => {
     onClose(null);

@@ -13,12 +13,18 @@ import { useParams } from "next/navigation";
 type ChatInputPropsType = {
   apiUrl: string;
   query: Record<string, any>;
+  profileId: string;
   placeholder: string;
 };
 
 type ChatInputFormType = z.infer<typeof ChatInputSchema>;
 
-const ChatInput = ({ apiUrl, query, placeholder }: ChatInputPropsType) => {
+const ChatInput = ({
+  apiUrl,
+  query,
+  profileId,
+  placeholder,
+}: ChatInputPropsType) => {
   const [formData, setFormData] = useState<ChatInputFormType>({
     content: "",
   });
@@ -29,7 +35,7 @@ const ChatInput = ({ apiUrl, query, placeholder }: ChatInputPropsType) => {
     try {
       sendMessage(
         formData?.content,
-        "66a0998870fda637646a1c96",
+        profileId,
         channelId as string,
         serverId as string,
         undefined
@@ -38,7 +44,7 @@ const ChatInput = ({ apiUrl, query, placeholder }: ChatInputPropsType) => {
     } catch (error) {
       console.error(error);
     }
-  }, [channelId, formData?.content, sendMessage, serverId]);
+  }, [channelId, formData?.content, profileId, sendMessage, serverId]);
 
   const handleMessageChange = useCallback((val: string) => {
     setFormData({ content: val });

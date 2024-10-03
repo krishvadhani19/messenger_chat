@@ -8,7 +8,7 @@ import {
   MemberRole,
   Profile,
 } from "@prisma/client";
-import { memo, useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { FULL_SERVER_TYPE } from "@/types/types";
 import ServerHeader from "./ServerHeader/ServerHeader";
 import { useMutation } from "@tanstack/react-query";
@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
 import { useParams } from "next/navigation";
 import ServerSidebarMain from "./ServerSidebarMain/ServerSidebarMain";
+import useCurrentUserStore from "@/stores/useCurrentUser";
 
 type ServerSidebarPropsType = {
   currentServer: FULL_SERVER_TYPE;
@@ -34,6 +35,18 @@ const ServerSidebar = ({
 }: ServerSidebarPropsType) => {
   const [server, setServer] = useState(currentServer);
   const { serverId } = useParams();
+
+  const { setCurrentUser, setCurrentUserMember } = useCurrentUserStore();
+
+  useEffect(() => {
+    const currentUserMember = currentServer?.members.find(
+      (memberItem) => memberItem?.profileId === userProfile?.id
+    );
+
+    setCurrentUserMember(currentUserMember!);
+
+    setCurrentUser(userProfile);
+  }, [currentServer?.members, setCurrentUser, setCurrentUserMember, userProfile]);
 
   const currentUserMember = useMemo(
     () =>

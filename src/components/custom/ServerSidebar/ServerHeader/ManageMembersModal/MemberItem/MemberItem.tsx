@@ -13,6 +13,7 @@ import Popover from "@/components/ui/Popover/Popover";
 import classNames from "classnames";
 import { MemberRole } from "@prisma/client";
 import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
+import { CurrentUserStore } from "@/stores/useCurrentUser";
 
 type MemberItemPropsType = {
   memberItem: MEMBER_WITH_PROFILE;
@@ -20,7 +21,7 @@ type MemberItemPropsType = {
 
 const MemberItem = ({ memberItem }: MemberItemPropsType) => {
   const { profile } = memberItem;
-  const { currentUserMember } = useContext(ServerSidebarContext);
+  const currentUserMember = CurrentUserStore().currentUserMember;
   const seeMoreRef = useRef<HTMLDivElement>(null);
 
   const currentUserProfile = currentUserMember?.profile;

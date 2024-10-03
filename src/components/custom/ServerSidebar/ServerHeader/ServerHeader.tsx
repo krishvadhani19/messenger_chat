@@ -21,6 +21,7 @@ import ManageMembersModal from "./ManageMembersModal/ManageMembersModal";
 import CreateChannelModal from "./CreateChannelModal/CreateChannelModal";
 import DeleteServerModal from "./DeleteServerModal/DeleteServerModal";
 import LeaveServerModal from "./LeaveServerModal/LeaveServerModal";
+import { CurrentUserStore } from "@/stores/useCurrentUser";
 
 const CURRENT_MODAL_CATEGORIES = {
   INVITE_PEOPLE: "INVITE_PEOPLE",
@@ -39,9 +40,10 @@ const ServerHeader = () => {
   const [currentModal, setCurrentModal] = useState<CURRENT_MODAL_TYPES | null>(
     null
   );
-  const { currentUserMember, currentServer } = useContext(ServerSidebarContext);
+  const { currentServer } = useContext(ServerSidebarContext);
+  const currentUserMember = CurrentUserStore().currentUserMember;
 
-  const { role: currentMemberRole } = currentUserMember;
+  const currentMemberRole = currentUserMember?.role;
 
   const isAdmin = currentMemberRole === MemberRole.ADMIN;
   const isModerator = isAdmin || currentMemberRole === MemberRole.MODERATOR;
