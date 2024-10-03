@@ -46,15 +46,12 @@ const ServerSidebar = ({
     setCurrentUserMember(currentUserMember!);
 
     setCurrentUser(userProfile);
-  }, [currentServer?.members, setCurrentUser, setCurrentUserMember, userProfile]);
-
-  const currentUserMember = useMemo(
-    () =>
-      currentServer?.members.find(
-        (memberItem) => memberItem?.profileId === userProfile?.id
-      ),
-    [currentServer?.members, userProfile?.id]
-  );
+  }, [
+    currentServer?.members,
+    setCurrentUser,
+    setCurrentUserMember,
+    userProfile,
+  ]);
 
   // --------------------- Update Member Role ---------------------
   const updateMemberRole = useMutation({
@@ -191,7 +188,6 @@ const ServerSidebar = ({
     <ServerSidebarContext.Provider
       value={{
         currentServer: server,
-        currentUserMember: currentUserMember!,
         updateMemberRole: handleUpdateMemberRole,
         removeMemberFromServer: handleRemoveMemberFromServer,
         deleteChannelFromServer: handleDeleteChannelFromServer,
