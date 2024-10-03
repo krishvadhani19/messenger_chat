@@ -1,4 +1,4 @@
-import { FULL_SERVER_TYPE, MEMBER_WITH_PROFILE } from "@/types/types";
+import { FULL_SERVER_TYPE } from "@/types/types";
 import { ChannelType, MemberRole } from "@prisma/client";
 import { createContext } from "react";
 

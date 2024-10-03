@@ -9,20 +9,17 @@ import InputField from "@/components/ui/Input/InputField";
 import classNames from "classnames";
 import { useSocket } from "@/hooks/useSocket";
 import { useParams } from "next/navigation";
+import { CurrentUserStore } from "@/stores/useCurrentUser";
 
 type ChatInputPropsType = {
-  apiUrl: string;
   query: Record<string, any>;
-  profileId: string;
   placeholder: string;
 };
 
 type ChatInputFormType = z.infer<typeof ChatInputSchema>;
 
 const ChatInput = ({
-  apiUrl,
   query,
-  profileId,
   placeholder,
 }: ChatInputPropsType) => {
   const [formData, setFormData] = useState<ChatInputFormType>({
@@ -30,12 +27,13 @@ const ChatInput = ({
   });
   const { serverId, channelId } = useParams();
   const { messages, sendMessage } = useSocket();
+  const currentUserMember = CurrentUserStore()?.currentUserMember;
 
   const handleSendMessage = useCallback(async () => {
     try {
       sendMessage(
         formData?.content,
-        profileId,
+        currentUserMember?.id!,
         channelId as string,
         serverId as string,
         undefined
@@ -44,7 +42,7 @@ const ChatInput = ({
     } catch (error) {
       console.error(error);
     }
-  }, [channelId, formData?.content, profileId, sendMessage, serverId]);
+  }, [channelId, currentUserMember?.id, formData?.content, sendMessage, serverId]);
 
   const handleMessageChange = useCallback((val: string) => {
     setFormData({ content: val });

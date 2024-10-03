@@ -12,12 +12,10 @@ import { memo } from "react";
 
 type ConversationChatSectionPropsType = {
   conversation: CONVERSATION_WITH_BOTH_MEMBER;
-  currentMember: MEMBER_WITH_PROFILE;
   otherMember: MEMBER_WITH_PROFILE;
 };
 
 const ConversationChatSection = ({
-  currentMember,
   otherMember,
   conversation,
 }: ConversationChatSectionPropsType) => {

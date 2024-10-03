@@ -48,7 +48,7 @@ const ConversationSlugPage = async ({
 
   const { memberOne, memberTwo } = conversation;
 
-  const [cMember, otherMember] =
+  const [_, otherMember] =
     memberOne?.profile?.id === profile?.id
       ? [memberOne, memberTwo]
       : [memberTwo, memberOne];
@@ -56,7 +56,6 @@ const ConversationSlugPage = async ({
   return (
     <ConversationChatSection
       conversation={conversation}
-      currentMember={cMember}
       otherMember={otherMember}
     />
   );

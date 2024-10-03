@@ -8,7 +8,7 @@ import {
   MemberRole,
   Profile,
 } from "@prisma/client";
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { FULL_SERVER_TYPE } from "@/types/types";
 import ServerHeader from "./ServerHeader/ServerHeader";
 import { useMutation } from "@tanstack/react-query";
@@ -18,6 +18,7 @@ import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
 import { useParams } from "next/navigation";
 import ServerSidebarMain from "./ServerSidebarMain/ServerSidebarMain";
 import useCurrentUserStore from "@/stores/useCurrentUser";
+import useCurrentServerStore from "@/stores/useCurrentServer";
 
 type ServerSidebarPropsType = {
   currentServer: FULL_SERVER_TYPE;
@@ -37,6 +38,7 @@ const ServerSidebar = ({
   const { serverId } = useParams();
 
   const { setCurrentUser, setCurrentUserMember } = useCurrentUserStore();
+  const { setCurrentServer } = useCurrentServerStore();
 
   useEffect(() => {
     const currentUserMember = currentServer?.members.find(
@@ -44,10 +46,12 @@ const ServerSidebar = ({
     );
 
     setCurrentUserMember(currentUserMember!);
-
     setCurrentUser(userProfile);
+
+    setCurrentServer(currentServer);
   }, [
-    currentServer?.members,
+    currentServer,
+    setCurrentServer,
     setCurrentUser,
     setCurrentUserMember,
     userProfile,

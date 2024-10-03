@@ -1,43 +1,42 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import "./ChannelChatSection.scss";
 import ChatHeader from "../ChatHeader/ChatHeader";
-import { ChannelChatSectionContext } from "@/contexts/ChannelChatSectionContext";
 import ChatArea from "../ChatArea/ChatArea";
-import { Channel, Profile } from "@prisma/client";
+import { Channel } from "@prisma/client";
 import ChatInput from "../ChatInput/ChatInput";
+import useCurrentServerStore from "@/stores/useCurrentServer";
 
 type ChatSectionPropsType = {
   currentChannel: Channel;
-  profile: Profile;
 };
 
-const ChatSection = ({ currentChannel, profile }: ChatSectionPropsType) => {
-  const profileId = profile?.id;
+const ChannelChatSection = ({ currentChannel }: ChatSectionPropsType) => {
+  const { setCurrentChannel } = useCurrentServerStore();
+
+  useEffect(() => {
+    setCurrentChannel(currentChannel);
+  }, [currentChannel, setCurrentChannel]);
 
   return (
-    <ChannelChatSectionContext.Provider value={{ currentChannel }}>
-      <div className="channel-chat-section-container">
-        <ChatHeader
-          channelType={currentChannel?.channelType}
-          chatHeaderName={currentChannel?.name}
-        />
+    <div className="channel-chat-section-container">
+      <ChatHeader
+        channelType={currentChannel?.channelType}
+        chatHeaderName={currentChannel?.name}
+      />
 
-        <ChatArea />
+      <ChatArea />
 
-        <ChatInput
-          apiUrl="/api/socket/messages"
-          placeholder={`Message in channel ${currentChannel.name}`}
-          profileId={profileId}
-          query={{
-            channelId: currentChannel?.id,
-            serverId: currentChannel?.serverId,
-          }}
-        />
-      </div>
-    </ChannelChatSectionContext.Provider>
+      <ChatInput
+        placeholder={`Message in channel ${currentChannel.name}`}
+        query={{
+          channelId: currentChannel?.id,
+          serverId: currentChannel?.serverId,
+        }}
+      />
+    </div>
   );
 };
 
-export default memo(ChatSection);
+export default memo(ChannelChatSection);

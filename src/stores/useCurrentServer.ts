@@ -1,22 +1,21 @@
-import { FULL_SERVER_TYPE, MEMBER_WITH_PROFILE } from "@/types/types";
+import { FULL_SERVER_TYPE } from "@/types/types";
+import { Channel } from "@prisma/client";
 import { create } from "zustand";
 
 type CurrentServerStoreTypes = {
   currentServer: null | FULL_SERVER_TYPE;
-  currentUserMember: null | MEMBER_WITH_PROFILE;
+  currentChannel: null | Channel;
 
   setCurrentServer: (server: FULL_SERVER_TYPE) => void;
-  setCurrentUserMember: (member: MEMBER_WITH_PROFILE) => void;
+  setCurrentChannel: (channel: Channel) => void;
 };
 
 const useCurrentServerStore = create<CurrentServerStoreTypes>((set, get) => ({
   currentServer: null,
-  currentUserMember: null,
+  currentChannel: null,
 
-  setCurrentServer: () => {},
-    setCurrentUserMember: (member: MEMBER_WITH_PROFILE) => {
-      
-  },
+  setCurrentServer: (server) => set({ currentServer: server }),
+  setCurrentChannel: (channel) => set({ currentChannel: channel }),
 }));
 
 export const CurrentServerStore = useCurrentServerStore.getState();
