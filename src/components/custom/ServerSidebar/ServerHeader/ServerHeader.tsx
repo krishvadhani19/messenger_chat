@@ -1,7 +1,7 @@
 "use client";
 
 import "./ServerHeader.scss";
-import { memo, useCallback, useContext, useRef, useState } from "react";
+import { memo, useCallback, useRef, useState } from "react";
 import {
   AddUserIcon,
   ChevronDownIcon,
@@ -14,13 +14,14 @@ import Popover from "@/components/ui/Popover/Popover";
 import MultipleUsersIcon from "@/components/ui/Icons/MultipleUsersIcon";
 import { MemberRole } from "@prisma/client";
 import classNames from "classnames";
-import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
 import InvitePeopleModal from "./InvitePeopleModal/InvitePeopleModal";
 import ServerSettingsModal from "./ServerSettingsModal/ServerSettingsModal";
 import ManageMembersModal from "./ManageMembersModal/ManageMembersModal";
 import CreateChannelModal from "./CreateChannelModal/CreateChannelModal";
 import DeleteServerModal from "./DeleteServerModal/DeleteServerModal";
 import LeaveServerModal from "./LeaveServerModal/LeaveServerModal";
+import { CurrentUserStore } from "@/stores/useCurrentUser";
+import useCurrentServerStore from "@/stores/useCurrentServer";
 
 const CURRENT_MODAL_CATEGORIES = {
   INVITE_PEOPLE: "INVITE_PEOPLE",
@@ -39,9 +40,10 @@ const ServerHeader = () => {
   const [currentModal, setCurrentModal] = useState<CURRENT_MODAL_TYPES | null>(
     null
   );
-  const { currentUserMember, currentServer } = useContext(ServerSidebarContext);
+  const { currentServer } = useCurrentServerStore();
+  const currentUserMember = CurrentUserStore().currentUserMember;
 
-  const { role: currentMemberRole } = currentUserMember;
+  const currentMemberRole = currentUserMember?.role;
 
   const isAdmin = currentMemberRole === MemberRole.ADMIN;
   const isModerator = isAdmin || currentMemberRole === MemberRole.MODERATOR;
@@ -164,7 +166,7 @@ const ServerHeader = () => {
         <InvitePeopleModal
           isOpen
           onClose={handleModalChange}
-          inviteCode={currentServer?.inviteCode}
+          inviteCode={currentServer?.inviteCode!}
         />
       )}
 

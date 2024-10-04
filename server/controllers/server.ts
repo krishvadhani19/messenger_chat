@@ -170,3 +170,29 @@ export const updateServerSettings = async (
     return null;
   }
 };
+
+export const checkServerExistence = async (
+  serverId: string,
+  profileId: string
+) => {
+  try {
+    const server = await db.server.findFirst({
+      where: {
+        id: serverId,
+        members: {
+          some: {
+            profileId,
+          },
+        },
+      },
+
+      include: {
+        members: true,
+      },
+    });
+
+    return server;
+  } catch (error) {
+    return null;
+  }
+};

@@ -1,13 +1,18 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { io } from "socket.io-client";
 import { SocketContext } from "@/contexts/SocketContext";
 import { Socket } from "socket.io-client";
+import { Message } from "@prisma/client";
+import { useParams } from "next/navigation";
+import { APIRequest } from "@/utils/auth-util";
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const { channelId } = useParams();
 
   useEffect(() => {
     const NEXT_PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
@@ -34,18 +39,21 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       setIsConnected(false);
     });
 
-    socketInstance.io.on("error", (error) => {
-      console.error("Transport error:", error);
+    socketInstance.on("message_ack", async (data) => {
+      console.log("Acknowledge", data);
+      await APIRequest({
+        method: "POST",
+        url: `/api/socket`,
+        data,
+      });
     });
 
-    socketInstance.io.on("reconnect_attempt", (attemptNumber) => {
-      console.log("Attempting reconnection:", attemptNumber);
-    });
-
-    socketInstance.emit("message1", { message: "BSDK" });
-
-    socketInstance.on("message2", (data) => {
-      console.log({ data, x: "x" });
+    /**
+     * this will receive all the messages including the one the user sends himself
+     * Coz it will saved in the db and after that it will be acknowledged here
+     */
+    socketInstance.on(`chat:${channelId}/messages`, (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
     });
 
     setSocket(socketInstance);
@@ -53,13 +61,41 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     return () => {
       socketInstance.disconnect();
     };
-  }, []);
+  }, [channelId]);
+
+  const sendMessage = useCallback(
+    (
+      content: string,
+      memberId: string,
+      channelId: string,
+      serverId: string,
+      fileUrl?: string
+    ) => {
+      let data: any = {
+        content,
+        memberId,
+        channelId,
+        serverId,
+      };
+
+      if (socket) {
+        if (fileUrl) {
+          data["fileUrl"] = fileUrl;
+        }
+
+        socket.emit("sendMessage", data);
+      }
+    },
+    [socket]
+  );
 
   return (
     <SocketContext.Provider
       value={{
         socket,
         isConnected,
+        messages,
+        sendMessage,
       }}
     >
       {children}

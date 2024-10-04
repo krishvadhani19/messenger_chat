@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useContext, useState } from "react";
+import React, { memo, useCallback, useState } from "react";
 import "./ServerChannels.scss";
 import {
   EditIcon,
@@ -9,13 +9,14 @@ import {
 } from "@/components/ui/Icons";
 import Tooltip from "@/components/ui/Tooltip/Tooltip";
 import CreateChannelModal from "../../ServerHeader/CreateChannelModal/CreateChannelModal";
-import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
 import { ChannelType, MemberRole } from "@prisma/client";
 import ManageMembersModal from "../../ServerHeader/ManageMembersModal/ManageMembersModal";
 import DeleteModal from "@/components/generic/DeleteModal/DeleteModal";
 import EditModal from "@/components/generic/EditModal/EditModal";
 import { useParams, useRouter } from "next/navigation";
 import classNames from "classnames";
+import { CurrentUserStore } from "@/stores/useCurrentUser";
+import useCurrentServerStore from "@/stores/useCurrentServer";
 
 type ServerChannelPropsType = {
   data: {
@@ -71,8 +72,10 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
     []
   );
 
-  const { currentUserMember, deleteChannelFromServer, editChannelFromServer } =
-    useContext(ServerSidebarContext);
+  const { deleteChannelFromServer, editChannelFromServer } =
+    useCurrentServerStore();
+
+  const currentUserMember = CurrentUserStore().currentUserMember;
 
   const handleDeleteChannel = useCallback(async () => {
     await deleteChannelFromServer(currentItem?.id!);
@@ -100,7 +103,7 @@ const ServerChannels = ({ data }: ServerChannelPropsType) => {
     <>
       <div className="server-channels-container">
         {data.map((category, key) => {
-          if (!category?.data.length) {
+          if (!category?.data?.length) {
             return null;
           }
 

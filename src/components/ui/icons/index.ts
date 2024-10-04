@@ -31,6 +31,8 @@ import VideoIcon from "./VideoIcon";
 import ShieldCheckIcon from "./ShieldCheckIcon";
 import EditIcon from "./EditIcon";
 import LockIcon from "./LockIcon";
+import SmileIcon from "./SmileIcon";
+import SendIcon from "./SendIcon";
 
 export interface IconPropsType {
   color?: string;
@@ -72,4 +74,6 @@ export {
   ShieldCheckIcon,
   EditIcon,
   LockIcon,
+  SmileIcon,
+  SendIcon,
 };

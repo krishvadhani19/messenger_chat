@@ -1,7 +1,6 @@
 import { memo } from "react";
 import "./SelectOne.scss";
 import classNames from "classnames";
-import { formatPrice } from "@/lib/utils";
 
 type SelectOneItemType = {
   id: string;
@@ -39,9 +38,7 @@ const SelectOne = ({
               </div>
             </div>
 
-            <div className="select-one-item-price">
-              {formatPrice(item?.price / 100)}
-            </div>
+            <div className="select-one-item-price"></div>
           </div>
         );
       })}

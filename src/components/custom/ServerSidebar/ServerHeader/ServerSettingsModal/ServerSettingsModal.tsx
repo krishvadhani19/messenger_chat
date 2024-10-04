@@ -1,11 +1,4 @@
-import {
-  FormEvent,
-  memo,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { FormEvent, memo, useCallback, useMemo, useState } from "react";
 import "./ServerSettingsModal.scss";
 import Modal from "@/components/ui/Modal/Modal";
 import CustomImage from "@/components/ui/CustomImage/CustomImage";
@@ -19,7 +12,7 @@ import { APIRequest } from "@/utils/auth-util";
 import { CreateServerModalSchema } from "@/server/schemas/CreateServerModalSchema";
 import { z } from "zod";
 import toast from "react-hot-toast";
-import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
+import useCurrentServerStore from "@/stores/useCurrentServer";
 
 type ServerSettingsModalPropsType = {
   isOpen: boolean;
@@ -34,13 +27,13 @@ const ServerSettingsModal = ({
 }: ServerSettingsModalPropsType) => {
   const router = useRouter();
 
-  const { currentServer } = useContext(ServerSidebarContext);
+  const { currentServer } = useCurrentServerStore();
 
   const initialFormData: ServerSettingsModalSchemaType = useMemo(
     () => ({
-      serverName: currentServer?.name,
+      serverName: currentServer?.name!,
       image: {
-        url: currentServer?.imageUrl,
+        url: currentServer?.imageUrl!,
         file: undefined,
       },
     }),
