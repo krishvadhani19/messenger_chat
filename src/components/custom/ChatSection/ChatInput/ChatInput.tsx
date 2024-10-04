@@ -10,6 +10,7 @@ import classNames from "classnames";
 import { useSocket } from "@/hooks/useSocket";
 import { useParams } from "next/navigation";
 import { CurrentUserStore } from "@/stores/useCurrentUser";
+import MessageFileModal from "./MessageFileModal/MessageFileModal";
 
 type ChatInputPropsType = {
   query: Record<string, any>;
@@ -18,16 +19,14 @@ type ChatInputPropsType = {
 
 type ChatInputFormType = z.infer<typeof ChatInputSchema>;
 
-const ChatInput = ({
-  query,
-  placeholder,
-}: ChatInputPropsType) => {
+const ChatInput = ({ query, placeholder }: ChatInputPropsType) => {
   const [formData, setFormData] = useState<ChatInputFormType>({
     content: "",
   });
   const { serverId, channelId } = useParams();
   const { messages, sendMessage } = useSocket();
   const currentUserMember = CurrentUserStore()?.currentUserMember;
+  const [isAddFileModalOpen, setIsAddFileModalOpen] = useState<boolean>(false);
 
   const handleSendMessage = useCallback(async () => {
     try {
@@ -42,16 +41,29 @@ const ChatInput = ({
     } catch (error) {
       console.error(error);
     }
-  }, [channelId, currentUserMember?.id, formData?.content, sendMessage, serverId]);
+  }, [
+    channelId,
+    currentUserMember?.id,
+    formData?.content,
+    sendMessage,
+    serverId,
+  ]);
 
   const handleMessageChange = useCallback((val: string) => {
     setFormData({ content: val });
   }, []);
 
+  const handleAddFileModalState = () => {
+    setIsAddFileModalOpen(true);
+  };
+
   return (
     <div className="chat-input-area">
       <div className="chat-input-container">
-        <div className="chat-input-add-attachment-btn">
+        <div
+          className="chat-input-add-attachment-btn"
+          onClick={handleAddFileModalState}
+        >
           <PlusIcon size={18} />
         </div>
 
@@ -78,6 +90,15 @@ const ChatInput = ({
           <SendIcon size={18} />
         </div>
       </div>
+
+      {isAddFileModalOpen && (
+        <MessageFileModal
+          isOpen
+          onClose={(val: null) => {
+            setIsAddFileModalOpen(!!val);
+          }}
+        />
+      )}
     </div>
   );
 };
