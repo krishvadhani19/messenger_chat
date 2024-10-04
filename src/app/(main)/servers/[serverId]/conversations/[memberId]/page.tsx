@@ -55,7 +55,6 @@ const ConversationSlugPage = async ({
 
   return (
     <ConversationChatSection
-      conversation={conversation}
       otherMember={otherMember}
     />
   );

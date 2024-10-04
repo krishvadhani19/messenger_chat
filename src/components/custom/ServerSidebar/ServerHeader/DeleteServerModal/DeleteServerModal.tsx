@@ -2,11 +2,11 @@
 
 import Modal from "@/components/ui/Modal/Modal";
 import "./DeleteServerModal.scss";
-import { memo, useCallback, useContext } from "react";
+import { memo, useCallback } from "react";
 import Button from "@/components/ui/Button/Button";
-import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
 import { APIRequest } from "@/utils/auth-util";
 import { useParams, useRouter } from "next/navigation";
+import useCurrentServerStore from "@/stores/useCurrentServer";
 
 type DeleteServerModalPropsType = {
   isOpen: boolean;
@@ -16,7 +16,7 @@ type DeleteServerModalPropsType = {
 const DeleteServerModal = ({ isOpen, onClose }: DeleteServerModalPropsType) => {
   const { serverId } = useParams();
   const router = useRouter();
-  const { currentServer } = useContext(ServerSidebarContext);
+  const { currentServer } = useCurrentServerStore();
 
   const handleClose = useCallback(() => {
     onClose(null);

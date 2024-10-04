@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo, useCallback, useContext, useRef } from "react";
+import React, { memo, useCallback, useRef } from "react";
 import "./MemberItem.scss";
 import Avatar from "@/components/ui/Avatar/Avatar";
 import { MEMBER_WITH_PROFILE } from "@/types/types";
@@ -12,8 +12,8 @@ import {
 import Popover from "@/components/ui/Popover/Popover";
 import classNames from "classnames";
 import { MemberRole } from "@prisma/client";
-import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
 import { CurrentUserStore } from "@/stores/useCurrentUser";
+import useCurrentServerStore from "@/stores/useCurrentServer";
 
 type MemberItemPropsType = {
   memberItem: MEMBER_WITH_PROFILE;
@@ -28,8 +28,7 @@ const MemberItem = ({ memberItem }: MemberItemPropsType) => {
   const isCurrentUser = currentUserProfile?.id === memberItem?.profile?.id;
   const isMemberModerator = memberItem?.role === MemberRole.MODERATOR;
 
-  const { updateMemberRole, removeMemberFromServer } =
-    useContext(ServerSidebarContext);
+  const { updateMemberRole, removeMemberFromServer } = useCurrentServerStore();
 
   const getMemberDetails = useCallback(
     (handleClose: () => void) => {

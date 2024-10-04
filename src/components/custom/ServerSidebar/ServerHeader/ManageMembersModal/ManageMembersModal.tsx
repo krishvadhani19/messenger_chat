@@ -2,9 +2,9 @@
 
 import Modal from "@/components/ui/Modal/Modal";
 import "./ManageMembersModal.scss";
-import { memo, useCallback, useContext } from "react";
+import { memo, useCallback } from "react";
 import MemberItem from "./MemberItem/MemberItem";
-import { ServerSidebarContext } from "@/contexts/ServerSidebarContext";
+import useCurrentServerStore from "@/stores/useCurrentServer";
 
 type ManageMembersModalPropsType = {
   isOpen: boolean;
@@ -19,7 +19,7 @@ const ManageMembersModal = ({
     onClose(null);
   }, [onClose]);
 
-  const { currentServer } = useContext(ServerSidebarContext);
+  const { currentServer } = useCurrentServerStore();
 
   const members = currentServer?.members;
 
@@ -37,7 +37,7 @@ const ManageMembersModal = ({
         </div>
 
         <div className="manage-members-modal-member-list">
-          {members.map((memberItem, key) => (
+          {members?.map((memberItem, key) => (
             <MemberItem key={key} memberItem={memberItem} />
           ))}
         </div>
