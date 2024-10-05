@@ -33,6 +33,7 @@ import EditIcon from "./EditIcon";
 import LockIcon from "./LockIcon";
 import SmileIcon from "./SmileIcon";
 import SendIcon from "./SendIcon";
+import FileIcon from "./FileIcon";
 
 export interface IconPropsType {
   color?: string;
@@ -76,4 +77,5 @@ export {
   LockIcon,
   SmileIcon,
   SendIcon,
+  FileIcon,
 };

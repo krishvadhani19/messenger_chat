@@ -1,3 +1,4 @@
+import { NextResponse } from "next/server";
 import { getCurrentUserId } from "../../../../server/actions/getCurrentUserId";
 import { checkChannelExistence } from "../../../../server/controllers/channel";
 import { saveMessage } from "../../../../server/controllers/messages";
@@ -24,8 +25,6 @@ export const POST = async (req: Request) => {
 
     const { content, channelId, memberId, serverId, fileUrl } =
       await req.json();
-
-    console.log({ content });
 
     if (!channelId || !memberId || !serverId) {
       return new Response(
@@ -70,10 +69,7 @@ export const POST = async (req: Request) => {
       fileUrl,
     });
 
-    return new Response(JSON.stringify(newMessage), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json(newMessage);
   } catch (error) {
     console.error("Error in checkSocket:", error);
     return new Response("Internal Server Error", { status: 500 });

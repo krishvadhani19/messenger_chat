@@ -10,7 +10,7 @@ import classNames from "classnames";
 import { useSocket } from "@/hooks/useSocket";
 import { useParams } from "next/navigation";
 import { CurrentUserStore } from "@/stores/useCurrentUser";
-import MessageFileModal from "./MessageFileModal/MessageFileModal";
+import ChatAttachmentModal from "./ChatAttachmentModal/ChatAttachmentModal";
 
 type ChatInputPropsType = {
   query: Record<string, any>;
@@ -26,7 +26,7 @@ const ChatInput = ({ query, placeholder }: ChatInputPropsType) => {
   const { serverId, channelId } = useParams();
   const { messages, sendMessage } = useSocket();
   const currentUserMember = CurrentUserStore()?.currentUserMember;
-  const [isAddFileModalOpen, setIsAddFileModalOpen] = useState<boolean>(false);
+  const [isChatAttachmentModalOpen, setIsChatAttachmentModalOpen] = useState<boolean>(false);
 
   const handleSendMessage = useCallback(async () => {
     try {
@@ -54,7 +54,7 @@ const ChatInput = ({ query, placeholder }: ChatInputPropsType) => {
   }, []);
 
   const handleAddFileModalState = () => {
-    setIsAddFileModalOpen(true);
+    setIsChatAttachmentModalOpen(true);
   };
 
   return (
@@ -91,11 +91,11 @@ const ChatInput = ({ query, placeholder }: ChatInputPropsType) => {
         </div>
       </div>
 
-      {isAddFileModalOpen && (
-        <MessageFileModal
+      {isChatAttachmentModalOpen && (
+        <ChatAttachmentModal
           isOpen
-          onClose={(val: null) => {
-            setIsAddFileModalOpen(!!val);
+          onClose={() => {
+            setIsChatAttachmentModalOpen(false);
           }}
         />
       )}

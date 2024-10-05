@@ -1,26 +1,27 @@
-.create-server-modal-container {
+.chat-attachment-modal-container {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     gap: 1.25rem;
-    max-width: 60%;
+    width: 36rem;
     margin: 2rem auto;
     text-align: center;
 
-    .create-server-modal-title {
+    .chat-attachment-modal-title {
         font-size: var(--text-2xl);
         font-weight: 700;
     }
 
-    .create-server-modal-sub-title {
+    .chat-attachment-modal-sub-title {
         font-size: var(--text-sm);
         font-weight: 500;
         color: var(--gray-400);
     }
 
-    .create-server-modal-image-container {
+    .chat-attachment-modal-image-container {
         position: relative;
+        width: 60%;
 
         .image-cross-icon {
             cursor: pointer;
