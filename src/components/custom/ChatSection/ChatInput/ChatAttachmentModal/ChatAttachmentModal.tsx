@@ -36,7 +36,7 @@ const MessageFileModal = ({ onClose }: ManageFileModalPropsType) => {
   const [formData, setFormData] =
     useState<ChatAttachmentModalSchemaType>(initialFormData);
 
-  const { startUpload } = useUploadThing("serverName", {
+  const { startUpload } = useUploadThing("chatAttachment", {
     onClientUploadComplete: async ([data]) => {
       await APIRequest({
         method: "POST",

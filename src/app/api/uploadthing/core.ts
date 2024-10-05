@@ -18,6 +18,11 @@ export const ourFileRouter = {
   })
     .middleware(handleAuth)
     .onUploadComplete(() => {}),
+  chatAttachment: f({
+    image: { maxFileSize: "4MB", maxFileCount: 1 },
+  })
+    .middleware(handleAuth)
+    .onUploadComplete(() => {}),
 
   messageFile: f(["image", "pdf"])
     .middleware(handleAuth)
