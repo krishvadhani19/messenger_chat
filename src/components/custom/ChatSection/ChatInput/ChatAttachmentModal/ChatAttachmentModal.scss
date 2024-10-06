@@ -7,6 +7,7 @@
     width: 36rem;
     margin: 2rem auto;
     text-align: center;
+    min-width: 80%;
 
     .chat-attachment-modal-title {
         font-size: var(--text-2xl);
@@ -22,6 +23,7 @@
     .chat-attachment-modal-image-container {
         position: relative;
         width: 60%;
+        margin: 0 auto;
 
         .image-cross-icon {
             cursor: pointer;

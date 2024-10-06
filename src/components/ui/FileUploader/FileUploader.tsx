@@ -9,11 +9,13 @@ import toast from "react-hot-toast";
 type FileUploaderPropsType = {
   maxFiles: number;
   fileUploadCallback: (inputImage: File) => void;
+  fileType?: string[];
 };
 
 const FileUploader = ({
   maxFiles,
   fileUploadCallback,
+  fileType,
 }: FileUploaderPropsType) => {
   const onDrop = useCallback(
     (acceptedFiles: File[], fileRejections: any) => {
@@ -31,6 +33,7 @@ const FileUploader = ({
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       "image/*": [".jpeg", ".png"],
+      "application/pdf": fileType ? fileType : [],
     },
     maxFiles,
     multiple: maxFiles !== 1,

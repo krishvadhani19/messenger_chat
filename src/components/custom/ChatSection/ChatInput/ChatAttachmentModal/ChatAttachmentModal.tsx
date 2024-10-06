@@ -36,7 +36,7 @@ const MessageFileModal = ({ onClose }: ManageFileModalPropsType) => {
   const [formData, setFormData] =
     useState<ChatAttachmentModalSchemaType>(initialFormData);
 
-  const { startUpload } = useUploadThing("chatAttachment", {
+  const { startUpload } = useUploadThing("messageFile", {
     onClientUploadComplete: async ([data]) => {
       await APIRequest({
         method: "POST",
@@ -117,7 +117,11 @@ const MessageFileModal = ({ onClose }: ManageFileModalPropsType) => {
             />
           </div>
         ) : (
-          <FileUploader maxFiles={1} fileUploadCallback={handleFileUploader} />
+          <FileUploader
+            maxFiles={1}
+            fileUploadCallback={handleFileUploader}
+            fileType={[".pdf"]}
+          />
         )}
 
         <Button
