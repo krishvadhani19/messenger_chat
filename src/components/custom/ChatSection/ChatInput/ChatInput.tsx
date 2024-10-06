@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useRef, useState } from "react";
 import "./ChatInput.scss";
 import { z } from "zod";
 import { ChatInputSchema } from "@/server/schemas/ChatInputSchema";
@@ -11,6 +11,9 @@ import { useSocket } from "@/hooks/useSocket";
 import { useParams } from "next/navigation";
 import { CurrentUserStore } from "@/stores/useCurrentUser";
 import ChatAttachmentModal from "./ChatAttachmentModal/ChatAttachmentModal";
+import Popover from "@/components/ui/Popover/Popover";
+import Picker from "@emoji-mart/react";
+import data from "@emoji-mart/data";
 
 type ChatInputPropsType = {
   query: Record<string, any>;
@@ -26,7 +29,9 @@ const ChatInput = ({ query, placeholder }: ChatInputPropsType) => {
   const { serverId, channelId } = useParams();
   const { messages, sendMessage } = useSocket();
   const currentUserMember = CurrentUserStore()?.currentUserMember;
-  const [isChatAttachmentModalOpen, setIsChatAttachmentModalOpen] = useState<boolean>(false);
+  const [isChatAttachmentModalOpen, setIsChatAttachmentModalOpen] =
+    useState<boolean>(false);
+  const emojiRef = useRef<HTMLDivElement>(null);
 
   const handleSendMessage = useCallback(async () => {
     try {
@@ -57,6 +62,18 @@ const ChatInput = ({ query, placeholder }: ChatInputPropsType) => {
     setIsChatAttachmentModalOpen(true);
   };
 
+  const getEmojiPopoverContent = useCallback((handleClose: any) => {
+    const onEmojiSelect = (emoji: any) => {
+      setFormData((prev) => ({
+        ...prev,
+        content: `${prev.content}${emoji?.native}`,
+      }));
+      handleClose();
+    };
+
+    return <Picker data={data} onEmojiSelect={onEmojiSelect} />;
+  }, []);
+
   return (
     <div className="chat-input-area">
       <div className="chat-input-container">
@@ -67,7 +84,7 @@ const ChatInput = ({ query, placeholder }: ChatInputPropsType) => {
           <PlusIcon size={18} />
         </div>
 
-        <div className="chat-input-add-attachment-btn">
+        <div className="chat-input-add-attachment-btn" ref={emojiRef}>
           <SmileIcon size={18} />
         </div>
 
@@ -99,6 +116,8 @@ const ChatInput = ({ query, placeholder }: ChatInputPropsType) => {
           }}
         />
       )}
+
+      <Popover anchorRef={emojiRef}>{getEmojiPopoverContent}</Popover>
     </div>
   );
 };
