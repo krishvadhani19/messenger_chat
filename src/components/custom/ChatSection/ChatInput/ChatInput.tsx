@@ -13,7 +13,7 @@ import ChatAttachmentModal from "./ChatAttachmentModal/ChatAttachmentModal";
 import Popover from "@/components/ui/Popover/Popover";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
-import { CurrentServerStore } from "@/stores/useCurrentServer";
+import { CurrentServerStore } from "@/stores/useCurrentServerStore";
 
 type ChatInputPropsType = {
   query: Record<string, any>;

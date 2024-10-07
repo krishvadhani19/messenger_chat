@@ -4,7 +4,7 @@ import Modal from "@/components/ui/Modal/Modal";
 import Button from "@/components/ui/Button/Button";
 import { useRouter } from "next/navigation";
 import { APIRequest } from "@/utils/auth-util";
-import { CurrentServerStore } from "@/stores/useCurrentServer";
+import { CurrentServerStore } from "@/stores/useCurrentServerStore";
 
 type LeaveServerModalPropsType = {
   isOpen: boolean;

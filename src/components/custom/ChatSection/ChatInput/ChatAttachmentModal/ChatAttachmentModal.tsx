@@ -12,7 +12,7 @@ import FileUploader from "@/components/ui/FileUploader/FileUploader";
 import Button from "@/components/ui/Button/Button";
 import { ChatAttachmentModalSchema } from "@/server/schemas/ChatAttachmentModalSchema";
 import { CrossIcon, FileIcon } from "@/components/ui/Icons";
-import { CurrentServerStore } from "@/stores/useCurrentServer";
+import { CurrentServerStore } from "@/stores/useCurrentServerStore";
 
 type ManageFileModalPropsType = {
   isOpen: boolean;

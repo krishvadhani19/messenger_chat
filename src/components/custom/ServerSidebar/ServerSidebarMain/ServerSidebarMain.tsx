@@ -8,7 +8,7 @@ import { ChannelType, MemberRole } from "@prisma/client";
 import { ShieldAlertIcon, ShieldCheckIcon } from "@/components/ui/Icons";
 import Separator from "@/components/ui/Separator/Separator";
 import ChannelIcon from "@/utils/ChannelIcon";
-import useCurrentServerStore from "@/stores/useCurrentServer";
+import useCurrentServerStore from "@/stores/useCurrentServerStore";
 
 const iconRoleMap = {
   [MemberRole.GUEST]: null,

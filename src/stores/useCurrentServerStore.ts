@@ -3,7 +3,7 @@ import { APIRequest } from "@/utils/auth-util";
 import { Channel, ChannelType, MemberRole } from "@prisma/client";
 import toast from "react-hot-toast";
 import { create } from "zustand";
-import { CurrentUserStore } from "./useCurrentUser";
+import { CurrentUserStore } from "./useCurrentUserStore";
 
 type CurrentServerStoreTypes = {
   currentServer: null | FULL_SERVER_TYPE;

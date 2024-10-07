@@ -4,7 +4,7 @@ import Modal from "@/components/ui/Modal/Modal";
 import "./ManageMembersModal.scss";
 import { memo, useCallback } from "react";
 import MemberItem from "./MemberItem/MemberItem";
-import useCurrentServerStore from "@/stores/useCurrentServer";
+import useCurrentServerStore from "@/stores/useCurrentServerStore";
 
 type ManageMembersModalPropsType = {
   isOpen: boolean;

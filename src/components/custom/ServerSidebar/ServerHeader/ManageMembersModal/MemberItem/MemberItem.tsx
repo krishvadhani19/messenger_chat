@@ -12,7 +12,7 @@ import {
 import Popover from "@/components/ui/Popover/Popover";
 import classNames from "classnames";
 import { MemberRole } from "@prisma/client";
-import { CurrentServerStore } from "@/stores/useCurrentServer";
+import { CurrentServerStore } from "@/stores/useCurrentServerStore";
 
 type MemberItemPropsType = {
   memberItem: MEMBER_WITH_PROFILE;

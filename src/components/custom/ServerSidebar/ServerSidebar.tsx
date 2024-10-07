@@ -6,8 +6,8 @@ import { memo, useEffect } from "react";
 import { FULL_SERVER_TYPE } from "@/types/types";
 import ServerHeader from "./ServerHeader/ServerHeader";
 import ServerSidebarMain from "./ServerSidebarMain/ServerSidebarMain";
-import useCurrentUserStore from "@/stores/useCurrentUser";
-import useCurrentServerStore from "@/stores/useCurrentServer";
+import useCurrentUserStore from "@/stores/useCurrentUserStore";
+import useCurrentServerStore from "@/stores/useCurrentServerStore";
 
 type ServerSidebarPropsType = {
   currentServer: FULL_SERVER_TYPE;

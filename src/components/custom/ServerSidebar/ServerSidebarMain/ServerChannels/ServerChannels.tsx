@@ -15,7 +15,7 @@ import DeleteModal from "@/components/generic/DeleteModal/DeleteModal";
 import EditModal from "@/components/generic/EditModal/EditModal";
 import { useParams, useRouter } from "next/navigation";
 import classNames from "classnames";
-import { CurrentServerStore } from "@/stores/useCurrentServer";
+import { CurrentServerStore } from "@/stores/useCurrentServerStore";
 
 type ServerChannelPropsType = {
   data: {

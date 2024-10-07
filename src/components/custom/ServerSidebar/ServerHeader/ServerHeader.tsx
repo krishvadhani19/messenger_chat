@@ -20,7 +20,7 @@ import ManageMembersModal from "./ManageMembersModal/ManageMembersModal";
 import CreateChannelModal from "./CreateChannelModal/CreateChannelModal";
 import DeleteServerModal from "./DeleteServerModal/DeleteServerModal";
 import LeaveServerModal from "./LeaveServerModal/LeaveServerModal";
-import { CurrentServerStore } from "@/stores/useCurrentServer";
+import { CurrentServerStore } from "@/stores/useCurrentServerStore";
 
 const CURRENT_MODAL_CATEGORIES = {
   INVITE_PEOPLE: "INVITE_PEOPLE",

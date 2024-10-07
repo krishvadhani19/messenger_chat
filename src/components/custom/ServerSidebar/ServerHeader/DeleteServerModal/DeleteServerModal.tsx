@@ -6,7 +6,7 @@ import { memo, useCallback } from "react";
 import Button from "@/components/ui/Button/Button";
 import { APIRequest } from "@/utils/auth-util";
 import { useParams, useRouter } from "next/navigation";
-import useCurrentServerStore from "@/stores/useCurrentServer";
+import useCurrentServerStore from "@/stores/useCurrentServerStore";
 
 type DeleteServerModalPropsType = {
   isOpen: boolean;

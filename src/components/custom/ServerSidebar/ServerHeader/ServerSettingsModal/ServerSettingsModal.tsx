@@ -12,7 +12,7 @@ import { APIRequest } from "@/utils/auth-util";
 import { CreateServerModalSchema } from "@/server/schemas/CreateServerModalSchema";
 import { z } from "zod";
 import toast from "react-hot-toast";
-import useCurrentServerStore from "@/stores/useCurrentServer";
+import useCurrentServerStore from "@/stores/useCurrentServerStore";
 
 type ServerSettingsModalPropsType = {
   isOpen: boolean;

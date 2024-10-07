@@ -6,14 +6,14 @@ import ChatHeader from "../ChatHeader/ChatHeader";
 import ChatArea from "../ChatArea/ChatArea";
 import { Channel } from "@prisma/client";
 import ChatInput from "../ChatInput/ChatInput";
-import useCurrentServerStore from "@/stores/useCurrentServer";
+import { CurrentServerStore } from "@/stores/useCurrentServerStore";
 
 type ChatSectionPropsType = {
   currentChannel: Channel;
 };
 
 const ChannelChatSection = ({ currentChannel }: ChatSectionPropsType) => {
-  const { setCurrentChannel, currentUserMember } = useCurrentServerStore();
+  const { setCurrentChannel, currentUserMember } = CurrentServerStore();
 
   useEffect(() => {
     setCurrentChannel(currentChannel);
@@ -26,7 +26,7 @@ const ChannelChatSection = ({ currentChannel }: ChatSectionPropsType) => {
         chatHeaderName={currentChannel?.name}
       />
 
-      {/* <ChatArea  /> */}
+      <ChatArea />
 
       <ChatInput
         placeholder={`Message in channel ${currentChannel.name}`}
