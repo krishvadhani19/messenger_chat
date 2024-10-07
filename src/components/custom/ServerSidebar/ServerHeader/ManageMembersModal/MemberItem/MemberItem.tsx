@@ -12,8 +12,7 @@ import {
 import Popover from "@/components/ui/Popover/Popover";
 import classNames from "classnames";
 import { MemberRole } from "@prisma/client";
-import { CurrentUserStore } from "@/stores/useCurrentUser";
-import useCurrentServerStore from "@/stores/useCurrentServer";
+import { CurrentServerStore } from "@/stores/useCurrentServer";
 
 type MemberItemPropsType = {
   memberItem: MEMBER_WITH_PROFILE;
@@ -21,14 +20,13 @@ type MemberItemPropsType = {
 
 const MemberItem = ({ memberItem }: MemberItemPropsType) => {
   const { profile } = memberItem;
-  const currentUserMember = CurrentUserStore().currentUserMember;
+  const { currentUserMember, updateMemberRole, removeMemberFromServer } =
+    CurrentServerStore();
   const seeMoreRef = useRef<HTMLDivElement>(null);
 
   const currentUserProfile = currentUserMember?.profile;
   const isCurrentUser = currentUserProfile?.id === memberItem?.profile?.id;
   const isMemberModerator = memberItem?.role === MemberRole.MODERATOR;
-
-  const { updateMemberRole, removeMemberFromServer } = useCurrentServerStore();
 
   const getMemberDetails = useCallback(
     (handleClose: () => void) => {

@@ -9,11 +9,11 @@ import InputField from "@/components/ui/Input/InputField";
 import classNames from "classnames";
 import { useSocket } from "@/hooks/useSocket";
 import { useParams } from "next/navigation";
-import { CurrentUserStore } from "@/stores/useCurrentUser";
 import ChatAttachmentModal from "./ChatAttachmentModal/ChatAttachmentModal";
 import Popover from "@/components/ui/Popover/Popover";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
+import { CurrentServerStore } from "@/stores/useCurrentServer";
 
 type ChatInputPropsType = {
   query: Record<string, any>;
@@ -28,7 +28,7 @@ const ChatInput = ({ query, placeholder }: ChatInputPropsType) => {
   });
   const { serverId, channelId } = useParams();
   const { messages, sendMessage } = useSocket();
-  const currentUserMember = CurrentUserStore()?.currentUserMember;
+  const currentUserMember = CurrentServerStore()?.currentUserMember;
   const [isChatAttachmentModalOpen, setIsChatAttachmentModalOpen] =
     useState<boolean>(false);
   const emojiRef = useRef<HTMLDivElement>(null);

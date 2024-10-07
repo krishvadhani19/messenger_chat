@@ -1,12 +1,14 @@
-import { FULL_SERVER_TYPE } from "@/types/types";
+import { FULL_SERVER_TYPE, MEMBER_WITH_PROFILE } from "@/types/types";
 import { APIRequest } from "@/utils/auth-util";
 import { Channel, ChannelType, MemberRole } from "@prisma/client";
 import toast from "react-hot-toast";
 import { create } from "zustand";
+import { CurrentUserStore } from "./useCurrentUser";
 
 type CurrentServerStoreTypes = {
   currentServer: null | FULL_SERVER_TYPE;
   currentChannel: null | Channel;
+  currentUserMember: null | MEMBER_WITH_PROFILE;
 
   setCurrentServer: (server: FULL_SERVER_TYPE) => void;
   setCurrentChannel: (channel: Channel) => void;
@@ -24,8 +26,16 @@ type CurrentServerStoreTypes = {
 const useCurrentServerStore = create<CurrentServerStoreTypes>((set, get) => ({
   currentServer: null,
   currentChannel: null,
+  currentUserMember: null,
 
-  setCurrentServer: (server) => set({ currentServer: server }),
+  setCurrentServer: (server) => {
+    const currentUserMember = server?.members.find(
+      (memberItem) =>
+        memberItem?.profileId === CurrentUserStore()?.currentUser?.id
+    );
+
+    set({ currentServer: server, currentUserMember });
+  },
   setCurrentChannel: (channel) => set({ currentChannel: channel }),
 
   deleteChannelFromServer: async (channelId) => {
@@ -140,6 +150,6 @@ const useCurrentServerStore = create<CurrentServerStoreTypes>((set, get) => ({
   },
 }));
 
-export const CurrentServerStore = useCurrentServerStore.getState();
+export const CurrentServerStore = useCurrentServerStore.getState;
 
 export default useCurrentServerStore;

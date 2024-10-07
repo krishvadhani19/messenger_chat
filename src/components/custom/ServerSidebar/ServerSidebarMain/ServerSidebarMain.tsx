@@ -8,7 +8,6 @@ import { ChannelType, MemberRole } from "@prisma/client";
 import { ShieldAlertIcon, ShieldCheckIcon } from "@/components/ui/Icons";
 import Separator from "@/components/ui/Separator/Separator";
 import ChannelIcon from "@/utils/ChannelIcon";
-import { CurrentUserStore } from "@/stores/useCurrentUser";
 import useCurrentServerStore from "@/stores/useCurrentServer";
 
 const iconRoleMap = {
@@ -18,8 +17,7 @@ const iconRoleMap = {
 };
 
 const ServerSidebarMain = () => {
-  const { currentServer } = useCurrentServerStore();
-  const currentUserMember = CurrentUserStore().currentUserMember;
+  const { currentUserMember, currentServer } = useCurrentServerStore();
 
   const textChannels = useMemo(() => {
     return currentServer?.channels.filter(
@@ -43,7 +41,7 @@ const ServerSidebarMain = () => {
     return currentServer?.members.filter(
       (memberItem) => memberItem.id !== currentUserMember?.id
     );
-  }, [currentServer?.members, currentUserMember]);
+  }, [currentServer, currentUserMember]);
 
   return (
     <div className="server-sidebar-main">

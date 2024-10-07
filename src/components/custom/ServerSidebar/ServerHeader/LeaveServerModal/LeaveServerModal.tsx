@@ -4,8 +4,7 @@ import Modal from "@/components/ui/Modal/Modal";
 import Button from "@/components/ui/Button/Button";
 import { useRouter } from "next/navigation";
 import { APIRequest } from "@/utils/auth-util";
-import { CurrentUserStore } from "@/stores/useCurrentUser";
-import useCurrentServerStore from "@/stores/useCurrentServer";
+import { CurrentServerStore } from "@/stores/useCurrentServer";
 
 type LeaveServerModalPropsType = {
   isOpen: boolean;
@@ -14,8 +13,7 @@ type LeaveServerModalPropsType = {
 
 const LeaveServerModal = ({ isOpen, onClose }: LeaveServerModalPropsType) => {
   const router = useRouter();
-  const { currentServer } = useCurrentServerStore();
-  const currentUserMember = CurrentUserStore().currentUserMember;
+  const { currentUserMember, currentServer } = CurrentServerStore();
 
   const handleClose = useCallback(() => {
     onClose(null);

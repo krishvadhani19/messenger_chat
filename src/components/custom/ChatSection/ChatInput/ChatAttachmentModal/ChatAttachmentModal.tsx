@@ -11,8 +11,8 @@ import { useUploadThing } from "@/hooks/useUploadThing";
 import FileUploader from "@/components/ui/FileUploader/FileUploader";
 import Button from "@/components/ui/Button/Button";
 import { ChatAttachmentModalSchema } from "@/server/schemas/ChatAttachmentModalSchema";
-import useCurrentUserStore from "@/stores/useCurrentUser";
 import { CrossIcon, FileIcon } from "@/components/ui/Icons";
+import { CurrentServerStore } from "@/stores/useCurrentServer";
 
 type ManageFileModalPropsType = {
   isOpen: boolean;
@@ -31,7 +31,7 @@ const initialFormData: ChatAttachmentModalSchemaType = {
 const MessageFileModal = ({ onClose }: ManageFileModalPropsType) => {
   const router = useRouter();
   const { serverId, channelId } = useParams();
-  const { currentUserMember } = useCurrentUserStore();
+  const { currentUserMember } = CurrentServerStore();
 
   const [formData, setFormData] =
     useState<ChatAttachmentModalSchemaType>(initialFormData);

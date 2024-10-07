@@ -18,25 +18,16 @@ const ServerSidebar = ({
   currentServer,
   userProfile,
 }: ServerSidebarPropsType) => {
-  const { setCurrentUser, setCurrentUserMember } = useCurrentUserStore();
+  const { setCurrentUser } = useCurrentUserStore();
   const { setCurrentServer } = useCurrentServerStore();
 
   useEffect(() => {
-    const currentUserMember = currentServer?.members.find(
-      (memberItem) => memberItem?.profileId === userProfile?.id
-    );
-
-    setCurrentUserMember(currentUserMember!);
     setCurrentUser(userProfile);
+  }, [setCurrentUser, userProfile]);
 
+  useEffect(() => {
     setCurrentServer(currentServer);
-  }, [
-    currentServer,
-    setCurrentServer,
-    setCurrentUser,
-    setCurrentUserMember,
-    userProfile,
-  ]);
+  }, [currentServer, setCurrentServer]);
 
   return (
     <div className="server-sidebar-container">

@@ -13,7 +13,7 @@ type ChatSectionPropsType = {
 };
 
 const ChannelChatSection = ({ currentChannel }: ChatSectionPropsType) => {
-  const { setCurrentChannel } = useCurrentServerStore();
+  const { setCurrentChannel, currentUserMember } = useCurrentServerStore();
 
   useEffect(() => {
     setCurrentChannel(currentChannel);
@@ -26,7 +26,7 @@ const ChannelChatSection = ({ currentChannel }: ChatSectionPropsType) => {
         chatHeaderName={currentChannel?.name}
       />
 
-      <ChatArea />
+      {/* <ChatArea  /> */}
 
       <ChatInput
         placeholder={`Message in channel ${currentChannel.name}`}

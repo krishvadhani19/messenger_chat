@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import "./ServerSearch.scss";
 import Modal from "@/components/ui/Modal/Modal";
 import { CommandIcon, SearchIcon } from "@/components/ui/Icons";
@@ -146,4 +146,4 @@ const ServerSearch = ({ data }: SearchServerPropsType) => {
   );
 };
 
-export default ServerSearch;
+export default memo(ServerSearch);
