@@ -1,0 +1,20 @@
+.chat-welcome-container {
+    color: white;
+
+    .chat-welcome-header {
+        background-color: var(--neutral-800);
+        padding: 1rem;
+        border-radius: 50%;
+        width: fit-content;
+    }
+
+    .chat-welcome-description {
+        font-size: 2rem;
+        font-weight: 600;
+    }
+    .chat-welcome-sub-description {
+        color: var(--neutral-400);
+        font-size: 0.875rem;
+        font-weight: 400;
+    }
+}

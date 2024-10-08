@@ -23,3 +23,10 @@ export type NextApiResponseServerIO = NextApiResponse & {
     };
   };
 };
+
+export const CHAT_TYPES_MAP = {
+  channel: "CHANNEL",
+  conversation: "CONVERSATION",
+} as const;
+
+export type CHAT_TYPES = (typeof CHAT_TYPES_MAP)[keyof typeof CHAT_TYPES_MAP];

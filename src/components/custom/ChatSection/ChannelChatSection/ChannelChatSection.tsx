@@ -26,7 +26,18 @@ const ChannelChatSection = ({ currentChannel }: ChatSectionPropsType) => {
         chatHeaderName={currentChannel?.name}
       />
 
-      <ChatArea />
+      <ChatArea
+        name={currentChannel?.name}
+        chatId={currentChannel?.id}
+        member={currentUserMember!}
+        type="CHANNEL"
+        apiUrl="/api/messages"
+        socketUrl="/api/socket"
+        socketQuery={{
+          channelId: currentChannel?.id,
+          serverId: currentChannel?.serverId,
+        }}
+      />
 
       <ChatInput
         placeholder={`Message in channel ${currentChannel.name}`}
