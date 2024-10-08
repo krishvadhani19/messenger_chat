@@ -1,5 +1,10 @@
 .chat-welcome-container {
     color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    gap: 0.5rem;
 
     .chat-welcome-header {
         background-color: var(--neutral-800);
