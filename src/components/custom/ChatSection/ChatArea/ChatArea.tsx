@@ -5,6 +5,7 @@ import { CHAT_TYPES } from "@/types/types";
 import useChatQuery from "@/hooks/useChatQuery";
 import { LoaderIcon, ServerCrashIcon } from "@/components/ui/Icons";
 import ChatMessages from "./ChatMessages/ChatMessages";
+import { CurrentServerStore } from "@/stores/useCurrentServerStore";
 
 type ChatAreaPropsType = {
   name: string;
@@ -23,6 +24,7 @@ const ChatArea = ({
   socketQuery,
   type,
 }: ChatAreaPropsType) => {
+  const { currentUserMember } = CurrentServerStore();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useChatQuery({
       queryKey: `chat:${chatId}`,
@@ -55,6 +57,7 @@ const ChatArea = ({
         messages={{
           messages: data?.pages?.flatMap((page) => page?.messages) || [],
         }}
+        currentUserMember={currentUserMember!}
       />
     </div>
   );

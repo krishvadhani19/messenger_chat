@@ -1,24 +1,47 @@
-import { MESSAGE_WITH_MEMBER_WITH_PROFILE } from "@/types/types";
-import React from "react";
+"use client";
+
+import {
+  MEMBER_WITH_PROFILE,
+  MESSAGE_WITH_MEMBER_WITH_PROFILE,
+} from "@/types/types";
+import React, { useState } from "react";
 import "./ChatMessages.scss";
 import Avatar from "@/components/ui/Avatar/Avatar";
 import { formatISODate } from "@/utils/common";
+import { MemberRole } from "@prisma/client";
 
 type ChatMessagesPropsType = {
   messages: { messages: MESSAGE_WITH_MEMBER_WITH_PROFILE[] };
+  currentUserMember: MEMBER_WITH_PROFILE;
 };
 
-const ChatMessages = ({ messages }: ChatMessagesPropsType) => {
+const ChatMessages = ({
+  messages,
+  currentUserMember,
+}: ChatMessagesPropsType) => {
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
+
   return (
     <div className="chat-messages-container">
       {messages?.messages.map((messageItem) => {
         const { imageUrl, name: imageName } = messageItem?.member?.profile;
-        const { createdAt, fileUrl, content } = messageItem;
+        const { createdAt, fileUrl, content, memberId, isDeleted } =
+          messageItem;
 
-        const isFilePresent = !!fileUrl;
+        const isAdmin = currentUserMember?.role === MemberRole.ADMIN;
+        const isModerator = currentUserMember?.role === MemberRole.MODERATOR;
+        const isOwner = currentUserMember?.id === memberId;
 
-        if (isFilePresent) {
-        }
+        const canDeleteMessage =
+          !isDeleted && (isAdmin || isModerator || isOwner);
+
+        const canEditMessage =
+          !isDeleted && (isAdmin || isModerator || isOwner);
+
+        const fileType = fileUrl?.split(".").pop();
+        const isPDF = fileType === "pdf" && fileUrl;
+        const isImage = !isPDF && fileUrl;
 
         return (
           <div key={messageItem?.id} className="chat-message-item-container">
@@ -26,13 +49,19 @@ const ChatMessages = ({ messages }: ChatMessagesPropsType) => {
               <Avatar imageUrl={imageUrl!} imageName={imageName!} />
 
               {/* Name */}
-              <div className="">{imageName}</div>
+              <div className="chat-message-item-sender-creds-name">
+                {imageName}
+              </div>
 
               {/* Date */}
-              <div className="">{formatISODate(createdAt.toString())}</div>
+              <div className="chat-message-item-sender-creds-timestamp">
+                {formatISODate(createdAt.toString())}
+              </div>
             </div>
 
-            <div className="chat-message-item-message-details">{content}</div>
+            {!fileUrl && !isEditing && (
+              <div className="chat-message-item-message-details">{content}</div>
+            )}
           </div>
         );
       })}
