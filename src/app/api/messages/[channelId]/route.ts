@@ -63,7 +63,6 @@ export const GET = async (
     } else {
       messages = await db.message.findMany({
         take: MESSAGE_BATCH_SIZE,
-        skip: 1,
         where: {
           channelId,
         },

@@ -1,0 +1,12 @@
+.chat-messages-container {
+    display: flex;
+    flex-direction: column;
+
+    .chat-message-item-container {
+        .chat-message-item-sender-creds {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+    }
+}

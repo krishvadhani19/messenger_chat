@@ -4,6 +4,7 @@ import ChatWelcome from "./ChatWelcome/ChatWelcome";
 import { CHAT_TYPES } from "@/types/types";
 import useChatQuery from "@/hooks/useChatQuery";
 import { LoaderIcon, ServerCrashIcon } from "@/components/ui/Icons";
+import ChatMessages from "./ChatMessages/ChatMessages";
 
 type ChatAreaPropsType = {
   name: string;
@@ -48,8 +49,13 @@ const ChatArea = ({
 
   return (
     <div className="chat-area-container">
-      ChatArea
       <ChatWelcome name={name} type={type} />
+
+      <ChatMessages
+        messages={{
+          messages: data?.pages?.flatMap((page) => page?.messages) || [],
+        }}
+      />
     </div>
   );
 };

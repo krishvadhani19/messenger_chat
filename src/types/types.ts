@@ -1,4 +1,11 @@
-import { Channel, Conversation, Member, Profile, Server } from "@prisma/client";
+import {
+  Channel,
+  Conversation,
+  Member,
+  Message,
+  Profile,
+  Server,
+} from "@prisma/client";
 import { Server as NetServer, Socket } from "net";
 import { NextApiResponse } from "next";
 import { Server as SocketIOServer } from "socket.io";
@@ -10,6 +17,10 @@ export type MEMBER_WITH_PROFILE = Member & {
 export type FULL_SERVER_TYPE = Server & {
   channels: Channel[];
   members: MEMBER_WITH_PROFILE[];
+};
+
+export type MESSAGE_WITH_MEMBER_WITH_PROFILE = Message & {
+  member: MEMBER_WITH_PROFILE;
 };
 
 export type CONVERSATION_WITH_BOTH_MEMBER = Conversation & {
