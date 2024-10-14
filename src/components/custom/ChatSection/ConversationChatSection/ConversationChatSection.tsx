@@ -20,7 +20,7 @@ const ConversationChatSection = ({
         chatImageUrl={otherMember?.profile?.imageUrl!}
       />
 
-      <ChatArea />
+      {/* <ChatArea /> */}
     </div>
   );
 };
