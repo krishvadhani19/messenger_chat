@@ -83,6 +83,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
           data["fileUrl"] = fileUrl;
         }
 
+        // using sendMessage as key coz it would only be used to send
         socket.emit("sendMessage", data);
       }
     },

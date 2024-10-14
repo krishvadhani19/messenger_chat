@@ -1,21 +1,13 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { CHAT_TYPES } from "@/types/types";
 import { useSocket } from "./useSocket";
 import queryString from "query-string";
 
 type ChatQueryPropsType = {
   queryKey: string;
   apiUrl: string;
-  paramKey: CHAT_TYPES;
-  paramValue: string;
 };
 
-const useChatQuery = ({
-  queryKey,
-  apiUrl,
-  paramKey,
-  paramValue,
-}: ChatQueryPropsType) => {
+const useChatQuery = ({ queryKey, apiUrl }: ChatQueryPropsType) => {
   const { isConnected } = useSocket();
 
   const fetchMessages = async ({ pageParam = undefined }) => {
@@ -24,7 +16,6 @@ const useChatQuery = ({
         url: apiUrl,
         query: {
           cursor: pageParam,
-          [paramKey]: paramValue,
         },
       },
       { skipNull: true }

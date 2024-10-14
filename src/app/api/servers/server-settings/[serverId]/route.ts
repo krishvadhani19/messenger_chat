@@ -1,4 +1,3 @@
-import { db } from "@/lib/db";
 import { getCurrentUserId } from "@/server/actions/getCurrentUserId";
 import { updateServerSettings } from "@/server/controllers/server";
 import { getCurrentUserProfile } from "@/server/controllers/user";

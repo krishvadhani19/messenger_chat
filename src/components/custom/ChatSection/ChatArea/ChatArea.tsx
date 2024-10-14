@@ -1,47 +1,36 @@
 import React, { memo } from "react";
 import "./ChatArea.scss";
-import { Member } from "@prisma/client";
 import ChatWelcome from "./ChatWelcome/ChatWelcome";
-import { CHAT_TYPES, CHAT_TYPES_MAP } from "@/types/types";
+import { CHAT_TYPES } from "@/types/types";
 import useChatQuery from "@/hooks/useChatQuery";
 import { LoaderIcon, ServerCrashIcon } from "@/components/ui/Icons";
 
 type ChatAreaPropsType = {
   name: string;
-  member: Member;
   chatId: string;
   apiUrl: string;
   socketUrl: string;
   socketQuery: Record<string, string>;
-  // paramKey: "channelId" | "conversationId";
-  // paramValue: string;
   type: CHAT_TYPES;
 };
 
 const ChatArea = ({
   name,
-  member,
   chatId,
   apiUrl,
   socketUrl,
   socketQuery,
-  // paramKey,
-  // paramValue,
   type,
 }: ChatAreaPropsType) => {
-  const queryKey = `chat:${chatId}`;
-
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useChatQuery({
-      queryKey,
+      queryKey: `chat:${chatId}`,
       apiUrl,
-      paramKey: CHAT_TYPES_MAP.conversation,
-      paramValue: "",
     });
 
   if (status === "pending") {
     return (
-      <div className="flex-center">
+      <div className="flex-center direction-column">
         <LoaderIcon className="spinner" size={22} />
         Loading Messages
       </div>
@@ -50,7 +39,7 @@ const ChatArea = ({
 
   if (status === "error") {
     return (
-      <div className="flex-center">
+      <div className="flex-center direction-column">
         <ServerCrashIcon size={22} />
         Something went wrong!
       </div>

@@ -7,13 +7,14 @@ import ChatArea from "../ChatArea/ChatArea";
 import { Channel } from "@prisma/client";
 import ChatInput from "../ChatInput/ChatInput";
 import { CurrentServerStore } from "@/stores/useCurrentServerStore";
+import { CHAT_TYPES_MAP } from "@/types/types";
 
 type ChatSectionPropsType = {
   currentChannel: Channel;
 };
 
 const ChannelChatSection = ({ currentChannel }: ChatSectionPropsType) => {
-  const { setCurrentChannel, currentUserMember } = CurrentServerStore();
+  const { setCurrentChannel } = CurrentServerStore();
 
   useEffect(() => {
     setCurrentChannel(currentChannel);
@@ -29,9 +30,8 @@ const ChannelChatSection = ({ currentChannel }: ChatSectionPropsType) => {
       <ChatArea
         name={currentChannel?.name}
         chatId={currentChannel?.id}
-        member={currentUserMember!}
-        type="CHANNEL"
-        apiUrl="/api/messages"
+        type={CHAT_TYPES_MAP.channel}
+        apiUrl={`/api/messages/${currentChannel?.id}`}
         socketUrl="/api/socket"
         socketQuery={{
           channelId: currentChannel?.id,
