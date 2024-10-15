@@ -51,7 +51,7 @@ const ChatMessages = ({
             className={classNames("chat-message-item-container", { isOwner })}
           >
             <div className="chat-message-item-sender-creds">
-              <Avatar imageUrl={imageUrl!} imageName={imageName!} />
+              <Avatar imageUrl={imageUrl!} imageName={imageName!} size={30} />
 
               {/* Name */}
               <div className="chat-message-item-sender-creds-name">
@@ -70,21 +70,27 @@ const ChatMessages = ({
             )}
 
             {isImage && (
-              <a
-                target="_blank"
-                href={fileUrl}
+              <div
                 rel="noopener noreferrer"
                 className="chat-message-item-message-image"
+                onClick={() =>
+                  window.open(
+                    "https://example.com",
+                    "_blank",
+                    "noopener,noreferrer"
+                  )
+                }
               >
-                <Image
-                  src={fileUrl}
-                  alt={content}
-                  // fill
-                  className=""
-                  width={48}
-                  height={48}
-                />
-              </a>
+                <div className="image-wrapper">
+                  <Image
+                    src={fileUrl}
+                    alt={content}
+                    fill
+                    className="message-image"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
+              </div>
             )}
           </div>
         );

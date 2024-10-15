@@ -4,7 +4,22 @@
     gap: 1rem;
 
     .chat-message-item-container {
-        align-self: flex-start;
+        display: flex;
+        flex-direction: column;
+        width: 40%;
+        gap: 0.25rem;
+
+        &.isOwner {
+            align-self: flex-end;
+
+            .chat-message-item-sender-creds {
+                flex-direction: row-reverse;
+            }
+
+            .chat-message-item-message-details {
+                margin: auto 0 auto auto;
+            }
+        }
 
         .chat-message-item-sender-creds {
             display: flex;
@@ -27,24 +42,36 @@
         }
 
         .chat-message-item-message-details {
-            margin-left: 3.5rem;
+            margin-left: 0;
+            margin-right: auto;
+            width: fit-content;
+            color: var(--gray-50);
+            background-color: var(--neutral-800);
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            box-shadow:
+                0 10px 15px -3px rgb(0 0 0 / 0.1),
+                0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
 
         .chat-message-item-message-image {
-            margin-left: 3.5rem;
-            width: 30rem;
-            height: 30rem;
-        }
+            width: 15rem;
+            height: 15rem;
+            cursor: pointer;
+            background-color: var(--neutral-800);
+            border-radius: 0.25rem;
+            box-shadow:
+                0 10px 15px -3px rgb(0 0 0 / 0.1),
+                0 4px 6px -4px rgb(0 0 0 / 0.1);
 
-        &.isOwner {
-            align-self: flex-end;
+            .image-wrapper {
+                position: relative;
+                width: 100%;
+                padding-bottom: 100%;
 
-            .chat-message-item-sender-creds {
-                flex-direction: row-reverse;
-            }
-
-            .chat-message-item-message-details {
-                margin-right: 3.5rem;
+                .message-image {
+                    object-fit: contain;
+                }
             }
         }
     }
