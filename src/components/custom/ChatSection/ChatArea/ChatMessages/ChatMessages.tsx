@@ -12,6 +12,7 @@ import { MemberRole } from "@prisma/client";
 import classNames from "classnames";
 import { iconRoleMap } from "@/components/custom/ServerSidebar/ServerSidebarMain/ServerSidebarMain";
 import Image from "next/image";
+import { FileIcon } from "@/components/ui/Icons";
 
 type ChatMessagesPropsType = {
   messages: { messages: MESSAGE_WITH_MEMBER_WITH_PROFILE[] };
@@ -74,11 +75,7 @@ const ChatMessages = ({
                 rel="noopener noreferrer"
                 className="chat-message-item-message-image"
                 onClick={() =>
-                  window.open(
-                    "https://example.com",
-                    "_blank",
-                    "noopener,noreferrer"
-                  )
+                  window.open(fileUrl, "_blank", "noopener,noreferrer")
                 }
               >
                 <div className="image-wrapper">
@@ -90,6 +87,20 @@ const ChatMessages = ({
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
+              </div>
+            )}
+
+            {isPDF && (
+              <div
+                rel="noopener noreferrer"
+                className="chat-message-item-message-file"
+                onClick={() =>
+                  window.open(fileUrl, "_blank", "noopener,noreferrer")
+                }
+              >
+                <FileIcon size={50} />
+
+                <div className="">PDF File</div>
               </div>
             )}
           </div>
