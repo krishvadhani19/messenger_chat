@@ -5,4 +5,16 @@
     flex-direction: column;
     justify-content: flex-end;
     padding: 1rem;
+    overflow-y: auto;
+    height: calc(100vh - 3rem - 4rem);
+}
+
+.chat-area-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-50);
+    font-size: 2rem;
+    height: calc(100vh - 3rem - 4rem);
+    gap: 1rem;
 }

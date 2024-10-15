@@ -33,8 +33,8 @@ const ChatArea = ({
 
   if (status === "pending") {
     return (
-      <div className="flex-center direction-column">
-        <LoaderIcon className="spinner" size={22} />
+      <div className="chat-area-fallback">
+        <LoaderIcon className="spinner" size={40} />
         Loading Messages
       </div>
     );
@@ -42,8 +42,8 @@ const ChatArea = ({
 
   if (status === "error") {
     return (
-      <div className="flex-center direction-column">
-        <ServerCrashIcon size={22} />
+      <div className="chat-area-fallback">
+        <ServerCrashIcon size={40} />
         Something went wrong!
       </div>
     );

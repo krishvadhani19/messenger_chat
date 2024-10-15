@@ -11,6 +11,7 @@ import { formatISODate } from "@/utils/common";
 import { MemberRole } from "@prisma/client";
 import classNames from "classnames";
 import { iconRoleMap } from "@/components/custom/ServerSidebar/ServerSidebarMain/ServerSidebarMain";
+import Image from "next/image";
 
 type ChatMessagesPropsType = {
   messages: { messages: MESSAGE_WITH_MEMBER_WITH_PROFILE[] };
@@ -38,8 +39,7 @@ const ChatMessages = ({
         const canDeleteMessage =
           !isDeleted && (isAdmin || isModerator || isOwner);
 
-        const canEditMessage =
-          !isDeleted && (isAdmin || isModerator || isOwner);
+        const canEditMessage = !isDeleted && isAdmin && !fileUrl;
 
         const fileType = fileUrl?.split(".").pop();
         const isPDF = fileType === "pdf" && fileUrl;
@@ -67,6 +67,24 @@ const ChatMessages = ({
 
             {!fileUrl && !isEditing && (
               <div className="chat-message-item-message-details">{content}</div>
+            )}
+
+            {isImage && (
+              <a
+                target="_blank"
+                href={fileUrl}
+                rel="noopener noreferrer"
+                className="chat-message-item-message-image"
+              >
+                <Image
+                  src={fileUrl}
+                  alt={content}
+                  // fill
+                  className=""
+                  width={48}
+                  height={48}
+                />
+              </a>
             )}
           </div>
         );

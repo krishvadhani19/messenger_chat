@@ -6,14 +6,6 @@
     .chat-message-item-container {
         align-self: flex-start;
 
-        &.isOwner {
-            align-self: flex-end;
-
-            .chat-message-item-sender-creds {
-                flex-direction: row-reverse;
-            }
-        }
-
         .chat-message-item-sender-creds {
             display: flex;
             align-items: center;
@@ -36,6 +28,24 @@
 
         .chat-message-item-message-details {
             margin-left: 3.5rem;
+        }
+
+        .chat-message-item-message-image {
+            margin-left: 3.5rem;
+            width: 30rem;
+            height: 30rem;
+        }
+
+        &.isOwner {
+            align-self: flex-end;
+
+            .chat-message-item-sender-creds {
+                flex-direction: row-reverse;
+            }
+
+            .chat-message-item-message-details {
+                margin-right: 3.5rem;
+            }
         }
     }
 }
