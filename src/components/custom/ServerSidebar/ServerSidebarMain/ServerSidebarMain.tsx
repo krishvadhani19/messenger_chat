@@ -10,7 +10,7 @@ import Separator from "@/components/ui/Separator/Separator";
 import ChannelIcon from "@/utils/ChannelIcon";
 import useCurrentServerStore from "@/stores/useCurrentServerStore";
 
-const iconRoleMap = {
+export const iconRoleMap = {
   [MemberRole.GUEST]: null,
   [MemberRole.MODERATOR]: <ShieldCheckIcon size={16} color="#f43f5e" />,
   [MemberRole.ADMIN]: <ShieldAlertIcon color="#f43f5e" size={16} />,

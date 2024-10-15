@@ -9,6 +9,8 @@ import "./ChatMessages.scss";
 import Avatar from "@/components/ui/Avatar/Avatar";
 import { formatISODate } from "@/utils/common";
 import { MemberRole } from "@prisma/client";
+import classNames from "classnames";
+import { iconRoleMap } from "@/components/custom/ServerSidebar/ServerSidebarMain/ServerSidebarMain";
 
 type ChatMessagesPropsType = {
   messages: { messages: MESSAGE_WITH_MEMBER_WITH_PROFILE[] };
@@ -44,13 +46,17 @@ const ChatMessages = ({
         const isImage = !isPDF && fileUrl;
 
         return (
-          <div key={messageItem?.id} className="chat-message-item-container">
+          <div
+            key={messageItem?.id}
+            className={classNames("chat-message-item-container", { isOwner })}
+          >
             <div className="chat-message-item-sender-creds">
               <Avatar imageUrl={imageUrl!} imageName={imageName!} />
 
               {/* Name */}
               <div className="chat-message-item-sender-creds-name">
                 {imageName}
+                {iconRoleMap[currentUserMember?.role]}
               </div>
 
               {/* Date */}

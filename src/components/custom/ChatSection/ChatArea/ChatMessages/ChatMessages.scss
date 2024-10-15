@@ -4,12 +4,25 @@
     gap: 1rem;
 
     .chat-message-item-container {
+        align-self: flex-start;
+
+        &.isOwner {
+            align-self: flex-end;
+
+            .chat-message-item-sender-creds {
+                flex-direction: row-reverse;
+            }
+        }
+
         .chat-message-item-sender-creds {
             display: flex;
             align-items: center;
             gap: 1rem;
 
             .chat-message-item-sender-creds-name {
+                display: flex;
+                align-items: center;
+                gap: 0.25rem;
                 color: var(--gray-50);
                 font-weight: 600;
                 font-size: 1rem;

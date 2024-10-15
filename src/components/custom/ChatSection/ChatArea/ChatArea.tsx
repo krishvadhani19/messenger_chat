@@ -24,7 +24,7 @@ const ChatArea = ({
   socketQuery,
   type,
 }: ChatAreaPropsType) => {
-  const { currentUserMember } = CurrentServerStore();
+  const { currentUserMember, currentChannel } = CurrentServerStore();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useChatQuery({
       queryKey: `chat:${chatId}`,
@@ -51,7 +51,11 @@ const ChatArea = ({
 
   return (
     <div className="chat-area-container">
-      <ChatWelcome name={name} type={type} />
+      <ChatWelcome
+        name={name}
+        type={type}
+        channelType={currentChannel?.channelType!}
+      />
 
       <ChatMessages
         messages={{

@@ -1,18 +1,22 @@
 import { CHAT_TYPES, CHAT_TYPES_MAP } from "@/types/types";
 import React from "react";
 import "./ChatWelcome.scss";
-import { HashIcon } from "@/components/ui/Icons";
+import ChannelIcon from "@/utils/ChannelIcon";
+import { ChannelType } from "@prisma/client";
 
 type ChatWelcomePropsType = {
   name: string;
   type: CHAT_TYPES;
+  channelType: ChannelType;
 };
 
-const ChatWelcome = ({ name, type }: ChatWelcomePropsType) => {
+const ChatWelcome = ({ name, type, channelType }: ChatWelcomePropsType) => {
   return (
     <div className="chat-welcome-container">
       {type === CHAT_TYPES_MAP.channel && (
-        <HashIcon className="chat-welcome-header" size={75} />
+        <span className="chat-welcome-header">
+          <ChannelIcon size={75} type={channelType} />
+        </span>
       )}
 
       <p className="chat-welcome-description">
