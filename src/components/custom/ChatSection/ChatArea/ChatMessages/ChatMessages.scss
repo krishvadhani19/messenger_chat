@@ -8,6 +8,8 @@
         flex-direction: column;
         width: 40%;
         gap: 0.25rem;
+        position: relative;
+        padding: 0.25rem;
 
         &.isOwner {
             align-self: flex-end;
@@ -20,6 +22,11 @@
             .chat-message-item-message-file,
             .chat-message-item-message-image {
                 margin: auto 0 auto auto;
+            }
+
+            .chat-message-item-actions {
+                left: 20px;
+                top: -10px;
             }
         }
 
@@ -100,6 +107,33 @@
 
             &:hover {
                 color: var(--primary-green);
+            }
+        }
+
+        .chat-message-item-actions {
+            display: none;
+            color: var(--gray-50);
+            position: absolute;
+            align-items: center;
+            gap: 0.5rem;
+            top: -10px;
+            right: 20px;
+
+            .chat-message-item-action-item {
+                background-color: var(--neutral-800);
+                color: var(--gray-50);
+                padding: 0.25rem;
+                border-radius: 0.25rem;
+                cursor: pointer;
+            }
+        }
+
+        &:hover {
+            background-color: var(--neutral-500);
+            border-radius: 0.25rem;
+
+            .chat-message-item-actions {
+                display: flex;
             }
         }
     }

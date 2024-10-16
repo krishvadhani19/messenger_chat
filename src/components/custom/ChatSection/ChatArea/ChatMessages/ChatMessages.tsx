@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  MEMBER_WITH_PROFILE,
-  MESSAGE_WITH_MEMBER_WITH_PROFILE,
-} from "@/types/types";
+import { MEMBER_WITH_PROFILE } from "@/types/types";
 import React, { useState } from "react";
 import "./ChatMessages.scss";
 import Avatar from "@/components/ui/Avatar/Avatar";
@@ -12,23 +9,25 @@ import { MemberRole } from "@prisma/client";
 import classNames from "classnames";
 import { iconRoleMap } from "@/components/custom/ServerSidebar/ServerSidebarMain/ServerSidebarMain";
 import Image from "next/image";
-import { FileIcon } from "@/components/ui/Icons";
+import { EditIcon, FileIcon, TrashIcon } from "@/components/ui/Icons";
+import Modal from "@/components/ui/Modal/Modal";
+import useMessagesStore from "@/stores/useMessagesStore";
 
 type ChatMessagesPropsType = {
-  messages: { messages: MESSAGE_WITH_MEMBER_WITH_PROFILE[] };
   currentUserMember: MEMBER_WITH_PROFILE;
 };
 
 const ChatMessages = ({
-  messages,
+  // messages,
   currentUserMember,
 }: ChatMessagesPropsType) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const { messages } = useMessagesStore();
 
   return (
     <div className="chat-messages-container">
-      {messages?.messages.map((messageItem) => {
+      {messages?.map((messageItem) => {
         const { imageUrl, name: imageName } = messageItem?.member?.profile;
         const { createdAt, fileUrl, content, memberId, isDeleted } =
           messageItem;
@@ -45,6 +44,12 @@ const ChatMessages = ({
         const fileType = fileUrl?.split(".").pop();
         const isPDF = fileType === "pdf" && fileUrl;
         const isImage = !isPDF && fileUrl;
+
+        const handleEditMessage = () => {
+          setIsEditing(true);
+        };
+
+        const handleDeleteMessage = () => {};
 
         return (
           <div
@@ -100,8 +105,31 @@ const ChatMessages = ({
               >
                 <FileIcon size={50} />
 
-                <div className="">PDF File</div>
+                <div>PDF File</div>
               </div>
+            )}
+
+            {isOwner && (
+              <div className="chat-message-item-actions">
+                {!fileUrl && (
+                  <EditIcon
+                    size={18}
+                    className="chat-message-item-action-item"
+                    onClick={handleEditMessage}
+                  />
+                )}
+                <TrashIcon
+                  size={18}
+                  className="chat-message-item-action-item"
+                  onClick={handleDeleteMessage}
+                />
+              </div>
+            )}
+
+            {isEditing && (
+              <Modal isOpen onClose={() => {}}>
+                <div>{messageItem?.content}</div>
+              </Modal>
             )}
           </div>
         );

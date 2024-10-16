@@ -25,7 +25,7 @@ const ChatArea = ({
   type,
 }: ChatAreaPropsType) => {
   const { currentUserMember, currentChannel } = CurrentServerStore();
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+  const { fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useChatQuery({
       queryKey: `chat:${chatId}`,
       apiUrl,
@@ -57,12 +57,7 @@ const ChatArea = ({
         channelType={currentChannel?.channelType!}
       />
 
-      <ChatMessages
-        messages={{
-          messages: data?.pages?.flatMap((page) => page?.messages) || [],
-        }}
-        currentUserMember={currentUserMember!}
-      />
+      <ChatMessages currentUserMember={currentUserMember!} />
     </div>
   );
 };
