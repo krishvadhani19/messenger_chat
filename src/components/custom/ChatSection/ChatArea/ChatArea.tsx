@@ -1,3 +1,5 @@
+"use client";
+
 import React, { memo } from "react";
 import "./ChatArea.scss";
 import ChatWelcome from "./ChatWelcome/ChatWelcome";
@@ -5,7 +7,7 @@ import { CHAT_TYPES } from "@/types/types";
 import useChatQuery from "@/hooks/useChatQuery";
 import { LoaderIcon, ServerCrashIcon } from "@/components/ui/Icons";
 import ChatMessages from "./ChatMessages/ChatMessages";
-import { CurrentServerStore } from "@/stores/useCurrentServerStore";
+import useCurrentServerStore from "@/stores/useCurrentServerStore";
 
 type ChatAreaPropsType = {
   name: string;
@@ -24,7 +26,7 @@ const ChatArea = ({
   socketQuery,
   type,
 }: ChatAreaPropsType) => {
-  const { currentUserMember, currentChannel } = CurrentServerStore();
+  const { currentUserMember, currentChannel } = useCurrentServerStore();
   const { fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useChatQuery({
       queryKey: `chat:${chatId}`,
