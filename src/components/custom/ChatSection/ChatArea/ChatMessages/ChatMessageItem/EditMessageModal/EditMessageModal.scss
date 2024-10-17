@@ -1,0 +1,21 @@
+.edit-message-modal-container {
+    width: 30rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+
+    .edit-message-modal-header {
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+
+    .edit-message-modal-content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        gap: 1rem;
+    }
+}

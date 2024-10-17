@@ -3,7 +3,6 @@
 import { iconRoleMap } from "@/components/custom/ServerSidebar/ServerSidebarMain/ServerSidebarMain";
 import Avatar from "@/components/ui/Avatar/Avatar";
 import { EditIcon, FileIcon, TrashIcon } from "@/components/ui/Icons";
-import Modal from "@/components/ui/Modal/Modal";
 import { CurrentServerStore } from "@/stores/useCurrentServerStore";
 import { MESSAGE_WITH_MEMBER_WITH_PROFILE } from "@/types/types";
 import { formatISODate } from "@/utils/common";
@@ -12,6 +11,8 @@ import classNames from "classnames";
 import Image from "next/image";
 import React, { memo, useCallback, useState } from "react";
 import "./ChatMessageItem.scss";
+import EditMessageModal from "./EditMessageModal/EditMessageModal";
+import DeleteMessageModal from "./DeleteMessageModal/DeleteMessageModal";
 
 type ChatMessageItemPropsType = {
   messageItem: MESSAGE_WITH_MEMBER_WITH_PROFILE;
@@ -41,7 +42,9 @@ const ChatMessageItem = ({ messageItem }: ChatMessageItemPropsType) => {
     setIsEditing((prev) => !prev);
   }, []);
 
-  const handleDeleteMessage = useCallback(() => {}, []);
+  const handleDeleteMessage = useCallback(() => {
+    setIsDeleting((prev) => !prev);
+  }, []);
 
   return (
     <div
@@ -115,15 +118,18 @@ const ChatMessageItem = ({ messageItem }: ChatMessageItemPropsType) => {
       )}
 
       {isEditing && (
-        <Modal isOpen onClose={handleEditMessageState}>
-          <div>{messageItem?.content}</div>
-        </Modal>
+        <EditMessageModal
+          onClose={handleEditMessageState}
+          messageContent={messageItem?.content}
+        />
       )}
 
-      {isEditing && (
-        <Modal isOpen onClose={handleEditMessageState}>
-          <div>{messageItem?.content}</div>
-        </Modal>
+      {isDeleting && (
+        <DeleteMessageModal
+          messageContent={messageItem?.content}
+          messageId={messageItem?.id}
+          onClose={handleDeleteMessage}
+        />
       )}
     </div>
   );

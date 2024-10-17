@@ -11,6 +11,8 @@
     min-height: 10px;
     // padding: 1rem 0;
     overflow: hidden;
+    background-color: var(--neutral-700);
+    color: var(--gray-50);
 
     .modal-cross-icon {
         position: absolute;

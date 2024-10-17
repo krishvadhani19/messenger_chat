@@ -2,7 +2,7 @@
 
 import Modal from "@/components/ui/Modal/Modal";
 import "./EditModal.scss";
-import { FormEvent, memo, useCallback, useEffect, useState } from "react";
+import { FormEvent, memo, useCallback, useState } from "react";
 import InputField from "@/components/ui/Input/InputField";
 import { z } from "zod";
 import {
