@@ -13,7 +13,6 @@ import React, { memo, useCallback, useState } from "react";
 import "./ChatMessageItem.scss";
 import EditMessageModal from "./EditMessageModal/EditMessageModal";
 import DeleteMessageModal from "./DeleteMessageModal/DeleteMessageModal";
-import { APIRequest } from "@/utils/auth-util";
 
 type ChatMessageItemPropsType = {
   messageItem: MESSAGE_WITH_MEMBER_WITH_PROFILE;
@@ -56,7 +55,7 @@ const ChatMessageItem = ({ messageItem }: ChatMessageItemPropsType) => {
 
   return (
     <div
-      key={messageItem?.id}
+      key={messageId}
       className={classNames("chat-message-item-container", { isOwner })}
     >
       <div className="chat-message-item-sender-creds">
@@ -139,7 +138,7 @@ const ChatMessageItem = ({ messageItem }: ChatMessageItemPropsType) => {
       {isEditing && (
         <EditMessageModal
           onClose={handleEditMessageState}
-          messageId={messageItem?.id}
+          messageId={messageId}
           messageContent={messageItem?.content}
         />
       )}
@@ -147,7 +146,7 @@ const ChatMessageItem = ({ messageItem }: ChatMessageItemPropsType) => {
       {isDeleting && (
         <DeleteMessageModal
           messageContent={messageItem?.content}
-          messageId={messageItem?.id}
+          messageId={messageId}
           onClose={handleDeleteMessage}
         />
       )}

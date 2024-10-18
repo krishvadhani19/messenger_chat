@@ -40,6 +40,13 @@ export const PATCH = async (
       data: {
         content: newMessageContent,
       },
+      include: {
+        member: {
+          include: {
+            profile: true,
+          },
+        },
+      },
     });
 
     return NextResponse.json(updatedMessage);

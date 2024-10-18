@@ -38,6 +38,13 @@ export const PATCH = async (
       data: {
         isDeleted: true,
       },
+      include: {
+        member: {
+          include: {
+            profile: true,
+          },
+        },
+      },
     });
 
     return NextResponse.json(deleteMessage);

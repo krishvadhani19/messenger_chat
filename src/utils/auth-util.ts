@@ -7,6 +7,8 @@ const APIRequestSchema = z.object({
   url: z.string(),
   data: z.any().optional(),
   headers: z.record(z.string()).optional(),
+  errorMessage: z.string().optional(),
+  onSuccess: z.function().args(z.any()).optional(),
 });
 
 type APIRequestSchemaType = z.infer<typeof APIRequestSchema>;
@@ -31,9 +33,17 @@ export const APIRequest = async (params: APIRequestSchemaType) => {
 
     const response = await axios(config);
 
+    // Call onSuccess callback (if provided)
+    if (validatedParams.onSuccess) {
+      validatedParams.onSuccess(response.data);
+    }
+
     return response?.data;
   } catch (error) {
     console.log({ error });
-    toast.error("Something went wrong!");
+
+    // Display custom error message if provided, otherwise default message
+    const errorMessage = params.errorMessage || "Something went wrong!";
+    toast.error(errorMessage);
   }
 };

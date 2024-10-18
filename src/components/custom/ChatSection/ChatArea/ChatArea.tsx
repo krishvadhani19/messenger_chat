@@ -5,7 +5,7 @@ import "./ChatArea.scss";
 import ChatWelcome from "./ChatWelcome/ChatWelcome";
 import { CHAT_TYPES } from "@/types/types";
 import useChatQuery from "@/hooks/useChatQuery";
-import { LoaderIcon, ServerCrashIcon } from "@/components/ui/Icons";
+import { LoaderCircleIcon, ServerCrashIcon } from "@/components/ui/Icons";
 import ChatMessages from "./ChatMessages/ChatMessages";
 import useCurrentServerStore from "@/stores/useCurrentServerStore";
 
@@ -36,7 +36,7 @@ const ChatArea = ({
   if (status === "pending") {
     return (
       <div className="chat-area-fallback">
-        <LoaderIcon className="spinner" size={40} />
+        <LoaderCircleIcon className="spinner" size={40} />
         Loading Messages
       </div>
     );

@@ -1,9 +1,13 @@
+"use client";
+
 import React, { useCallback, useState } from "react";
 import "./EditMessageModal.scss";
 import Modal from "@/components/ui/Modal/Modal";
 import InputField from "@/components/ui/Input/InputField";
 import Button from "@/components/ui/Button/Button";
 import { APIRequest } from "@/utils/auth-util";
+import { MessagesStore } from "@/stores/useMessagesStore";
+import toast from "react-hot-toast";
 
 type EditMessageModalPropsType = {
   onClose: () => void;
@@ -17,6 +21,7 @@ const EditMessageModal = ({
   messageId,
 }: EditMessageModalPropsType) => {
   const [message, setMessage] = useState(messageContent);
+  const { updateMessages } = MessagesStore();
 
   const handleMessageChange = useCallback((val: string) => {
     setMessage(val);
@@ -29,10 +34,15 @@ const EditMessageModal = ({
       data: {
         newMessageContent: message,
       },
+      onSuccess: (updatedMessage) => {
+        updateMessages(updatedMessage);
+
+        toast.success("Message updated successfully!");
+      },
     });
 
     onClose();
-  }, [message, messageId, onClose]);
+  }, [message, messageId, onClose, updateMessages]);
 
   return (
     <Modal isOpen onClose={onClose}>
