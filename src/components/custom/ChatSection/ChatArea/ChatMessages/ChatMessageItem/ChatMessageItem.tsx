@@ -139,6 +139,7 @@ const ChatMessageItem = ({ messageItem }: ChatMessageItemPropsType) => {
       {isEditing && (
         <EditMessageModal
           onClose={handleEditMessageState}
+          messageId={messageItem?.id}
           messageContent={messageItem?.content}
         />
       )}

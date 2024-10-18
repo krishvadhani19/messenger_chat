@@ -3,16 +3,18 @@ import "./EditMessageModal.scss";
 import Modal from "@/components/ui/Modal/Modal";
 import InputField from "@/components/ui/Input/InputField";
 import Button from "@/components/ui/Button/Button";
-import toast from "react-hot-toast";
+import { APIRequest } from "@/utils/auth-util";
 
 type EditMessageModalPropsType = {
   onClose: () => void;
   messageContent: string;
+  messageId: string;
 };
 
 const EditMessageModal = ({
   onClose,
   messageContent,
+  messageId,
 }: EditMessageModalPropsType) => {
   const [message, setMessage] = useState(messageContent);
 
@@ -20,16 +22,17 @@ const EditMessageModal = ({
     setMessage(val);
   }, []);
 
-  const handleEditMessage = useCallback(() => {
-    console.log(message.length);
-    if (!!message.length) {
-      console.log("Api Call");
-    } else {
-      toast.error("Cannot send empty message");
-    }
+  const handleEditMessage = useCallback(async () => {
+    await APIRequest({
+      method: "PATCH",
+      url: `/api/messages/edit-message/${messageId}`,
+      data: {
+        newMessageContent: message,
+      },
+    });
 
     onClose();
-  }, [message, onClose]);
+  }, [message, messageId, onClose]);
 
   return (
     <Modal isOpen onClose={onClose}>
