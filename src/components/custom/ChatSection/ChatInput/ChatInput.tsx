@@ -27,7 +27,7 @@ const ChatInput = ({ query, placeholder }: ChatInputPropsType) => {
     content: "",
   });
   const { serverId, channelId } = useParams();
-  const { messages, sendMessage } = useSocket();
+  const { sendMessage } = useSocket();
   const currentUserMember = CurrentServerStore()?.currentUserMember;
   const [isChatAttachmentModalOpen, setIsChatAttachmentModalOpen] =
     useState<boolean>(false);

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo } from "react";
+import React, { memo, useEffect, useRef } from "react";
 import "./ChatArea.scss";
 import ChatWelcome from "./ChatWelcome/ChatWelcome";
 import { CHAT_TYPES } from "@/types/types";
@@ -26,12 +26,35 @@ const ChatArea = ({
   socketQuery,
   type,
 }: ChatAreaPropsType) => {
-  const { currentUserMember, currentChannel } = useCurrentServerStore();
+  const topRef = useRef<HTMLDivElement>(null);
+
+  const { currentChannel } = useCurrentServerStore();
+
   const { fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useChatQuery({
       queryKey: `chat:${chatId}`,
       apiUrl,
     });
+
+  useEffect(() => {
+    if (!hasNextPage || isFetchingNextPage) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      if (entries?.[0].isIntersecting) {
+        fetchNextPage();
+      }
+    });
+
+    if (topRef.current) {
+      observer.observe(topRef.current);
+    }
+
+    return () => {
+      if (topRef.current) {
+        observer.unobserve(topRef.current);
+      }
+    };
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   if (status === "pending") {
     return (
@@ -58,8 +81,9 @@ const ChatArea = ({
         type={type}
         channelType={currentChannel?.channelType!}
       />
+      <div ref={topRef} className="load-more-trigger" />
 
-      <ChatMessages currentUserMember={currentUserMember!} />
+      <ChatMessages />
     </div>
   );
 };

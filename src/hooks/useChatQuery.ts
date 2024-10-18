@@ -21,6 +21,7 @@ const useChatQuery = ({ queryKey, apiUrl }: ChatQueryPropsType) => {
           cursor: pageParam,
         },
       },
+      // skip query param if cursor is null
       { skipNull: true }
     );
 

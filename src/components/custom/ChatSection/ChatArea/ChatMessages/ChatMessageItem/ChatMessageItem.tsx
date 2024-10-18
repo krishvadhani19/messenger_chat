@@ -83,7 +83,7 @@ const ChatMessageItem = ({ messageItem }: ChatMessageItemPropsType) => {
             isDeleted,
           })}
         >
-          Message has been deleted
+          The message has been deleted
         </div>
       )}
 

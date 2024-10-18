@@ -57,7 +57,7 @@ export const GET = async (
           },
         },
         orderBy: {
-          createdAt: "asc",
+          createdAt: "desc",
         },
       });
     } else {
@@ -74,7 +74,7 @@ export const GET = async (
           },
         },
         orderBy: {
-          createdAt: "asc",
+          createdAt: "desc",
         },
       });
     }

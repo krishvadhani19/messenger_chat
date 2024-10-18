@@ -7,11 +7,14 @@ import { Socket } from "socket.io-client";
 import { Message } from "@prisma/client";
 import { useParams } from "next/navigation";
 import { APIRequest } from "@/utils/auth-util";
+import { MessagesStore } from "@/stores/useMessagesStore";
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
+  const { addNewMessage } = MessagesStore();
+
   const { channelId } = useParams();
 
   useEffect(() => {
@@ -45,6 +48,9 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         method: "POST",
         url: `/api/socket`,
         data,
+        onSuccess: (newMessage) => {
+          addNewMessage(newMessage);
+        },
       });
     });
 
@@ -61,7 +67,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     return () => {
       socketInstance.disconnect();
     };
-  }, [channelId]);
+  }, [addNewMessage, channelId]);
 
   const sendMessage = useCallback(
     (
