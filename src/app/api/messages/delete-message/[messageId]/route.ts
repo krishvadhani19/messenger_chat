@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { getCurrentUserProfile } from "@/server/controllers/user";
 import { NextResponse } from "next/server";
 
-export const DELETE = async (
+export const PATCH = async (
   req: Request,
   {
     params,
@@ -31,9 +31,12 @@ export const DELETE = async (
       return new NextResponse("Channel Id missing", { status: 400 });
     }
 
-    const deleteMessage = await db.message.delete({
+    const deleteMessage = await db.message.update({
       where: {
         id: messageId,
+      },
+      data: {
+        isDeleted: true,
       },
     });
 

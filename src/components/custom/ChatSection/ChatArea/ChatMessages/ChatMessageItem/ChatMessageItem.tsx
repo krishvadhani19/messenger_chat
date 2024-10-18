@@ -13,6 +13,7 @@ import React, { memo, useCallback, useState } from "react";
 import "./ChatMessageItem.scss";
 import EditMessageModal from "./EditMessageModal/EditMessageModal";
 import DeleteMessageModal from "./DeleteMessageModal/DeleteMessageModal";
+import { APIRequest } from "@/utils/auth-util";
 
 type ChatMessageItemPropsType = {
   messageItem: MESSAGE_WITH_MEMBER_WITH_PROFILE;
@@ -24,7 +25,14 @@ const ChatMessageItem = ({ messageItem }: ChatMessageItemPropsType) => {
   const { currentUserMember } = CurrentServerStore();
 
   const { imageUrl, name: imageName } = messageItem?.member?.profile;
-  const { createdAt, fileUrl, content, memberId, isDeleted } = messageItem;
+  const {
+    id: messageId,
+    createdAt,
+    fileUrl,
+    content,
+    memberId,
+    isDeleted,
+  } = messageItem;
 
   const isAdmin = currentUserMember?.role === MemberRole.ADMIN;
   const isModerator = currentUserMember?.role === MemberRole.MODERATOR;
@@ -42,7 +50,7 @@ const ChatMessageItem = ({ messageItem }: ChatMessageItemPropsType) => {
     setIsEditing((prev) => !prev);
   }, []);
 
-  const handleDeleteMessage = useCallback(() => {
+  const handleDeleteMessage = useCallback(async () => {
     setIsDeleting((prev) => !prev);
   }, []);
 
@@ -66,11 +74,21 @@ const ChatMessageItem = ({ messageItem }: ChatMessageItemPropsType) => {
         </div>
       </div>
 
-      {!fileUrl && !isEditing && (
+      {!fileUrl && !isEditing && !isDeleted && (
         <div className="chat-message-item-message-details">{content}</div>
       )}
 
-      {isImage && (
+      {isDeleted && (
+        <div
+          className={classNames("chat-message-item-message-details", {
+            isDeleted,
+          })}
+        >
+          Message has been deleted
+        </div>
+      )}
+
+      {isImage && !isDeleted && (
         <div
           rel="noopener noreferrer"
           className="chat-message-item-message-image"
@@ -88,7 +106,7 @@ const ChatMessageItem = ({ messageItem }: ChatMessageItemPropsType) => {
         </div>
       )}
 
-      {isPDF && (
+      {isPDF && !isDeleted && (
         <div
           rel="noopener noreferrer"
           className="chat-message-item-message-file"
@@ -100,15 +118,16 @@ const ChatMessageItem = ({ messageItem }: ChatMessageItemPropsType) => {
         </div>
       )}
 
-      {isOwner && (
+      {canDeleteMessage && (
         <div className="chat-message-item-actions">
-          {!fileUrl && (
+          {canEditMessage && (
             <EditIcon
               size={18}
               className="chat-message-item-action-item"
               onClick={handleEditMessageState}
             />
           )}
+
           <TrashIcon
             size={18}
             className="chat-message-item-action-item"

@@ -4,6 +4,7 @@ import Button from "@/components/ui/Button/Button";
 import Modal from "@/components/ui/Modal/Modal";
 import "./DeleteMessageModal.scss";
 import { useCallback } from "react";
+import { APIRequest } from "@/utils/auth-util";
 
 type DeleteMessageModalPropsType = {
   onClose: () => void;
@@ -16,9 +17,17 @@ const DeleteMessageModal = ({
   messageId,
   messageContent,
 }: DeleteMessageModalPropsType) => {
-  const handleDeleteMessage = useCallback(() => {
+  const handleDeleteMessage = useCallback(async () => {
+    await APIRequest({
+      method: "PATCH",
+      url: `/api/messages/delete-message/${messageId}`,
+      data: {
+        messageId,
+      },
+    });
+
     onClose();
-  }, [onClose]);
+  }, [messageId, onClose]);
 
   return (
     <Modal isOpen onClose={onClose}>
@@ -32,11 +41,7 @@ const DeleteMessageModal = ({
         </div>
 
         <div className="flex-center gap-2">
-          <Button
-            type="secondary"
-            text="Cancel"
-            onClick={onClose}
-          />
+          <Button type="secondary" text="Cancel" onClick={onClose} />
 
           <Button text="Save" onClick={handleDeleteMessage} />
         </div>
