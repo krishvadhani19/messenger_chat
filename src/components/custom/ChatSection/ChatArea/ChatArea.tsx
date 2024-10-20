@@ -1,11 +1,15 @@
 "use client";
 
-import React, { memo, useEffect, useRef } from "react";
+import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import "./ChatArea.scss";
 import ChatWelcome from "./ChatWelcome/ChatWelcome";
 import { CHAT_TYPES } from "@/types/types";
 import useChatQuery from "@/hooks/useChatQuery";
-import { LoaderCircleIcon, ServerCrashIcon } from "@/components/ui/Icons";
+import {
+  DownArrowIcon,
+  LoaderCircleIcon,
+  ServerCrashIcon,
+} from "@/components/ui/Icons";
 import ChatMessages from "./ChatMessages/ChatMessages";
 import useCurrentServerStore from "@/stores/useCurrentServerStore";
 
@@ -18,17 +22,10 @@ type ChatAreaPropsType = {
   type: CHAT_TYPES;
 };
 
-const ChatArea = ({
-  name,
-  chatId,
-  apiUrl,
-  socketUrl,
-  socketQuery,
-  type,
-}: ChatAreaPropsType) => {
-  const topRef = useRef<HTMLDivElement>(null);
-
+const ChatArea = ({ name, chatId, apiUrl, type }: ChatAreaPropsType) => {
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { currentChannel } = useCurrentServerStore();
+  const [showDownArrow, setShowDownArrow] = useState<boolean>(true);
 
   const { fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useChatQuery({
@@ -36,25 +33,51 @@ const ChatArea = ({
       apiUrl,
     });
 
-  useEffect(() => {
-    if (!hasNextPage || isFetchingNextPage) return;
-
-    const observer = new IntersectionObserver((entries) => {
-      if (entries?.[0].isIntersecting) {
-        fetchNextPage();
-      }
-    });
-
-    if (topRef.current) {
-      observer.observe(topRef.current);
+  const scrollToBottom = useCallback(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top:
+          chatContainerRef.current.scrollHeight -
+          chatContainerRef.current.clientHeight,
+        behavior: "smooth",
+      });
     }
+  }, []);
 
-    return () => {
-      if (topRef.current) {
-        observer.unobserve(topRef.current);
+  const previousScrollOnfetch = useCallback((prevScrollHeight: number) => {
+    if (chatContainerRef?.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight - prevScrollHeight;
+    }
+  }, []);
+
+  useEffect(() => {
+    // Set content as loaded when data is available
+    if (status === "success") {
+      scrollToBottom();
+    }
+  }, [scrollToBottom, status]);
+
+  const handleScroll = useCallback(() => {
+    if (chatContainerRef.current) {
+      const { scrollTop, clientHeight, scrollHeight } =
+        chatContainerRef.current;
+
+      /**
+       * User at the top of the loaded chat and if more chat is present load more chat
+       */
+      if (scrollTop === 0 && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+
+        const scrollHeightBeforeFetching =
+          chatContainerRef.current?.scrollHeight || 0;
+
+        previousScrollOnfetch(scrollHeightBeforeFetching);
       }
-    };
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+      setShowDownArrow(scrollTop + 200 < scrollHeight - clientHeight);
+    }
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage, previousScrollOnfetch]);
 
   if (status === "pending") {
     return (
@@ -75,16 +98,40 @@ const ChatArea = ({
   }
 
   return (
-    <div className="chat-area-container">
-      <ChatWelcome
-        name={name}
-        type={type}
-        channelType={currentChannel?.channelType!}
-      />
-      <div ref={topRef} className="load-more-trigger" />
+    <>
+      {showDownArrow && (
+        <div
+          onClick={() => {
+            scrollToBottom();
+          }}
+          className="scroll-down-button"
+        >
+          <DownArrowIcon size={18} />
+          Scroll to bottom
+        </div>
+      )}
 
-      <ChatMessages />
-    </div>
+      <div
+        className="chat-area-container"
+        ref={chatContainerRef}
+        onScroll={handleScroll}
+      >
+        <ChatWelcome
+          name={name}
+          type={type}
+          channelType={currentChannel?.channelType!}
+        />
+
+        {isFetchingNextPage && (
+          <p className="load-more-messages">
+            <LoaderCircleIcon className="spinner" size={20} />
+            Loading more messages...
+          </p>
+        )}
+
+        <ChatMessages />
+      </div>
+    </>
   );
 };
 

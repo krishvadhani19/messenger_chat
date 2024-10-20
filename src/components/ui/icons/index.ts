@@ -36,6 +36,7 @@ import SendIcon from "./SendIcon";
 import FileIcon from "./FileIcon";
 import ServerCrashIcon from "./ServerCrashIcon";
 import LoaderCircleIcon from "./LoaderCircle";
+import DownArrowIcon from "./DownArrowIcon";
 
 export interface IconPropsType {
   color?: string;
@@ -82,4 +83,5 @@ export {
   FileIcon,
   ServerCrashIcon,
   LoaderCircleIcon,
+  DownArrowIcon,
 };

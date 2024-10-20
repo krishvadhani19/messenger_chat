@@ -7,6 +7,16 @@
     justify-content: flex-end;
     padding: 1rem;
     overflow-y: auto;
+
+    .load-more-messages {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        gap: 1rem;
+        color: var(--gray-50);
+        margin: 2rem 0;
+    }
 }
 
 .chat-area-fallback {
@@ -17,4 +27,26 @@
     font-size: 2rem;
     height: calc(100vh - 3rem - 4rem);
     gap: 1rem;
+}
+
+.scroll-down-button {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    top: 4rem;
+    left: auto;
+    right: auto;
+    color: var(--gray-50);
+    background-color: var(--neutral-800);
+    border: 1px solid var(--gray-50);
+    padding: 0.25rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    box-shadow:
+        0 10px 15px -3px rgb(0 0 0 / 0.1),
+        0 4px 6px -4px rgb(0 0 0 / 0.1);
+    cursor: pointer;
 }
