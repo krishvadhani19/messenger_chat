@@ -43,13 +43,15 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     socketInstance.on("message_ack", async (data) => {
-      console.log("Acknowledge", data);
       await APIRequest({
         method: "POST",
         url: `/api/socket`,
         data,
-        onSuccess: (newMessage) => {
-          addNewMessage(newMessage);
+        onSuccess: (data) => {
+          socketInstance.emit("message:sent", {
+            id: `chat:${channelId}/messages`,
+            newMessage: data,
+          });
         },
       });
     });
@@ -58,8 +60,9 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
      * this will receive all the messages including the one the user sends himself
      * Coz it will saved in the db and after that it will be acknowledged here
      */
-    socketInstance.on(`chat:${channelId}/messages`, (message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
+    socketInstance.on(`chat:${channelId}/messages`, (data) => {
+      const newMessage = data?.newMessage;
+      addNewMessage({ ...newMessage });
     });
 
     setSocket(socketInstance);

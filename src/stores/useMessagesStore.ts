@@ -35,8 +35,6 @@ const useMessagesStore = create<MessageStoreTypes>((set, get) => ({
       return messageItem;
     });
 
-    console.log({ updatedMessages });
-
     set({ messages: updatedMessages });
   },
 

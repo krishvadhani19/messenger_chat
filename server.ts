@@ -17,7 +17,6 @@ io.on("connection", (socket) => {
 
   socket.on("sendMessage", (data) => {
     try {
-      console.log({ data });
       // Acknowledge message delivery to the sender
       socket.emit("message_ack", { ...data, status: "SUCCESS" });
     } catch (error) {
@@ -30,8 +29,12 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("populateMessage", (data) => {
-    io.emit("sendMessage", { ...data });
+  socket.on("message:sent", (data) => {
+    try {
+      socket.emit(data.id, { newMessage: data.newMessage });
+    } catch (error) {
+      console.log({ error });
+    }
   });
 });
 

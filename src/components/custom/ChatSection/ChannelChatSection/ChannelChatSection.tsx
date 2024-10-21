@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useEffect } from "react";
+import { memo, useEffect, useRef } from "react";
 import "./ChannelChatSection.scss";
 import ChatHeader from "../ChatHeader/ChatHeader";
 import ChatArea from "../ChatArea/ChatArea";
