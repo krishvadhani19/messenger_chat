@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo, useCallback, useEffect, useRef, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import "./ChatArea.scss";
 import ChatWelcome from "./ChatWelcome/ChatWelcome";
 import { CHAT_TYPES } from "@/types/types";
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/Icons";
 import ChatMessages from "./ChatMessages/ChatMessages";
 import useCurrentServerStore from "@/stores/useCurrentServerStore";
+import { MessagesStore } from "@/stores/useMessagesStore";
 
 type ChatAreaPropsType = {
   name: string;
@@ -23,9 +24,10 @@ type ChatAreaPropsType = {
 };
 
 const ChatArea = ({ name, chatId, apiUrl, type }: ChatAreaPropsType) => {
-  const chatContainerRef = useRef<HTMLDivElement | null>(null);
+  // const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { currentChannel } = useCurrentServerStore();
   const [showDownArrow, setShowDownArrow] = useState<boolean>(true);
+  const { chatContainerRef, scrollToBottom } = MessagesStore();
 
   const { fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useChatQuery({
@@ -33,23 +35,15 @@ const ChatArea = ({ name, chatId, apiUrl, type }: ChatAreaPropsType) => {
       apiUrl,
     });
 
-  const scrollToBottom = useCallback(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTo({
-        top:
-          chatContainerRef.current.scrollHeight -
-          chatContainerRef.current.clientHeight,
-        behavior: "smooth",
-      });
-    }
-  }, []);
-
-  const previousScrollOnfetch = useCallback((prevScrollHeight: number) => {
-    if (chatContainerRef?.current) {
-      chatContainerRef.current.scrollTop =
-        chatContainerRef.current.scrollHeight - prevScrollHeight;
-    }
-  }, []);
+  const previousScrollOnfetch = useCallback(
+    (prevScrollHeight: number) => {
+      if (chatContainerRef?.current) {
+        chatContainerRef.current.scrollTop =
+          chatContainerRef.current.scrollHeight - prevScrollHeight;
+      }
+    },
+    [chatContainerRef]
+  );
 
   useEffect(() => {
     // Set content as loaded when data is available
@@ -77,7 +71,13 @@ const ChatArea = ({ name, chatId, apiUrl, type }: ChatAreaPropsType) => {
 
       setShowDownArrow(scrollTop + 200 < scrollHeight - clientHeight);
     }
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage, previousScrollOnfetch]);
+  }, [
+    chatContainerRef,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    previousScrollOnfetch,
+  ]);
 
   if (status === "pending") {
     return (

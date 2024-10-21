@@ -1,10 +1,15 @@
 import { MESSAGE_WITH_MEMBER_WITH_PROFILE } from "@/types/types";
+import { createRef } from "react";
 import { create } from "zustand";
 
 type MessageStoreTypes = {
   cursor: number | null;
 
   messages: MESSAGE_WITH_MEMBER_WITH_PROFILE[];
+
+  chatContainerRef: React.RefObject<HTMLDivElement>;
+
+  scrollToBottom: () => void;
 
   setCursor: (cursorVal: number) => void;
 
@@ -19,6 +24,22 @@ const useMessagesStore = create<MessageStoreTypes>((set, get) => ({
   cursor: null,
 
   messages: [],
+
+  chatContainerRef: createRef<HTMLDivElement>(),
+
+  scrollToBottom: () => {
+    const { chatContainerRef } = get();
+
+    if (chatContainerRef.current) {
+      console.log("scrolling");
+      chatContainerRef.current.scrollTo({
+        top:
+          chatContainerRef.current.scrollHeight -
+          chatContainerRef.current.clientHeight,
+        behavior: "smooth",
+      });
+    }
+  },
 
   setCursor: (cursorVal) => {
     set({ cursor: cursorVal });
@@ -39,9 +60,11 @@ const useMessagesStore = create<MessageStoreTypes>((set, get) => ({
   },
 
   addNewMessage: (newMessage) => {
-    const { messages } = get();
+    const { messages, scrollToBottom } = get();
 
     set({ messages: [newMessage, ...messages] });
+
+    scrollToBottom();
   },
 
   setMessages: (messages) => {
