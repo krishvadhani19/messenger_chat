@@ -1,10 +1,8 @@
-import { Message } from "@prisma/client";
 import { createContext } from "react";
 
 type SocketContextType = {
   socket: any | null;
   isConnected: boolean;
-  messages: Message[];
   sendMessage: (
     content: string,
     memberId: string,
@@ -17,6 +15,5 @@ type SocketContextType = {
 export const SocketContext = createContext<SocketContextType>({
   socket: null,
   isConnected: false,
-  messages: [],
   sendMessage: () => {},
 });

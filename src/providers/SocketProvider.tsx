@@ -4,7 +4,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import { io } from "socket.io-client";
 import { SocketContext } from "@/contexts/SocketContext";
 import { Socket } from "socket.io-client";
-import { Message } from "@prisma/client";
 import { useParams } from "next/navigation";
 import { APIRequest } from "@/utils/auth-util";
 import { MessagesStore } from "@/stores/useMessagesStore";
@@ -12,7 +11,6 @@ import { MessagesStore } from "@/stores/useMessagesStore";
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
   const { addNewMessage } = MessagesStore();
 
   const { channelId } = useParams();
@@ -104,7 +102,6 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         socket,
         isConnected,
-        messages,
         sendMessage,
       }}
     >
