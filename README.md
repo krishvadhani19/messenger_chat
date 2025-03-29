@@ -1,4 +1,4 @@
-# Discord Clone
+# Messenger Chat
 
 This project is a feature-rich Discord clone built with modern web technologies, offering real-time communication capabilities and a robust user experience.
 
